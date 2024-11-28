@@ -87,7 +87,7 @@
                         <tr class="table-light">
                             <td>1</td>
                             <td>Contract 1</td>
-                            <td>Active</td>
+                            <td class="text-success">Active</td>
                             <td>2024-01-01</td>
                             <td>2025-01-01</td>
                             <td class="d-flex justify-content-between">
@@ -100,7 +100,7 @@
                         <tr class="table-light">
                             <td>2</td>
                             <td>Contract 2</td>
-                            <td>Inactive</td>
+                            <td class="text-danger">Inactive</td>
                             <td>2023-05-15</td>
                             <td>2024-05-15</td>
                             <td class="d-flex justify-content-between">
