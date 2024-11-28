@@ -72,13 +72,6 @@
                 font-size: 16px;
                 background-color: #f9f9f9;
             }
-
-            .form-group input:focus {
-                border-color: #1E562B;
-                outline: none;
-                background-color: #ffffff;
-            }
-
             .form-group a {
                 display: block;
                 text-align: left;
