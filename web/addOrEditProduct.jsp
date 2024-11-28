@@ -7,27 +7,14 @@
     <title>Thêm/Chỉnh sửa Sản phẩm</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"> <!-- Thêm Bootstrap Icons -->
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: Arial, sans-serif;
-            padding-bottom: 50px; /* Thêm khoảng cách dưới */
-        }
-        .container {
-            margin-top: 30px;
-        }
-        .form-section {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .table-section {
-            margin-top: 40px;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/style.css"/>
+ 
 </head>
 <body>
+
+    <!-- Header -->
+    <%@ include file="header.jsp" %>
+
     <div class="container">
         <h1 class="mb-4 text-center">Thêm/Chỉnh sửa Sản phẩm</h1>
         <div class="form-section">
@@ -73,5 +60,8 @@
             </form>
         </div>
     </div>
+
+    <!-- Footer -->
+    <%@ include file="footer.jsp" %>
 </body>
 </html>

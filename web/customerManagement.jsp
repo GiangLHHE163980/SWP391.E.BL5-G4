@@ -6,19 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý Khách hàng</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .container {
-            margin-top: 30px;
-        }
-        table {
-            background-color: #fff;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/style.css"/>
+   
 </head>
 <body>
+    
+    <!-- Header -->
+    <%@ include file="header.jsp" %>
     <div class="container">
         <h1 class="mb-4 text-center">Quản lý Khách hàng</h1>
 
@@ -42,7 +36,7 @@
 
         <!-- Bảng danh sách khách hàng -->
         <table class="table table-bordered table-hover">
-            <thead class="table-dark">
+            <thead class="table-dark" >
                 <tr>
                     <th>#</th>
                     <th>Tên</th>
@@ -108,5 +102,6 @@
             </tbody>
         </table>
     </div>
+    <%@ include file="footer.jsp" %>
 </body>
 </html>
