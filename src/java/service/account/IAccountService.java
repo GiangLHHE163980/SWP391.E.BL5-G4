@@ -4,7 +4,7 @@
  */
 package service.account;
 
-import model.Account;
+import model.User;
 import service.IGeneralService;
 import service.IGeneralService;
 
@@ -12,15 +12,15 @@ import service.IGeneralService;
  *
  * @author tuana
  */
-public interface IAccountService extends IGeneralService<Account> {
+public interface IAccountService extends IGeneralService<User> {
 
     void updateAccountStatus(boolean status);
 
-    Account findByUsername(String username);
+    User findByUsername(String username);
 
-    Account findByEmail(String email);
+    User findByEmail(String email);
 
-    Account findByPhone(String phone);
+    User findByPhone(String phone);
     
     void updateNewPassword(String password, int accountID);
 }
