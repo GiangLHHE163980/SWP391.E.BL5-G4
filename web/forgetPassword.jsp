@@ -70,12 +70,26 @@
             .btn-continue:hover {
                 background-color: #15471F;
             }
+            .back-to-login {
+                position: absolute; /* Định vị góc trái bên trong form */
+                top: 100px; /* Khoảng cách từ phía trên */
+                left: 65px; /* Khoảng cách từ phía trái */
+                color: #7E7E05;
+                text-decoration: underline;
+                font-size: 1.5rem;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            .back-to-login:hover {
+                color: #4C4C04; /* Màu khi hover */
+            }
         </style>
     </head>
     <body>
         <%@ include file="header.jsp" %>
         <%@ include file="footer.jsp" %>
         <div class="form-container">
+            <a href="logIn.jsp" class="back-to-login">Trở về đăng nhập</a>
             <form>
             <h1>Quên mật khẩu</h1>
             <p class="description">
