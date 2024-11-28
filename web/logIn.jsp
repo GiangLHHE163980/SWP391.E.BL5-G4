@@ -4,34 +4,24 @@
     Author     : TH Computer
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Đăng nhập</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"> <!-- Thêm Bootstrap Icons -->
+        <link rel="stylesheet" href="./css/style.css"/>
          <style>
             body {
                 margin: 0;
                 font-family: Arial, sans-serif;
                 background-color: #ffffff;
             }
-
-            /* Navbar */
-            .navbar {
-                background-color: #1E562B;
-                height: 60px;
-                display: flex;
-                align-items: center;
-                padding: 0 20px;
-                color: white;
-                font-size: 20px;
-                font-weight: bold;
-            }
-
             /* Centering form */
             .login-container {
-                 transform: scale(1.2);
+                transform: scale(1.2);
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -66,7 +56,7 @@
             }
 
             .form-group input {
-                width: 93%;
+                width: 100%;
                 padding: 10px;
                 border: 1px solid #cccccc;
                 font-size: 16px;
@@ -123,11 +113,7 @@
         </style>
     </head>
     <body>
-        <!-- Navbar -->
-        <div class="navbar">
-            Logo
-        </div>
-
+        <%@ include file="header.jsp" %>
         <!-- Login Form -->
         <div class="login-container">
             <form class="login-form">
@@ -143,9 +129,11 @@
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn-login">Đăng nhập</button>
-                    <button type="button" class="btn-register">Đăng ký</button>
+                    <button type="button" class="btn-register"  onclick="window.location.href='register.jsp'">Đăng ký</button>
                 </div>
             </form>
         </div>
+        <!-- Footer -->
+    <%@ include file="footer.jsp" %>
     </body>
 </html>
