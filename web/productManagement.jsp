@@ -18,6 +18,8 @@
     </style>
 </head>
 <body>
+    <!-- Header -->
+    <%@ include file="header.jsp" %>
     <div class="container">
         <h1 class="mb-4 text-center">Quản lý Sản phẩm Bảo hiểm</h1>
 
@@ -104,5 +106,6 @@
             </tbody>
         </table>
     </div>
+       <%@ include file="footer.jsp" %>
 </body>
 </html>
