@@ -125,7 +125,7 @@
                     <input type="password" placeholder="Mật khẩu" ">
                 </div>
                 <div class="form-group">
-                    <a href="#">Quên mật khẩu</a>
+                    <a href="forgetPassword.jsp">Quên mật khẩu</a>
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn-login">Đăng nhập</button>
