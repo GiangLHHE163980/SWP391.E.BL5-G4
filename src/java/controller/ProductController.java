@@ -23,8 +23,14 @@ public class ProductController extends HttpServlet {
      */
     private void showFullProduct(HttpServletRequest request, HttpServletResponse response) {
         try {
-            // Lấy danh sách sản phẩm từ service
+            String searchname = request.getParameter("search");
+             request.setAttribute("search", searchname);
+              if (searchname != null) {
+            request.setAttribute("productList", productService.getProductByName(searchname));
+            } else {
+             // Lấy danh sách sản phẩm từ service
             request.setAttribute("productList", productService.findAll());
+            }
             // Điều hướng đến view
             getRequestDispatch(request, response, "productManagement.jsp");
         } catch (Exception e) {

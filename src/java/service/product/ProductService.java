@@ -102,6 +102,7 @@ public List<InsuranceProduct> find(String query, Object... args) {
         return find(query);
     }
       
+     @Override
        public List<InsuranceProduct> getProductByName(String searchName) {
         String query = GET_PRODUCT_BY_NAME;
 //        return find(query,"Bảo hiểm Y tế ABC");
