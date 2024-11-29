@@ -127,7 +127,7 @@
             <form action="registerServlet" method="POST">
                 <h2>Thay đổi mật khẩu</h2>
                 <p class="description">
-                    Vui lòng nhập địa chỉ email đã đăng ký để được cấp lại mật khẩu.
+                    Mật khẩu mới tối thiểu 8 ký tự.
                 </p>
                 <input type="password" name="password" placeholder="Mật khẩu" required>
                 <input type="password" name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
