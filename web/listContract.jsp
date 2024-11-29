@@ -84,29 +84,29 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="table-light">
+                        <tr class="table-light text-center">
                             <td>1</td>
                             <td>Contract 1</td>
                             <td class="text-success">Active</td>
                             <td>2024-01-01</td>
                             <td>2025-01-01</td>
                             <td class="d-flex justify-content-between">
-                                <a href="#" class="btn btn-link text-primary">View</a>
-                                <a href="#" class="btn btn-link text-primary">Renew</a>
-                                <a href="#" class="btn btn-link text-danger">Cancel</a>
+                                <a href="#" class="btn btn-primary">View</a>
+                                <a href="#" class="btn btn-success">Renew</a>
+                                <a href="#" class="btn btn-danger">Cancel</a>
                             </td>
 
                         </tr>
-                        <tr class="table-light">
+                        <tr class="table-light text-center">
                             <td>2</td>
                             <td>Contract 2</td>
                             <td class="text-danger">Inactive</td>
                             <td>2023-05-15</td>
                             <td>2024-05-15</td>
                             <td class="d-flex justify-content-between">
-                                <a href="#" class="btn btn-link text-primary">View</a>
-                                <a href="#" class="btn btn-link text-primary">Renew</a>
-                                <a href="#" class="btn btn-link text-danger">Cancel</a>
+                                <a href="#" class="btn btn-primary">View</a>
+                                <a href="#" class="btn btn-success">Renew</a>
+                                <a href="#" class="btn btn-danger">Cancel</a>
                             </td>
                         </tr>
                     </tbody>
