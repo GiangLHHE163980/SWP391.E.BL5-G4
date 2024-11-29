@@ -28,7 +28,9 @@
             <div class="mb-3">
                 <form action="ProductController" method="get">
                     <div class="input-group">
-                        <input type="text" class="form-control" name="search" placeholder="Tìm kiếm sản phẩm..." value="${param.search}">
+                        <!-- Tham số action cố định giá trị showFullProduct -->
+                        <input type="hidden" name="action" value="showFullProduct">
+                        <input type="text" class="form-control" name="search" placeholder="Tìm kiếm sản phẩm..." value="${search}">
                         <button class="btn btn-outline-primary" type="submit">
                             <i class="bi bi-search"></i> Tìm kiếm
                         </button>
