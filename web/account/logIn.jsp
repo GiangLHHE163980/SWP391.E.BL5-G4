@@ -12,7 +12,7 @@
         <title>Đăng nhập</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"> <!-- Thêm Bootstrap Icons -->
-        <link rel="stylesheet" href="./css/style.css"/>
+        <link rel="stylesheet" href="../css/style.css"/>
          <style>
             body {
                 margin: 0;
@@ -113,7 +113,7 @@
         </style>
     </head>
     <body>
-        <%@ include file="header.jsp" %>
+        <%@ include file="../header.jsp" %>
         <!-- Login Form -->
         <div class="login-container">
             <form class="login-form">
@@ -134,6 +134,6 @@
             </form>
         </div>
         <!-- Footer -->
-    <%@ include file="footer.jsp" %>
+    <%@ include file="../footer.jsp" %>
     </body>
 </html>
