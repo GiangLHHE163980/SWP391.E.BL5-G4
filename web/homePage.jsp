@@ -28,6 +28,7 @@
         }
         /* Nội dung chính */
         .container {
+            transform: scale(1.3);
             text-align: center;
             margin: 20px auto;
             max-width: 900px;
