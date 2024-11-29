@@ -1,41 +1,60 @@
 package model;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.sql.Date;
 
 public class InsuranceProduct {
 
     private int productID;
-    private InsuranceCompany insuranceCompany;
+    private InsuranceCompany insuranceCompany;  // Giả sử InsuranceCompany là một đối tượng đã được định nghĩa ở đâu đó
     private String productName;
+    private String insuranceType;  // Loại bảo hiểm (Y tế, Xe, Nhân thọ, ...)
     private String description;
-    private double cost;
+    private BigDecimal cost;  // Đổi thành BigDecimal để lưu trữ chi phí chính xác
     private String conditions;
-    private Date createdAt;
-    private Date updatedAt;
+    private Date createdAt;  // Sử dụng java.sql.Date hoặc java.sql.Timestamp
+    private Date updatedAt;  // Sử dụng java.sql.Date hoặc java.sql.Timestamp
 
     public InsuranceProduct() {
     }
 
-    public InsuranceProduct(int productID, InsuranceCompany insuranceCompany, String productName, String description, double cost, String conditions, Date createdAt, Date updatedAt) {
+    // Constructor với tất cả các tham số
+    public InsuranceProduct(int productID, InsuranceCompany insuranceCompany, String productName, String insuranceType, String description, BigDecimal cost, String conditions, Date createdAt, Date updatedAt) {
         this.productID = productID;
         this.insuranceCompany = insuranceCompany;
         this.productName = productName;
+        this.insuranceType = insuranceType;
         this.description = description;
         this.cost = cost;
         this.conditions = conditions;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-
-    public InsuranceProduct(InsuranceCompany insuranceCompany, String productName, String description, double cost, String conditions, Date createdAt) {
+    
+        public InsuranceProduct(int productID, InsuranceCompany insuranceCompany, String productName, String insuranceType, String description, BigDecimal cost, String conditions) {
+        this.productID = productID;
         this.insuranceCompany = insuranceCompany;
         this.productName = productName;
+        this.insuranceType = insuranceType;
         this.description = description;
         this.cost = cost;
         this.conditions = conditions;
-        this.createdAt = createdAt;
+  
+    }
+    
+    
+    
+    
+
+    public InsuranceProduct(InsuranceCompany insuranceCompany, String productName, String insuranceType, String description, BigDecimal cost, String conditions) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+
+
+
+
+    // Getters và Setters
     public int getProductID() {
         return productID;
     }
@@ -60,6 +79,14 @@ public class InsuranceProduct {
         this.productName = productName;
     }
 
+    public String getInsuranceType() {
+        return insuranceType;
+    }
+
+    public void setInsuranceType(String insuranceType) {
+        this.insuranceType = insuranceType;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -68,11 +95,11 @@ public class InsuranceProduct {
         this.description = description;
     }
 
-    public double getCost() {
+    public BigDecimal getCost() {
         return cost;
     }
 
-    public void setCost(double cost) {
+    public void setCost(BigDecimal cost) {
         this.cost = cost;
     }
 
@@ -106,6 +133,7 @@ public class InsuranceProduct {
                 "productID=" + productID +
                 ", insuranceCompany=" + insuranceCompany +
                 ", productName='" + productName + '\'' +
+                ", insuranceType='" + insuranceType + '\'' +
                 ", description='" + description + '\'' +
                 ", cost=" + cost +
                 ", conditions='" + conditions + '\'' +
