@@ -1,6 +1,6 @@
 <%-- 
-    Document   : register
-    Created on : Nov 28, 2024, 10:45:38 PM
+    Document   : changePassword
+    Created on : Nov 29, 2024, 11:17:26 AM
     Author     : TH Computer
 --%>
 
@@ -119,19 +119,12 @@
         
         <!-- Form container -->
         <div class="form-container">
-            <a href="logIn.jsp" class="back-to-login">Trở về đăng nhập</a>
+            <a href="#" class="back-to-login">Trở về</a>
             <form action="registerServlet" method="POST">
                 <h2>Đăng ký</h2>
-                <input type="text" name="username" placeholder="Tên tài khoản" required>
-                <input type="password" name="password" placeholder="Mật khẩu" required>
+                <input type="password" name="password" placeholder="Mật khẩu hiện tại" required>
+                <input type="password" name="password" placeholder="Mật khẩu mới" required>
                 <input type="password" name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
-                <input type="email" name="email" placeholder="Email" required>
-
-                <!-- Mã xác thực -->
-                <div class="verification-container">
-                    <input type="text" name="verificationCode" placeholder="Mã xác thực" required>
-                    <button type="button"">Gửi mã xác thực</button>
-                </div>
                 <!-- Submit button -->
                 <button type="submit" class="register-button">Đăng ký</button>
             </form>
