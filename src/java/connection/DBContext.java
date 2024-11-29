@@ -18,7 +18,7 @@ public class DBContext {
 
     public static Connection conn;
 
-    private static String jdbcURL = "jdbc:sqlserver://localhost:1433;databaseName=ProjectSWP";
+    private static String jdbcURL = "jdbc:sqlserver://localhost:1433;databaseName=SWP391_G5_V3";
     private static String jdbcUsername = "sa";
     private static String jdbcPassword = "sa";
 
@@ -35,4 +35,18 @@ public class DBContext {
         }
         return conn;
     }
+    
+   public static void main(String[] args) {
+        try (Connection connection = DBContext.getConnection()) {
+            if (connection != null) {
+                System.out.println("Connection successful!");
+            } else {
+                System.out.println("Connection failed!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
+    
+
