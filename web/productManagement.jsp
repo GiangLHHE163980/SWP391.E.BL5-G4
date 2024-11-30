@@ -40,7 +40,7 @@
 
             <!-- Nút thêm mới sản phẩm -->
             <div class="mb-1 mt-4 text-end">
-                <a href="addOrEditProduct.jsp" class="btn btn-primary">
+                <a href="${pageContext.request.contextPath}/ProductController?action=showAddPage" class="btn btn-primary">
                     <i class="bi bi-plus"></i>
                     Thêm mới Sản phẩm</a>
             </div>
