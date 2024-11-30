@@ -2,10 +2,13 @@ package service.product;
 
 import model.InsuranceProduct;
 import java.util.List;
+import model.InsuranceCompany;
 
 public interface IProductService {
     // Phương thức để lấy tất cả sản phẩm
     List<InsuranceProduct> findAll();
     
     List<InsuranceProduct> getProductByName(String searchName);
+
+    public void addCompanyAndProduct(InsuranceCompany company, InsuranceProduct product);
 }
