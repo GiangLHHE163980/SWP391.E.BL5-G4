@@ -68,12 +68,16 @@ public class AccountController extends HttpServlet {
             request.getRequestDispatcher("/account/login.jsp").forward(request, response);
         }else if ("/account/register".equals(path)) {
             request.getRequestDispatcher("/account/register.jsp").forward(request, response);
-        } else if ("/account/logout".equals(path)) {
+        }else if ("/account/logout".equals(path)) {
         // Xử lý đăng xuất
         HttpSession session = request.getSession();
         session.invalidate();  // Hủy session
         response.sendRedirect(request.getContextPath()); 
-    }
+        }else if ("/account/forgetPassword".equals(path)) {
+            request.getRequestDispatcher("/account/forgetPassword.jsp").forward(request, response);
+        }else if ("/account/confirmChangePassword".equals(path)) {
+            request.getRequestDispatcher("/account/confirmChangePassword.jsp").forward(request, response);
+        }
     } 
 
     /** 
@@ -95,6 +99,8 @@ public class AccountController extends HttpServlet {
              sendEmail(email, request, response);
         }else if ("/account/register".equals(path)){
              register(request, response);
+        }else if ("/account/forgetPassword".equals(path)) {
+             forgetPassword(request, response);
         }
     }
     /** 
@@ -191,5 +197,21 @@ public class AccountController extends HttpServlet {
 
     // Chuyển hướng người dùng tới trang đăng ký thành công
     response.sendRedirect(request.getContextPath());
-}
+    }
+    private void forgetPassword(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+        String inputVerificationCode = request.getParameter("verificationCode");
+        
+        HttpSession session = request.getSession();
+        String sessionVerificationCode = (String) session.getAttribute("verificationCode");
+        //Kiểm tra mã xác thực
+        if (sessionVerificationCode == null || !sessionVerificationCode.equals(inputVerificationCode)) {
+            request.setAttribute("error", "Mã xác thực không đúng hoặc đã hết hạn.");
+            request.getRequestDispatcher("/account/forgetPassword.jsp").forward(request, response);
+        return;
+        }
+        String email = request.getParameter("email");
+        request.setAttribute("email", email);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/account/confirmChangePassword.jsp");
+        dispatcher.forward(request, response);
+    }
 }

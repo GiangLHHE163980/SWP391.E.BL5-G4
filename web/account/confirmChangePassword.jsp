@@ -52,30 +52,6 @@
                 border-radius: 5px;
                 font-size: 1rem;
             }
-
-            /* Mã xác thực input + button */
-            .verification-container {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-
-            .verification-container input {
-                flex: 2;
-                margin-right: 10px;
-            }
-
-            .verification-container button {
-                flex: 1.3;
-                background-color: #7E7E05;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                padding: 10px;
-                font-size: 1rem;
-                cursor: pointer;
-            }
-
             button {
                 width: 100%;
                 background-color: #1E562B;
@@ -123,7 +99,7 @@
         <%@ include file="../footer.jsp" %>
         <!-- Form container -->
         <div class="form-container">
-            <a href="forgetPassword.jsp" class="back-to-login">Trở về</a>
+            <a href="forgetPassword" class="back-to-login">Trở về</a>
             <form action="registerServlet" method="POST">
                 <h2>Thay đổi mật khẩu</h2>
                 <p class="description">
@@ -131,11 +107,6 @@
                 </p>
                 <input type="password" name="password" placeholder="Mật khẩu" required>
                 <input type="password" name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
-                <!-- Mã xác thực -->
-                <div class="verification-container">
-                    <input type="text" name="verificationCode" placeholder="Mã xác thực" required>
-                    <button type="button"">Gửi mã xác thực</button>
-                </div>
                 <!-- Submit button -->
                 <button type="submit" class="confirm-button">Xác thực</button>
             </form>

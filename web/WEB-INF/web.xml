@@ -29,6 +29,14 @@
         <servlet-name>AccountController</servlet-name>
         <url-pattern>/account/sendemail</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountController</servlet-name>
+        <url-pattern>/account/forgetPassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountController</servlet-name>
+        <url-pattern>/account/confirmChangePassword</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

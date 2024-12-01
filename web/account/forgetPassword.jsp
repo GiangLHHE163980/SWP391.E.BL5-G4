@@ -41,7 +41,27 @@
                 margin-bottom: 15px;
                 color: #000;
             }
+            .verification-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
 
+            .verification-container input {
+                flex: 2;
+                margin-right: 10px;
+            }
+            .verification-container button {
+                flex: 1.3;
+                margin-top: -18px;
+                background-color: #7E7E05;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 10px;
+                font-size: 1rem;
+                cursor: pointer;
+            }
             .description {
                 font-size: 0.7rem;
                 color: #555;
@@ -89,15 +109,52 @@
         <%@ include file="../header.jsp" %>
         <%@ include file="../footer.jsp" %>
         <div class="form-container">
-            <a href="logIn.jsp" class="back-to-login">Trở về đăng nhập</a>
-            <form>
+            <a href="login" class="back-to-login">Trở về đăng nhập</a>
+            <form action="forgetPassword" method="POST">
             <h1>Quên mật khẩu</h1>
             <p class="description">
                 Vui lòng nhập địa chỉ email đã đăng ký để được cấp lại mật khẩu.
             </p>
+            <div class="form-group">
+            <c:if test="${not empty error}">
+                <div class="error-message" style="color:red;">
+                    ${error}
+                </div>
+            </c:if>
+        </div>
                 <input type="text" placeholder="Email" name="email" required>
-                <button type="submit" class="btn-continue">Tiếp tục</button>
+                <!-- Mã xác thực -->
+                <div class="verification-container">
+                    <input type="text" name="verificationCode" placeholder="Mã xác thực" >
+                    <button type="button" id="sendVerificationCodeBtn">Gửi mã xác thực</button>
+                </div>
+                <button type="submit" class="btn-continue" onclick="window.location.href='confirmChangePassword'">Tiếp tục</button>
             </form>
         </div>
     </body>
 </html>
+<script>
+    document.getElementById('sendVerificationCodeBtn').addEventListener('click', function() {
+        var email = document.querySelector('input[name="email"]').value;
+        // Tạo đối tượng XMLHttpRequest
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'sendemail', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        
+        // Gửi email trong body của request
+        xhr.send('email=' + encodeURIComponent(email) + '&sendVerificationCode=true');
+
+        // Xử lý phản hồi từ server
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var response = xhr.responseText;
+                // Kiểm tra phản hồi từ server
+                if (response.indexOf('Mã xác thực đã được gửi đến email của bạn.') !== -1) {
+                    alert('Mã xác thực đã được gửi đến email của bạn.');
+                } else {
+                    alert('Có lỗi xảy ra khi gửi mã xác thực.');
+                }
+            }
+        };
+    });
+</script>

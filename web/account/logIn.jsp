@@ -138,7 +138,7 @@
 
         <div class="form-actions">
             <button type="submit" class="btn-login">Đăng nhập</button>
-            <button type="button" class="btn-register" onclick="window.location.href='register.jsp'">Đăng ký</button>
+            <button type="button" class="btn-register" onclick="window.location.href='register'">Đăng ký</button>
         </div>
     </form>
         </div>
