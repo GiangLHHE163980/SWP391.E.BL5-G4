@@ -117,7 +117,7 @@
         <div class="login-container">
              <form class="login-form" method="POST" action="login">
                  <c:if test="${not empty message}">
-                <div class="message" style="color:red;">
+                <div class="message" style="color:green;">
                     ${message}
                 </div>
             </c:if>
