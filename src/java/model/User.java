@@ -16,6 +16,7 @@ public class User {
     private Date updatedAt;
     private String sex; // New field
     private int socialSecurityNumber; // New field
+    private Date birthday; // New field for birthday
 
     // Default constructor
     public User() {
@@ -23,7 +24,7 @@ public class User {
 
     // Constructor with all fields
     public User(int userID, String fullName, String email, String passwordHash, String phoneNumber, String address,
-                String avatar, boolean isActive, Date createdAt, Date updatedAt, String sex, int socialSecurityNumber) {
+                String avatar, boolean isActive, Date createdAt, Date updatedAt, String sex, int socialSecurityNumber, Date birthday) {
         this.userID = userID;
         this.fullName = fullName;
         this.email = email;
@@ -36,11 +37,12 @@ public class User {
         this.updatedAt = updatedAt;
         this.sex = sex;
         this.socialSecurityNumber = socialSecurityNumber;
+        this.birthday = birthday; // Initialize birthday
     }
 
     // Constructor without userID and updatedAt (useful for creating new users)
     public User(String fullName, String email, String passwordHash, String phoneNumber, String address,
-                String avatar, boolean isActive, Date createdAt, String sex, int socialSecurityNumber) {
+                String avatar, boolean isActive, Date createdAt, String sex, int socialSecurityNumber, Date birthday) {
         this.fullName = fullName;
         this.email = email;
         this.passwordHash = passwordHash;
@@ -51,6 +53,7 @@ public class User {
         this.createdAt = createdAt;
         this.sex = sex;
         this.socialSecurityNumber = socialSecurityNumber;
+        this.birthday = birthday; // Initialize birthday
     }
 
     // Getters and setters
@@ -150,6 +153,14 @@ public class User {
         this.socialSecurityNumber = socialSecurityNumber;
     }
 
+    public Date getBirthday() {
+        return birthday; // Getter for birthday
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday; // Setter for birthday
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -165,6 +176,7 @@ public class User {
                 ", updatedAt=" + updatedAt +
                 ", sex='" + sex + '\'' +
                 ", socialSecurityNumber=" + socialSecurityNumber +
+                ", birthday=" + birthday + // Add birthday to toString
                 '}';
     }
 }
