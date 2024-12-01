@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import service.account.AccountService;
 import service.account.IAccountService;
 import model.User;
+import sender.SendEmail;
 /**
  *
  * @author Lenovo
@@ -67,7 +68,12 @@ public class AccountController extends HttpServlet {
             request.getRequestDispatcher("/account/login.jsp").forward(request, response);
         }else if ("/account/register".equals(path)) {
             request.getRequestDispatcher("/account/register.jsp").forward(request, response);
-        }
+        } else if ("/account/logout".equals(path)) {
+        // Xử lý đăng xuất
+        HttpSession session = request.getSession();
+        session.invalidate();  // Hủy session
+        response.sendRedirect(request.getContextPath()); 
+    }
     } 
 
     /** 
@@ -83,6 +89,24 @@ public class AccountController extends HttpServlet {
          String path = request.getServletPath();
          if ("/account/login".equals(path)) {
                 login(request, response);
+        }else if ("/account/register".equals(path)) {
+            String email = request.getParameter("email");
+
+    // Kiểm tra nếu gửi mã xác thực
+            if ("true".equals(request.getParameter("sendVerificationCode"))) {
+            // Tạo mã xác thực ngẫu nhiên
+                    String verificationCode = SendEmail.getRandomCode();
+
+                    // Gửi email chứa mã xác thực
+                    SendEmail.sendEmail(email, verificationCode);
+
+                    // Lưu mã xác thực vào session để kiểm tra khi người dùng nhập mã
+                    HttpSession session = request.getSession();
+                    session.setAttribute("verificationCode", verificationCode);
+
+                    // Gửi phản hồi về kết quả gửi email
+                    response.getWriter().write("Mã xác thực đã được gửi đến email của bạn.");
+            }
         }
     }
     /** 
@@ -108,7 +132,7 @@ public class AccountController extends HttpServlet {
                     // Đăng nhập thành công, lưu thông tin vào session
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-                    response.sendRedirect("/SWP391_E_BL5_G4");  // Chuyển hướng đến trang chính
+                    response.sendRedirect(request.getContextPath());  // Chuyển hướng đến trang chính
                 } else{
                     // Tài khoản bị ban, thông báo cho người dùng
                     request.setAttribute("error", "Tài khoản của bạn đã bị ban.");

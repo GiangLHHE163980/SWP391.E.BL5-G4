@@ -12,7 +12,7 @@
                         <a class="nav-link active" aria-current="page" href="productManagement.jsp">Quản lý sản phẩm</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="logout.jsp">Đăng xuất</a>
+                        <a class="nav-link" href="logout">Đăng xuất</a>
                     </li>
                 </ul>
             </div>

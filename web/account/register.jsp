@@ -119,22 +119,48 @@
         
         <!-- Form container -->
         <div class="form-container">
-            <a href="logIn.jsp" class="back-to-login">Trở về đăng nhập</a>
-            <form action="registerServlet" method="POST">
-                <h2>Đăng ký</h2>
-                <input type="text" name="username" placeholder="Tên tài khoản" required>
-                <input type="password" name="password" placeholder="Mật khẩu" required>
-                <input type="password" name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
-                <input type="email" name="email" placeholder="Email" required>
+    <a href="login" class="back-to-login">Trở về đăng nhập</a>
+    <form action="register" method="POST">
+        <h2>Đăng ký</h2>
+        <input type="text" name="username" placeholder="Tên tài khoản" required>
+        <input type="password" name="password" placeholder="Mật khẩu" required>
+        <input type="password" name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
+        <input type="email" name="email" placeholder="Email" required>
 
-                <!-- Mã xác thực -->
-                <div class="verification-container">
-                    <input type="text" name="verificationCode" placeholder="Mã xác thực" required>
-                    <button type="button"">Gửi mã xác thực</button>
-                </div>
-                <!-- Submit button -->
-                <button type="submit" class="register-button">Đăng ký</button>
-            </form>
+        <!-- Mã xác thực -->
+        <div class="verification-container">
+            <input type="text" name="verificationCode" placeholder="Mã xác thực" >
+            <!-- Nút gửi mã xác thực -->
+            <button type="button" id="sendVerificationCodeBtn">Gửi mã xác thực</button>
         </div>
+        <!-- Submit button -->
+        <button type="submit" class="register-button">Đăng ký</button>
+    </form>
+</div>
     </body>
 </html>
+<script>
+    document.getElementById('sendVerificationCodeBtn').addEventListener('click', function() {
+        var email = document.querySelector('input[name="email"]').value;
+        // Tạo đối tượng XMLHttpRequest
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'register', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        
+        // Gửi email trong body của request
+        xhr.send('email=' + encodeURIComponent(email) + '&sendVerificationCode=true');
+
+        // Xử lý phản hồi từ server
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                var response = xhr.responseText;
+                // Kiểm tra phản hồi từ server
+                if (response.indexOf('Mã xác thực đã được gửi đến email của bạn.') !== -1) {
+                    alert('Mã xác thực đã được gửi đến email của bạn.');
+                } else {
+                    alert('Có lỗi xảy ra khi gửi mã xác thực.');
+                }
+            }
+        };
+    });
+</script>
