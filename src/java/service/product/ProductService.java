@@ -77,6 +77,37 @@ public class ProductService implements IProductService {
             + "JOIN InsuranceCompanies ic ON ip.CompanyID = ic.CompanyID\n"
             + "WHERE ip.ProductID = ?";
 
+    private static final String DELETE_PRODUCT_AND_COMPANY
+            = "DELETE FROM Documents\n" //-- Xóa các tài liệu liên quan đến Claims
+            + "WHERE ClaimID IN (SELECT ClaimID FROM Claims WHERE CardID IN (SELECT CardID FROM InsuranceCards WHERE ProductID = ?));"
+            + //-- Xóa các yêu cầu bảo hiểm liên quan đến InsuranceCards
+            "DELETE FROM Claims\n"
+            + "WHERE CardID IN (SELECT CardID FROM InsuranceCards WHERE ProductID = ?)"
+            //-- Xóa các thẻ bảo hiểm liên quan đến InsuranceProducts
+            + "DELETE FROM InsuranceCards\n"
+            + "WHERE ProductID = ?;"
+            //-- Xóa các sản phẩm bảo hiểm
+            + "   DELETE FROM InsuranceProducts\n"
+            + "WHERE ProductID = ?; "
+            // -- Xóa các công ty bảo hiểm nếu không còn sản phẩm bảo hiểm nào
+            + "  DELETE FROM InsuranceCompanies\n"
+            + "WHERE CompanyID NOT IN (SELECT CompanyID FROM InsuranceProducts);";
+
+    //delete product and company
+    @Override
+    public void delete(int id) {
+        String query = DELETE_PRODUCT_AND_COMPANY;
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, id);
+            ps.setInt(2, id);
+            ps.setInt(3, id);
+            ps.setInt(4, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+
     //edit product and company by ID
     @Override
     public void editCompanyAndProduct(int productId, InsuranceCompany c, InsuranceProduct p) {
@@ -234,57 +265,56 @@ public class ProductService implements IProductService {
         return list;
     }
 
-public List<InsuranceProduct> findByProductId(String query, Object... args) {
-    List<InsuranceProduct> list = new ArrayList<>();
-    try (PreparedStatement pre = connection.prepareStatement(query)) {
-        // Gán tham số truy vấn
-        for (int i = 0; i < args.length; i++) {
-            pre.setObject(i + 1, args[i]);
-        }
-
-        // Thực thi truy vấn
-        try (ResultSet rs = pre.executeQuery()) {
-            while (rs.next()) {
-                // Lấy thông tin công ty bảo hiểm
-                int companyID = rs.getInt("CompanyID"); // Thêm dòng này để lấy CompanyID
-                String companyName = rs.getString("CompanyName");
-                String address = rs.getString("Address");
-                String contactInfo = rs.getString("ContactInfo");
-
-                // Tạo đối tượng InsuranceCompany
-                InsuranceCompany insuranceCompany = new InsuranceCompany(companyID, companyName, address, contactInfo);
-
-                // Lấy thông tin sản phẩm bảo hiểm
-                int productID = rs.getInt("ProductID");
-                String productName = rs.getString("ProductName");
-                String insuranceType = rs.getString("InsuranceType");
-                String description = rs.getString("Description");
-                BigDecimal cost = rs.getBigDecimal("Cost");
-                String conditions = rs.getString("Conditions");
-
-                // Tạo đối tượng InsuranceProduct
-                InsuranceProduct product = new InsuranceProduct(
-                        productID,
-                        insuranceCompany,
-                        productName,
-                        insuranceType,
-                        description,
-                        cost,
-                        conditions
-                );
-
-                // Thêm sản phẩm vào danh sách
-                list.add(product);
+    public List<InsuranceProduct> findByProductId(String query, Object... args) {
+        List<InsuranceProduct> list = new ArrayList<>();
+        try ( PreparedStatement pre = connection.prepareStatement(query)) {
+            // Gán tham số truy vấn
+            for (int i = 0; i < args.length; i++) {
+                pre.setObject(i + 1, args[i]);
             }
+
+            // Thực thi truy vấn
+            try ( ResultSet rs = pre.executeQuery()) {
+                while (rs.next()) {
+                    // Lấy thông tin công ty bảo hiểm
+                    int companyID = rs.getInt("CompanyID"); // Thêm dòng này để lấy CompanyID
+                    String companyName = rs.getString("CompanyName");
+                    String address = rs.getString("Address");
+                    String contactInfo = rs.getString("ContactInfo");
+
+                    // Tạo đối tượng InsuranceCompany
+                    InsuranceCompany insuranceCompany = new InsuranceCompany(companyID, companyName, address, contactInfo);
+
+                    // Lấy thông tin sản phẩm bảo hiểm
+                    int productID = rs.getInt("ProductID");
+                    String productName = rs.getString("ProductName");
+                    String insuranceType = rs.getString("InsuranceType");
+                    String description = rs.getString("Description");
+                    BigDecimal cost = rs.getBigDecimal("Cost");
+                    String conditions = rs.getString("Conditions");
+
+                    // Tạo đối tượng InsuranceProduct
+                    InsuranceProduct product = new InsuranceProduct(
+                            productID,
+                            insuranceCompany,
+                            productName,
+                            insuranceType,
+                            description,
+                            cost,
+                            conditions
+                    );
+
+                    // Thêm sản phẩm vào danh sách
+                    list.add(product);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error while executing query: " + query);
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        System.err.println("Error while executing query: " + query);
-        e.printStackTrace();
+
+        return list;
     }
-
-    return list;
-}
-
 
     @Override
     public Object findById(int id) {
@@ -306,6 +336,21 @@ public List<InsuranceProduct> findByProductId(String query, Object... args) {
 //        return find(query,"Bảo hiểm Y tế ABC");
         return find(query, "%" + searchName + "%");
     }
+
+//    //Test delete product and company
+//    public static void main(String[] args) {
+//        // Khởi tạo ProductService (DAO)
+//        ProductService dao = new ProductService();
+//
+//        // Gọi phương thức delete để xóa sản phẩm với ProductID = 1
+//        dao.delete(2);
+//
+//        // Kiểm tra lại sản phẩm sau khi xóa
+//        List<InsuranceProduct> pList = (List<InsuranceProduct>) dao.findById(1);
+//            for (InsuranceProduct o : pList) {
+//            System.out.println(o);
+//        }
+//    }
 
 //    //Test search product by name
 //    public static void main(String[] args) {
