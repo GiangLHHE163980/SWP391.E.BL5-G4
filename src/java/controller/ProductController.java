@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.InsuranceCompany;
@@ -43,6 +44,75 @@ public class ProductController extends HttpServlet {
         }
     }
 
+    private void showEditPage(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("product_id"));
+        System.out.println("ahihihihiihihi" + productService.findById(id));
+        Object product = productService.findById(id);
+        if (product == null) {
+            System.out.println("Product not found for ID: " + id);
+        } else {
+            System.out.println("Product found: " + product);
+        }
+        request.setAttribute("productList", product);
+        getRequestDispatch(request, response, "editProduct.jsp");
+    }
+
+    private void editProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            // Lấy productId từ request
+            int productId = Integer.parseInt(request.getParameter("productId"));
+            System.out.println("Editing product with ID: " + productId);
+
+            // Lấy các tham số khác từ request
+            String company_name = request.getParameter("provider");
+            String address = request.getParameter("address");
+            String contact_info = request.getParameter("contactInfo");
+            String product_name = request.getParameter("productName");
+            String insurance_type = request.getParameter("insuranceType");
+            String description = request.getParameter("benefits");
+            String conditions = request.getParameter("conditions");
+            String price = request.getParameter("cost");
+            int company_id = Integer.parseInt(request.getParameter("companyID"));
+
+            // Chuyển đổi giá thành BigDecimal
+            BigDecimal cost = null;
+            if (price != null && !price.isEmpty()) {
+                try {
+                    cost = new BigDecimal(price);
+                    System.out.println("Giá trị Cost: " + cost);
+                } catch (NumberFormatException e) {
+                    System.out.println("Lỗi: Giá trị không hợp lệ để chuyển đổi sang BigDecimal.");
+                }
+            } else {
+                System.out.println("Tham số 'price' không tồn tại hoặc bị rỗng.");
+            }
+
+            // Tạo dữ liệu công ty bảo hiểm
+            InsuranceCompany company = new InsuranceCompany();
+            company.setCompanyName(company_name);
+            company.setAddress(address);
+            company.setContactInfo(contact_info);
+
+            // Tạo dữ liệu sản phẩm bảo hiểm
+            InsuranceProduct product = new InsuranceProduct();
+            product.setCompanyID(company_id);
+            product.setProductName(product_name);
+            product.setInsuranceType(insurance_type);
+            product.setCost(cost);
+            product.setDescription(description);
+            product.setConditions(conditions);
+
+            // Cập nhật dữ liệu vào database
+            productService.editCompanyAndProduct(productId, company, product);
+
+            // Redirect sau khi cập nhật thành công
+            response.sendRedirect("ProductController?action=showFullProduct");
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid Product ID: " + request.getParameter("productId"));
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Product ID");
+        }
+    }
+
     private void showAddPage(HttpServletRequest request, HttpServletResponse response) {
         getRequestDispatch(request, response, "addOrEditProduct.jsp");
     }
@@ -72,7 +142,7 @@ public class ProductController extends HttpServlet {
         }
 
         //convert to add product
-         // Tạo dữ liệu mẫu cho công ty bảo hiểm
+        // Tạo dữ liệu mẫu cho công ty bảo hiểm
         InsuranceCompany company = new InsuranceCompany();
         company.setCompanyName(company_name);
         company.setAddress(address);
@@ -108,6 +178,9 @@ public class ProductController extends HttpServlet {
             case "showAddPage":
                 showAddPage(request, response);
                 break;
+            case "showEditPage":
+                showEditPage(request, response);
+                break;
             default:
                 // Chuyển đến trang lỗi nếu action không hợp lệ
                 getRequestDispatch(request, response, "error.jsp");
@@ -124,12 +197,12 @@ public class ProductController extends HttpServlet {
         }
 
         switch (action) {
-             case "addProduct":
+            case "addProduct":
                 addProduct(request, response);
                 break;
-            case "createProduct":
-                // TODO: Xử lý tạo sản phẩm
-                break;    
+            case "editProduct":
+                editProduct(request, response);
+                break;
             default:
                 getRequestDispatch(request, response, "error.jsp");
                 break;

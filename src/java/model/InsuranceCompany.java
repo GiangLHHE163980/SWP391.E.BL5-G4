@@ -1,6 +1,7 @@
 package model;
 
 public class InsuranceCompany {
+
     private int companyID;
     private String companyName;
     private String address;
@@ -12,7 +13,7 @@ public class InsuranceCompany {
     }
 
     // Constructor đầy đủ (nếu cần)
-    public InsuranceCompany( String companyName, String address, String contactInfo) {
+    public InsuranceCompany(String companyName, String address, String contactInfo) {
         this.companyName = companyName;
         this.address = address;
         this.contactInfo = contactInfo;
@@ -20,6 +21,13 @@ public class InsuranceCompany {
 
     public InsuranceCompany() {
 //        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public InsuranceCompany(int companyID, String companyName, String address, String contactInfo) {
+        this.companyID = companyID;
+        this.companyName = companyName;
+        this.address = address;
+        this.contactInfo = contactInfo;
     }
 
     // Getter và Setter
@@ -57,11 +65,11 @@ public class InsuranceCompany {
 
     @Override
     public String toString() {
-        return "InsuranceCompany{" +
-                "companyID=" + companyID +
-                ", companyName='" + companyName + '\'' +
-                ", address='" + address + '\'' +
-                ", contactInfo='" + contactInfo + '\'' +
-                '}';
+        return "InsuranceCompany{"
+                + "companyID=" + companyID
+                + ", companyName='" + companyName + '\''
+                + ", address='" + address + '\''
+                + ", contactInfo='" + contactInfo + '\''
+                + '}';
     }
 }

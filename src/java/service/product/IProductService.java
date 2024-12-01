@@ -11,4 +11,8 @@ public interface IProductService {
     List<InsuranceProduct> getProductByName(String searchName);
 
     public void addCompanyAndProduct(InsuranceCompany company, InsuranceProduct product);
+
+    public Object findById(int id);
+
+    public void editCompanyAndProduct(int id, InsuranceCompany company, InsuranceProduct product);
 }
