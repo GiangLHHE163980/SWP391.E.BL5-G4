@@ -20,7 +20,7 @@ import ultil.Upload;
 
 /**
  *
- * @author HP
+ * @author Dell
  */
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
