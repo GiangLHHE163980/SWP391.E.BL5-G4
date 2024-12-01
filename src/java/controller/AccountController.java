@@ -5,6 +5,7 @@
 
 package controller;
 
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,12 +13,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Lenovo
  */
-@WebServlet(name="AccountController", urlPatterns={"/AccountController"})
+//@WebServlet(name="AccountController", urlPatterns={"/account/*"})
 public class AccountController extends HttpServlet {
    
     /** 
@@ -55,7 +58,12 @@ public class AccountController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String path = request.getServletPath();
+        if ("/account/login".equals(path)) {
+            request.getRequestDispatcher("/account/login.jsp").forward(request, response);
+        }else if ("/account/register".equals(path)) {
+            request.getRequestDispatcher("/account/register.jsp").forward(request, response);
+        }
     } 
 
     /** 
@@ -68,7 +76,7 @@ public class AccountController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+         processRequest(request, response);
     }
 
     /** 
@@ -80,4 +88,20 @@ public class AccountController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+   public void getRequestDispatch(HttpServletRequest request, HttpServletResponse response, String view) {
+    try {
+        RequestDispatcher rd = request.getRequestDispatcher(view);
+        if (rd == null) {
+            throw new ServletException("RequestDispatcher returned null for view: " + view);
+        }
+        rd.forward(request, response);
+    } catch (ServletException | IOException ex) {
+        Logger.getLogger(AccountController.class.getName()).log(Level.SEVERE, "Error forwarding to view: " + view, ex);
+        try {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error");
+        } catch (IOException ioEx) {
+            Logger.getLogger(AccountController.class.getName()).log(Level.SEVERE, null, ioEx);
+        }
+    }
+  }
 }

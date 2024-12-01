@@ -7,38 +7,44 @@ public class User {
     private int userID;
     private String fullName;
     private String email;
+    private String username;
     private String passwordHash;
     private String phoneNumber;
     private String address;
     private String avatar;
     private boolean isActive;
+    private boolean gender;
     private Date createdAt;
     private Date updatedAt;
-
+    
     public User() {
     }
 
-    public User(int userID, String fullName, String email, String passwordHash, String phoneNumber, String address, String avatar, boolean isActive, Date createdAt, Date updatedAt) {
+    public User(int userID, String fullName, String email, String username, String passwordHash, String phoneNumber, String address, String avatar, boolean isActive, boolean gender, Date createdAt, Date updatedAt) {
         this.userID = userID;
         this.fullName = fullName;
         this.email = email;
+        this.username=username;
         this.passwordHash = passwordHash;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.avatar = avatar;
         this.isActive = isActive;
+        this.gender = gender;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public User(String fullName, String email, String passwordHash, String phoneNumber, String address, String avatar, boolean isActive, Date createdAt) {
+    public User(String fullName, String email, String username, String passwordHash, String phoneNumber, String address, String avatar, boolean isActive, boolean gender, Date createdAt) {
         this.fullName = fullName;
         this.email = email;
+        this.username=username;
         this.passwordHash = passwordHash;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.avatar = avatar;
         this.isActive = isActive;
+        this.gender = gender;
         this.createdAt = createdAt;
     }
 
@@ -122,17 +128,35 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public boolean isGender() {
+        return gender;
+    }
+
+    public void setGender(boolean gender) {
+        this.gender = gender;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "userID=" + userID +
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", isActive=" + isActive +
+                ", gender='" + gender + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

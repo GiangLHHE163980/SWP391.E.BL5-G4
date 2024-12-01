@@ -119,10 +119,10 @@
             <form class="login-form">
                 <h2>Đăng nhập</h2>
                 <div class="form-group">
-                    <input type="text" placeholder="Tên tài khoản" ">
+                    <input type="text" placeholder="Tên tài khoản" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" placeholder="Mật khẩu" ">
+                    <input type="password" placeholder="Mật khẩu" required>
                 </div>
                 <div class="form-group">
                     <a href="forgetPassword.jsp">Quên mật khẩu</a>

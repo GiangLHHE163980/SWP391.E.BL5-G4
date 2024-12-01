@@ -13,14 +13,5 @@ import service.IGeneralService;
  * @author tuana
  */
 public interface IAccountService extends IGeneralService<User> {
-
-    void updateAccountStatus(boolean status);
-
-    User findByUsername(String username);
-
-    User findByEmail(String email);
-
-    User findByPhone(String phone);
     
-    void updateNewPassword(String password, int accountID);
 }
