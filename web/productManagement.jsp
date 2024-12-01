@@ -72,7 +72,7 @@
                             <td>${product.conditions}</td>
                             <td>${product.insuranceCompany.companyName}</td>
                             <td>
-                                <a href="addOrEditProduct.jsp?id=${product.insuranceCompany.companyID}" class="btn btn-warning btn-sm" title="Chỉnh sửa">
+                                <a href="${pageContext.request.contextPath}/ProductController?action=showEditPage&product_id=${product.productID}" class="btn btn-warning btn-sm" title="Chỉnh sửa">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
                                 <button class="btn btn-danger btn-sm" title="Xóa">
