@@ -183,7 +183,7 @@ public class AccountController extends HttpServlet {
 
     // Kiểm tra mã xác thực
     if (sessionVerificationCode == null || !sessionVerificationCode.equals(inputVerificationCode)) {
-        request.setAttribute("error", "Mã xác thực không đúng hoặc đã hết hạn.");
+        request.setAttribute("error", "Mã xác thực không đúng.");
         request.getRequestDispatcher("/account/register.jsp").forward(request, response);
         return;
     }
@@ -201,7 +201,8 @@ public class AccountController extends HttpServlet {
     session.removeAttribute("verificationCode");
 
     // Chuyển hướng người dùng tới trang đăng ký thành công
-    response.sendRedirect(request.getContextPath());
+    request.setAttribute("message", "Thay đổi mật khẩu thành công.");
+    response.sendRedirect(request.getContextPath()+"/account/login");
     }
     //Quên mật khẩu
     private void forgetPassword(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
@@ -217,6 +218,7 @@ public class AccountController extends HttpServlet {
         }
         String email = request.getParameter("email");
         request.setAttribute("email", email);
+        session.removeAttribute("verificationCode");
         request.getRequestDispatcher("/account/confirmChangePassword.jsp").forward(request, response);
     }
     //Xác nhận thay đổi mật khẩu
@@ -229,7 +231,7 @@ public class AccountController extends HttpServlet {
             try {
                 accountService.updatePasswordByEmail(email, newPassword);
                 request.setAttribute("message", "Thay đổi mật khẩu thành công.");
-                response.sendRedirect(request.getContextPath()+ "/account/login.jsp");
+                response.sendRedirect(request.getContextPath()+ "/account/login");
             } catch (RuntimeException e) {
                 request.setAttribute("errorMessage", e.getMessage());
                 request.getRequestDispatcher("confirmChangePassword.jsp").forward(request, response);

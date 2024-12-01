@@ -116,6 +116,11 @@
         <!-- Login Form -->
         <div class="login-container">
              <form class="login-form" method="POST" action="login">
+                 <c:if test="${not empty message}">
+                <div class="message" style="color:red;">
+                    ${message}
+                </div>
+            </c:if>
         <h2>Đăng nhập</h2>
         <div class="form-group">
             <input type="text" name="username" placeholder="Tên tài khoản" required>
