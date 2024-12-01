@@ -17,32 +17,45 @@ public class InsuranceCardsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<InsuranceCard> insuranceCards = getAllInsuranceCards();
+        // Get the UserID from request parameter (default to 1 if not provided)
+        String userIdParam = request.getParameter("userId");
+        int userId = (userIdParam != null) ? Integer.parseInt(userIdParam) : 1;  // Default to UserID = 1
         
-        if (insuranceCards != null) {
+        // Fetch insurance cards for the given user ID
+        List<InsuranceCard> insuranceCards = getInsuranceCardsByUser(userId);
+        
+        // If insurance cards are found, forward to the JSP page, otherwise redirect to error page
+        if (insuranceCards != null && !insuranceCards.isEmpty()) {
             request.setAttribute("insuranceCards", insuranceCards);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("viewInsuranceCards.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("listInsuranceCards.jsp");
             dispatcher.forward(request, response);
         } else {
-            response.sendRedirect("error.jsp");
+            response.sendRedirect("error.jsp"); // Redirect to error page if no cards found
         }
     }
 
-    private List<InsuranceCard> getAllInsuranceCards() {
+    private List<InsuranceCard> getInsuranceCardsByUser(int userId) {
         List<InsuranceCard> insuranceCards = new ArrayList<>();
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
         try {
-            conn = DBContext.getConnection(); // Ensure DBContext is configured for your database
-            String sql = "SELECT ic.*, u.UserID, u.FullName, ip.ProductID, ip.ProductName " +
-                         "FROM InsuranceCard ic " +
-                         "JOIN User u ON ic.UserID = u.UserID " +
-                         "JOIN InsuranceProduct ip ON ic.ProductID = ip.ProductID";
+            conn = DBContext.getConnection(); // Ensure DBContext is configured properly
+            
+            // SQL query to fetch insurance cards by user ID
+            String sql = "SELECT ic.CardID, ic.CardNumber, ic.StartDate, ic.EndDate, ic.Status, ic.CreatedAt, ic.UpdatedAt, " +
+                         "u.UserID, u.FullName, ip.ProductID, ip.ProductName " +
+                         "FROM InsuranceCards ic " +
+                         "JOIN Users u ON ic.UserID = u.UserID " +
+                         "JOIN InsuranceProducts ip ON ic.ProductID = ip.ProductID " +
+                         "WHERE u.UserID = ?";
+                         
             pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, userId); // Set the userId parameter in the query
             rs = pstmt.executeQuery();
 
+            // Process the ResultSet and map to InsuranceCard, User, and InsuranceProduct objects
             while (rs.next()) {
                 // Populate User
                 User user = new User();
@@ -66,17 +79,19 @@ public class InsuranceCardsController extends HttpServlet {
                 card.setCreatedAt(rs.getTimestamp("CreatedAt"));
                 card.setUpdatedAt(rs.getTimestamp("UpdatedAt"));
 
+                // Add the card to the list
                 insuranceCards.add(card);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Log the error (you can also redirect to an error page if needed)
         } finally {
+            // Close resources
             try {
                 if (rs != null) rs.close();
                 if (pstmt != null) pstmt.close();
                 if (conn != null) conn.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                e.printStackTrace(); // Log error related to closing resources
             }
         }
         return insuranceCards;
