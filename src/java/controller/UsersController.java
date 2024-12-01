@@ -13,7 +13,7 @@ public class UsersController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int userID = 2; // Assume user ID is passed as a parameter
+        int userID = 2; // Assume user ID is passed as a parameter or retrieved from session
         User user = getUserById(userID);
         
         if (user != null) {
@@ -54,6 +54,7 @@ public class UsersController extends HttpServlet {
                 user.setUpdatedAt(rs.getTimestamp("UpdatedAt"));
                 user.setSex(rs.getString("Sex"));
                 user.setSocialSecurityNumber(rs.getInt("SocialSecurityNumber"));
+                user.setBirthday(rs.getDate("Birthday")); // Assuming 'Birthday' is the column name
             }
         } catch (SQLException e) {
             e.printStackTrace();

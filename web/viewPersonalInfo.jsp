@@ -36,7 +36,11 @@
                         <div class="col-md-6">
                             <div class="card p-3">
                                 <h6 class="fw-bold">Ngày sinh</h6>
-                                <p class="text-muted mb-0">${user.birthDate}</p>
+                                <!-- Check if birthDate is not null and format it -->
+                                <p class="text-muted mb-0">
+                                    ${user.birthday != null ? user.birthday : "Chưa có thông tin"}
+                                </p>
+
                             </div>
                         </div>
                         <div class="col-md-6">
