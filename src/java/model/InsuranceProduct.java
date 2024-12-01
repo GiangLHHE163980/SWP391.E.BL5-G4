@@ -50,6 +50,10 @@ public class InsuranceProduct {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    public InsuranceProduct(String productID, InsuranceCompany insuranceCompany, String productName, String insuranceType, String description, BigDecimal cost, String conditions) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 
 
 
@@ -141,4 +145,16 @@ public class InsuranceProduct {
                 ", updatedAt=" + updatedAt +
                 '}';
     }
+
+    public int getCompanyID() {
+      return insuranceCompany.getCompanyID();
+    }
+
+ public void setCompanyID(int companyID) {
+    if (this.insuranceCompany == null) {
+        this.insuranceCompany = new InsuranceCompany(); // Khởi tạo đối tượng nếu null
+    }
+    this.insuranceCompany.setCompanyID(companyID); // Gán giá trị cho companyID của InsuranceCompany
+}
+
 }
