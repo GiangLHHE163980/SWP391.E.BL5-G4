@@ -55,6 +55,17 @@ public class User {
         this.socialSecurityNumber = socialSecurityNumber;
         this.birthday = birthday; // Initialize birthday
     }
+    
+    public User(String fullName, String email, String passwordHash, String phoneNumber, String address, String avatar, boolean isActive, Date createdAt) {
+        this.fullName = fullName;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.avatar = avatar;
+        this.isActive = isActive;
+        this.createdAt = createdAt;
+    }
 
     // Getters and setters
     public int getUserID() {

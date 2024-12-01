@@ -25,7 +25,7 @@ public class UserDAO {
                 + "FROM Users u "
                 + "JOIN UserRoles ur ON u.UserID = ur.UserID "
                 + "JOIN Roles r ON ur.RoleID = r.RoleID "
-                + "WHERE r.RoleName = ? AND u.IsActive = 1";
+                + "WHERE r.RoleName = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, roleName);
