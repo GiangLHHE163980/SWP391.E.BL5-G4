@@ -1,28 +1,28 @@
 package model;
 
 public class InsuranceCompany {
-
     private int companyID;
     private String companyName;
     private String address;
     private String contactInfo;
 
+    // Constructor chỉ với companyName
+    public InsuranceCompany(String companyName) {
+        this.companyName = companyName;
+    }
+
+    // Constructor đầy đủ (nếu cần)
+    public InsuranceCompany( String companyName, String address, String contactInfo) {
+        this.companyName = companyName;
+        this.address = address;
+        this.contactInfo = contactInfo;
+    }
+
     public InsuranceCompany() {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public InsuranceCompany(int companyID, String companyName, String address, String contactInfo) {
-        this.companyID = companyID;
-        this.companyName = companyName;
-        this.address = address;
-        this.contactInfo = contactInfo;
-    }
-
-    public InsuranceCompany(String companyName, String address, String contactInfo) {
-        this.companyName = companyName;
-        this.address = address;
-        this.contactInfo = contactInfo;
-    }
-
+    // Getter và Setter
     public int getCompanyID() {
         return companyID;
     }

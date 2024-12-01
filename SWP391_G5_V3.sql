@@ -42,16 +42,17 @@ CREATE TABLE InsuranceCompanies (
 );
 
 
---Lưu thông tin các sản phẩm bảo hiểm.
+-- Lưu thông tin các sản phẩm bảo hiểm
 CREATE TABLE InsuranceProducts (
     ProductID INT PRIMARY KEY IDENTITY(1,1),
-	CompanyID INT, -- Nhà cung cấp
+    CompanyID INT, -- Nhà cung cấp
     ProductName NVARCHAR(255) NOT NULL, -- Tên sản phẩm bảo hiểm
+    InsuranceType NVARCHAR(50) NOT NULL, -- Loại bảo hiểm (Ví dụ: Y tế, Xe, Nhân thọ)
     Description NVARCHAR(MAX), -- Mô tả chi tiết sản phẩm
     Cost DECIMAL(18,2) NOT NULL, -- Chi phí bảo hiểm
     Conditions NVARCHAR(MAX), -- Điều kiện bảo hiểm
     CreatedAt DATETIME DEFAULT GETDATE(),
-    UpdatedAt DATETIME NULL
+    UpdatedAt DATETIME NULL,
     CONSTRAINT FK_InsuranceProducts_InsuranceCompanies FOREIGN KEY (CompanyID) REFERENCES InsuranceCompanies(CompanyID)
 );
 
@@ -127,54 +128,74 @@ VALUES
 
 -- Thêm dữ liệu vào bảng Users
 INSERT INTO Users (FullName, Email, PasswordHash, PhoneNumber, Address, Avatar)
-VALUES 
-    ('Nguyen Van A', 'nguyenvana@example.com', 'hashedpassword1', '0901234567', '123 ABC Street, Hanoi', 'avatar1.jpg'),
-    ('Tran Thi B', 'tranthib@example.com', 'hashedpassword2', '0909876543', '456 DEF Street, Hanoi', 'avatar2.jpg');
+VALUES
+(N'Nguyễn Văn A', 'nguyenvana@example.com', 'hashedpassword1', '0901234567', N'Hà Nội, Việt Nam', 'avatar1.jpg'),
+(N'Trần Thị B', 'tranthib@example.com', 'hashedpassword2', '0912345678', N'TP.HCM, Việt Nam', 'avatar2.jpg');
+
+
+
 
 -- Gán vai trò cho người dùng
 INSERT INTO UserRoles (UserID, RoleID)
-VALUES 
-    (1, 1), -- Nguyen Van A được gán vai trò Admin
-    (2, 2); -- Tran Thi B được gán vai trò Customer
+VALUES
+(1, 1), -- UserID = 1, RoleID = 1 (Admin)
+(2, 2); -- UserID = 2, RoleID = 2 (Customer)
+
 
 -- Thêm dữ liệu vào bảng InsuranceCompanies
 INSERT INTO InsuranceCompanies (CompanyName, Address, ContactInfo)
-VALUES 
-    ('ABC Insurance', '123 Main St, Hanoi', 'contact@abcinsurance.com'),
-    ('XYZ Insurance', '456 Another St, Hanoi', 'contact@xyzinsurance.com');
+VALUES
+('Prudential', N'Hà Nội, Việt Nam', '0934 567 890'),
+('Manulife', N'TP.HCM, Việt Nam', '0987 654 321');
 
--- Thêm dữ liệu vào bảng InsuranceProducts
-INSERT INTO InsuranceProducts (CompanyID, ProductName, Description, Cost, Conditions)
-VALUES 
-    (1, 'Health Insurance', 'Comprehensive health coverage including hospital stays and surgeries', 500.00, 'No pre-existing conditions'),
-    (2, 'Car Insurance', 'Covers damages to the car due to accidents or theft', 200.00, 'Must have a valid driver');
+
+
+
+-- Thêm dữ liệu mẫu vào bảng InsuranceProducts
+INSERT INTO InsuranceProducts (CompanyID, ProductName, InsuranceType, Description, Cost, Conditions)
+VALUES
+(1, N'Bảo hiểm Y tế ABC', N'Y tế', N'Bảo hiểm y tế toàn diện, áp dụng cho độ tuổi từ 18-60.', 5000000, N'Áp dụng cho độ tuổi từ 18-60.'),
+(2, N'Bảo hiểm Xe XYZ', N'Xe', N'Bảo hiểm xe toàn phần, bảo vệ các rủi ro liên quan đến tai nạn xe cộ.', 2000000, N'Áp dụng cho xe dưới 10 năm sử dụng.');
+
+
+
 
 -- Thêm dữ liệu vào bảng InsuranceCards
 INSERT INTO InsuranceCards (CardNumber, UserID, ProductID, StartDate, EndDate)
-VALUES 
-    ('IC123456789', 1, 1, '2024-01-01', '2025-01-01'),
-    ('IC987654321', 2, 2, '2024-02-01', '2025-02-01');
+VALUES
+('IC001', 1, 1, '2024-01-01', '2025-01-01'),
+('IC002', 2, 2, '2024-06-01', '2025-06-01');
+
+
 
 -- Thêm dữ liệu vào bảng Claims
 INSERT INTO Claims (CardID, UserID, ClaimType, Status, Reason)
-VALUES 
-    (1, 1, 'Medical', 'Pending', 'Request for hospitalization coverage'),
-    (2, 2, 'Accident', 'Approved', 'Car accident coverage approved');
+VALUES
+(1, 1, N'Y tế', 'Pending', N'Cần điều trị bệnh viện'),
+(2, 2, N'Tai nạn', 'Approved', N'Tai nạn giao thông');
+
+
+
 
 -- Thêm dữ liệu vào bảng Documents
 INSERT INTO Documents (ClaimID, UserID, DocumentName, FilePath)
-VALUES 
-    (1, 1, 'HospitalBill.pdf', 'C:/Documents/HospitalBill.pdf'),
-    (2, 2, 'CarDamageReport.pdf', 'C:/Documents/CarDamageReport.pdf');
+VALUES
+(1, 1, N'Giấy khám sức khỏe', '/documents/claim1/health_report.pdf'),
+(2, 2, N'Biên bản tai nạn', '/documents/claim2/accident_report.pdf');
+
+
 
 -- Thêm dữ liệu vào bảng Notifications
 INSERT INTO Notifications (UserID, Title, Message)
-VALUES 
-    (1, 'Claim Processed', 'Your medical claim has been approved.'),
-    (2, 'Claim Status', 'Your car accident claim is being processed.');
+VALUES
+(1, N'Thông báo bảo hiểm', N'Sản phẩm bảo hiểm của bạn đã được kích hoạt.'),
+(2, N'Thông báo yêu cầu', N'Yêu cầu bảo hiểm của bạn đã được phê duyệt.');
+
+
 
 -- Thêm dữ liệu vào bảng AuditLogs
 INSERT INTO AuditLogs (UserID, Action)
-VALUES 
-    (1, 'Created a new insurance product for Health Insurance'),
-    (2, 'Submitted a claim for car accident coverage');
+VALUES
+(1, N'Đăng nhập hệ thống'),
+(2, N'Cập nhật thông tin cá nhân');
+
