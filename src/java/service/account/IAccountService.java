@@ -14,4 +14,7 @@ import service.IGeneralService;
  */
 public interface IAccountService extends IGeneralService<User> {
     public User login(String username, String password);
+    
+    void updatePasswordByEmail(String email, String newPassword);
+
 }

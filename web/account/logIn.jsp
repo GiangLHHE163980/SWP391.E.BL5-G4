@@ -124,7 +124,7 @@
             <input type="password" name="password" placeholder="Mật khẩu" required>
         </div>
         <div class="form-group">
-            <a href="forgetPassword.jsp">Quên mật khẩu</a>
+            <a href="forgetPassword">Quên mật khẩu</a>
         </div>
 
         <!-- Hiển thị thông báo lỗi nếu có -->

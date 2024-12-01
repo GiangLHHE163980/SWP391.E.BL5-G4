@@ -101,6 +101,8 @@ public class AccountController extends HttpServlet {
              register(request, response);
         }else if ("/account/forgetPassword".equals(path)) {
              forgetPassword(request, response);
+        }else if ("/account/confirmChangePassword".equals(path)) {
+             confirmChangePassword(request, response);
         }
     }
     /** 
@@ -111,6 +113,7 @@ public class AccountController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    //Đăng nhập
     private void login(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
@@ -143,6 +146,7 @@ public class AccountController extends HttpServlet {
             request.getRequestDispatcher("/account/login.jsp").forward(request, response);
         }
     }
+    //Gửi email
     private void sendEmail(String email, HttpServletRequest request, HttpServletResponse response) throws IOException{
         if ("true".equals(request.getParameter("sendVerificationCode"))) {
             // Tạo mã xác thực ngẫu nhiên
@@ -156,6 +160,7 @@ public class AccountController extends HttpServlet {
                     response.getWriter().write("Mã xác thực đã được gửi đến email của bạn.");
         }
     }
+    //Đăng ký
     private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     // Lấy thông tin từ form đăng ký
     String fullName = request.getParameter("fullName");
@@ -198,6 +203,7 @@ public class AccountController extends HttpServlet {
     // Chuyển hướng người dùng tới trang đăng ký thành công
     response.sendRedirect(request.getContextPath());
     }
+    //Quên mật khẩu
     private void forgetPassword(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
         String inputVerificationCode = request.getParameter("verificationCode");
         
@@ -211,7 +217,26 @@ public class AccountController extends HttpServlet {
         }
         String email = request.getParameter("email");
         request.setAttribute("email", email);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/account/confirmChangePassword.jsp");
-        dispatcher.forward(request, response);
+        request.getRequestDispatcher("/account/confirmChangePassword.jsp").forward(request, response);
+    }
+    //Xác nhận thay đổi mật khẩu
+    private void confirmChangePassword(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+        String email = request.getParameter("email");
+        String newPassword = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirmPassword");
+        
+        if (newPassword.equals(confirmPassword)) {
+            try {
+                accountService.updatePasswordByEmail(email, newPassword);
+                request.setAttribute("message", "Thay đổi mật khẩu thành công.");
+                response.sendRedirect(request.getContextPath()+ "/account/login.jsp");
+            } catch (RuntimeException e) {
+                request.setAttribute("errorMessage", e.getMessage());
+                request.getRequestDispatcher("confirmChangePassword.jsp").forward(request, response);
+            }
+        } else {
+            request.setAttribute("errorMessage", "Mật khẩu không khớp.");
+            request.getRequestDispatcher("confirmChangePassword.jsp").forward(request, response);
+        }
     }
 }

@@ -24,6 +24,9 @@ public class AccountService implements IAccountService{
     
     private final String INSERT_Users ="INSERT INTO Users (FullName,Username, PasswordHash, Email) VALUES (?,?, ?, ?)";
     
+    private final String UPDATE_PASSWORD_BY_EMAIL = "UPDATE Users SET PasswordHash = ? WHERE Email = ?";
+
+    
     @Override
     public void add(User user) {
          try (PreparedStatement ps = connection.prepareStatement(INSERT_Users)) {
@@ -79,5 +82,17 @@ public class AccountService implements IAccountService{
             e.printStackTrace();
         }
         return user;  // Trả về user nếu tài khoản hợp lệ
+    }
+    @Override
+    public void updatePasswordByEmail(String email, String newPassword) {
+        try (PreparedStatement ps = connection.prepareStatement(UPDATE_PASSWORD_BY_EMAIL)) {
+            ps.setString(1, newPassword);
+            ps.setString(2, email);
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Không thể cập nhật mật khẩu.");
+        }
     }
 }

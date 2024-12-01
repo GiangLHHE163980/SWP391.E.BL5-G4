@@ -100,11 +100,12 @@
         <!-- Form container -->
         <div class="form-container">
             <a href="forgetPassword" class="back-to-login">Trở về</a>
-            <form action="registerServlet" method="POST">
+            <form action="confirmChangePassword" method="POST">
                 <h2>Thay đổi mật khẩu</h2>
                 <p class="description">
                     Mật khẩu mới tối thiểu 8 ký tự.
                 </p>
+                <input type="hidden" name="email" value="<%= request.getAttribute("email") %>">
                 <input type="password" name="password" placeholder="Mật khẩu" required>
                 <input type="password" name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
                 <!-- Submit button -->
