@@ -24,7 +24,11 @@
     <servlet-mapping>
     <servlet-name>AccountController</servlet-name>
     <url-pattern>/account/logout</url-pattern>
-</servlet-mapping>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountController</servlet-name>
+        <url-pattern>/account/sendemail</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

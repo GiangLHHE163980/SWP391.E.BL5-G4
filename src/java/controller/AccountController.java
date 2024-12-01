@@ -89,24 +89,12 @@ public class AccountController extends HttpServlet {
          String path = request.getServletPath();
          if ("/account/login".equals(path)) {
                 login(request, response);
-        }else if ("/account/register".equals(path)) {
-            String email = request.getParameter("email");
-
+        }else if ("/account/sendemail".equals(path)) {
+             String email = request.getParameter("email");
     // Kiểm tra nếu gửi mã xác thực
-            if ("true".equals(request.getParameter("sendVerificationCode"))) {
-            // Tạo mã xác thực ngẫu nhiên
-                    String verificationCode = SendEmail.getRandomCode();
-
-                    // Gửi email chứa mã xác thực
-                    SendEmail.sendEmail(email, verificationCode);
-
-                    // Lưu mã xác thực vào session để kiểm tra khi người dùng nhập mã
-                    HttpSession session = request.getSession();
-                    session.setAttribute("verificationCode", verificationCode);
-
-                    // Gửi phản hồi về kết quả gửi email
-                    response.getWriter().write("Mã xác thực đã được gửi đến email của bạn.");
-            }
+             sendEmail(email, request, response);
+        }else if ("/account/register".equals(path)){
+             register(request, response);
         }
     }
     /** 
@@ -149,4 +137,59 @@ public class AccountController extends HttpServlet {
             request.getRequestDispatcher("/account/login.jsp").forward(request, response);
         }
     }
+    private void sendEmail(String email, HttpServletRequest request, HttpServletResponse response) throws IOException{
+        if ("true".equals(request.getParameter("sendVerificationCode"))) {
+            // Tạo mã xác thực ngẫu nhiên
+                    String verificationCode = SendEmail.getRandomCode();
+                    // Gửi email chứa mã xác thực
+                    SendEmail.sendEmail(email, verificationCode);
+                    // Lưu mã xác thực vào session để kiểm tra khi người dùng nhập mã
+                    HttpSession session = request.getSession();
+                    session.setAttribute("verificationCode", verificationCode);
+                    // Gửi phản hồi về kết quả gửi email
+                    response.getWriter().write("Mã xác thực đã được gửi đến email của bạn.");
+        }
+    }
+    private void register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    // Lấy thông tin từ form đăng ký
+    String fullName = request.getParameter("fullName");
+    String username = request.getParameter("username");
+    String password = request.getParameter("password");
+    String confirmPassword = request.getParameter("confirmPassword");
+    String email = request.getParameter("email");
+    String inputVerificationCode = request.getParameter("verificationCode");
+
+    // Kiểm tra mã xác thực
+    HttpSession session = request.getSession();
+    String sessionVerificationCode = (String) session.getAttribute("verificationCode");
+
+    // Kiểm tra mật khẩu khớp
+    if (!password.equals(confirmPassword)) {
+        request.setAttribute("error", "Mật khẩu không khớp.");
+        request.getRequestDispatcher("/account/register.jsp").forward(request, response);
+        return;
+    }
+
+    // Kiểm tra mã xác thực
+    if (sessionVerificationCode == null || !sessionVerificationCode.equals(inputVerificationCode)) {
+        request.setAttribute("error", "Mã xác thực không đúng hoặc đã hết hạn.");
+        request.getRequestDispatcher("/account/register.jsp").forward(request, response);
+        return;
+    }
+    // Thêm người dùng mới vào cơ sở dữ liệu
+    User newUser = new User();
+    newUser.setFullName(fullName);
+    newUser.setUsername(username);
+    newUser.setPasswordHash(password);
+    newUser.setEmail(email);
+
+    AccountService accountService = new AccountService();
+    accountService.add(newUser);
+
+    // Xóa mã xác thực khỏi session sau khi đăng ký thành công
+    session.removeAttribute("verificationCode");
+
+    // Chuyển hướng người dùng tới trang đăng ký thành công
+    response.sendRedirect(request.getContextPath());
+}
 }

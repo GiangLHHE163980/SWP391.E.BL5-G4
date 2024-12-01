@@ -22,9 +22,19 @@ public class AccountService implements IAccountService{
     
     private final String FIND_Users_BY_USERNAME_AND_PASSWORD = "SELECT * FROM Users WHERE Username = ? AND PasswordHash = ?";
     
+    private final String INSERT_Users ="INSERT INTO Users (FullName,Username, PasswordHash, Email) VALUES (?,?, ?, ?)";
+    
     @Override
-    public void add(User t) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void add(User user) {
+         try (PreparedStatement ps = connection.prepareStatement(INSERT_Users)) {
+        ps.setString(1, user.getFullName());
+        ps.setString(2, user.getUsername());
+        ps.setString(3, user.getPasswordHash());
+        ps.setString(4, user.getEmail());
+        ps.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+        }
     }
 
     @Override

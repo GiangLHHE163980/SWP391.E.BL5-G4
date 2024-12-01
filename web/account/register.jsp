@@ -122,10 +122,18 @@
     <a href="login" class="back-to-login">Trở về đăng nhập</a>
     <form action="register" method="POST">
         <h2>Đăng ký</h2>
+        <div class="form-group">
+            <c:if test="${not empty error}">
+                <div class="error-message" style="color:red;">
+                    ${error}
+                </div>
+            </c:if>
+        </div>
+        <input type="text" name="fullName" placeholder="Họ và tên" required>
         <input type="text" name="username" placeholder="Tên tài khoản" required>
         <input type="password" name="password" placeholder="Mật khẩu" required>
         <input type="password" name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
-        <input type="email" name="email" placeholder="Email" required>
+        <input type="email" name="email" placeholder="Email">
 
         <!-- Mã xác thực -->
         <div class="verification-container">
@@ -144,7 +152,7 @@
         var email = document.querySelector('input[name="email"]').value;
         // Tạo đối tượng XMLHttpRequest
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'register', true);
+        xhr.open('POST', 'sendemail', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         
         // Gửi email trong body của request
