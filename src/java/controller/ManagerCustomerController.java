@@ -53,6 +53,7 @@ public class ManagerCustomerController extends HttpServlet {
                     dispatcherAdd.forward(request, response);
                     break;
                 case "edit":
+                    //Lấy dữ liệu user dựa vào id
                     int editID = Integer.parseInt(request.getParameter("id"));
                     User editUser = userService.getUserById(editID);
                     request.setAttribute("user", editUser);
@@ -86,8 +87,11 @@ public class ManagerCustomerController extends HttpServlet {
             String address = request.getParameter("address");
             String oldAvatar = request.getParameter("oldAvatar");
             boolean status = Integer.parseInt(request.getParameter("status")) == 1;
+            //Xử lý Avatar
             Part filePart = request.getPart("avatar");
+            //Đường dẫn tương đối
             String filePath = "./uploads/";
+            //Đường dẫn tuyệt đối
             String uploadPath = getServletContext().getRealPath(filePath);
             Upload upload = new Upload();
             String nameOfAvatar = upload.uploadFile(filePart, uploadPath);
@@ -95,6 +99,7 @@ public class ManagerCustomerController extends HttpServlet {
             User user = new User(fullName, email, password, phoneNumber, address, null, status, new java.util.Date());
 
             if (request.getParameter("userID") != null) {
+                //Update avatar
                 if (nameOfAvatar == null || nameOfAvatar.equals("")) {
                     user.setAvatar(oldAvatar); 
                 } else {
@@ -107,11 +112,12 @@ public class ManagerCustomerController extends HttpServlet {
                 user.setUserID(userID);
                 userService.updateUser(user);
             } else {
+                //Add new
                 if (nameOfAvatar != null) {
                     String namePathSaveDB = filePath + nameOfAvatar;
                     user.setAvatar(namePathSaveDB);
                 } else {
-                    user.setAvatar("./image/default_avatar.jpg");
+                    user.setAvatar("./image/default-avatar.jpg");
                 }
                 userService.createUser(user, "Customer");
             }
