@@ -7,11 +7,13 @@ public class User {
     private int userID;
     private String fullName;
     private String email;
+    private String username;
     private String passwordHash;
     private String phoneNumber;
     private String address;
     private String avatar;
     private boolean isActive;
+    private boolean gender;
     private Date createdAt;
     private Date updatedAt;
     private String sex; // New field
@@ -28,11 +30,13 @@ public class User {
         this.userID = userID;
         this.fullName = fullName;
         this.email = email;
+        this.username=username;
         this.passwordHash = passwordHash;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.avatar = avatar;
         this.isActive = isActive;
+        this.gender = gender;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.sex = sex;
@@ -45,18 +49,23 @@ public class User {
                 String avatar, boolean isActive, Date createdAt, String sex, int socialSecurityNumber, Date birthday) {
         this.fullName = fullName;
         this.email = email;
+        this.username=username;
         this.passwordHash = passwordHash;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.avatar = avatar;
         this.isActive = isActive;
+        this.gender = gender;
         this.createdAt = createdAt;
         this.sex = sex;
         this.socialSecurityNumber = socialSecurityNumber;
         this.birthday = birthday; // Initialize birthday
     }
-
-    // Getters and setters
+    public User(int userID, String username,boolean isActive){
+        this.userID = userID;
+        this.username=username;
+        this.isActive = isActive;
+    }
     public int getUserID() {
         return userID;
     }
@@ -167,11 +176,13 @@ public class User {
                 "userID=" + userID +
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", isActive=" + isActive +
+                ", gender='" + gender + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", sex='" + sex + '\'' +
