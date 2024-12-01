@@ -19,7 +19,7 @@ public class InsuranceCardsController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Get the UserID from request parameter (default to 1 if not provided)
         String userIdParam = request.getParameter("userId");
-        int userId = (userIdParam != null) ? Integer.parseInt(userIdParam) : 1;  // Default to UserID = 1
+        int userId = (userIdParam != null) ? Integer.parseInt(userIdParam) : 2;  // Default to UserID = 1
         
         // Fetch insurance cards for the given user ID
         List<InsuranceCard> insuranceCards = getInsuranceCardsByUser(userId);
