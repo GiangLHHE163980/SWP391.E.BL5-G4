@@ -25,7 +25,7 @@ import sender.SendEmail;
  */
 @WebServlet(name = "AccountController", urlPatterns = {"/AccountController"})
 public class AccountController extends HttpServlet {
-
+    private static IAccountService accountService = new AccountService();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

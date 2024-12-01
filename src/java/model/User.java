@@ -13,7 +13,6 @@ public class User {
     private String address;
     private String avatar;
     private boolean isActive;
-    private boolean gender;
     private Date createdAt;
     private Date updatedAt;
     private String sex; // New field
@@ -22,6 +21,14 @@ public class User {
 
     // Default constructor
     public User() {
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     // Constructor with all fields
@@ -36,7 +43,6 @@ public class User {
         this.address = address;
         this.avatar = avatar;
         this.isActive = isActive;
-        this.gender = gender;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.sex = sex;
@@ -55,7 +61,6 @@ public class User {
         this.address = address;
         this.avatar = avatar;
         this.isActive = isActive;
-        this.gender = gender;
         this.createdAt = createdAt;
         this.sex = sex;
         this.socialSecurityNumber = socialSecurityNumber;
@@ -182,7 +187,6 @@ public class User {
                 ", address='" + address + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", isActive=" + isActive +
-                ", gender='" + gender + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", sex='" + sex + '\'' +
