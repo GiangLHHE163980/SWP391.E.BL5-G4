@@ -47,7 +47,11 @@ public class User {
         this.gender = gender;
         this.createdAt = createdAt;
     }
-
+    public User(int userID, String username,boolean isActive){
+        this.userID = userID;
+        this.username=username;
+        this.isActive = isActive;
+    }
     public int getUserID() {
         return userID;
     }

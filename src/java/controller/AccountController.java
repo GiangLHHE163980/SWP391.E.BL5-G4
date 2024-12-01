@@ -13,16 +13,20 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import service.account.AccountService;
+import service.account.IAccountService;
+import model.User;
 /**
  *
  * @author Lenovo
  */
-//@WebServlet(name="AccountController", urlPatterns={"/account/*"})
 public class AccountController extends HttpServlet {
    
+    
+    private static IAccountService accountService = new AccountService();
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -76,9 +80,11 @@ public class AccountController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-         processRequest(request, response);
+         String path = request.getServletPath();
+         if ("/account/login".equals(path)) {
+                login(request, response);
+        }
     }
-
     /** 
      * Returns a short description of the servlet.
      * @return a String containing servlet description
@@ -87,21 +93,36 @@ public class AccountController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    private void login(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
 
-   public void getRequestDispatch(HttpServletRequest request, HttpServletResponse response, String view) {
-    try {
-        RequestDispatcher rd = request.getRequestDispatcher(view);
-        if (rd == null) {
-            throw new ServletException("RequestDispatcher returned null for view: " + view);
-        }
-        rd.forward(request, response);
-    } catch (ServletException | IOException ex) {
-        Logger.getLogger(AccountController.class.getName()).log(Level.SEVERE, "Error forwarding to view: " + view, ex);
         try {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error");
-        } catch (IOException ioEx) {
-            Logger.getLogger(AccountController.class.getName()).log(Level.SEVERE, null, ioEx);
+            // Gọi AccountService để kiểm tra đăng nhập
+            User user = accountService.login(username, password);
+
+            if (user != null) {
+                // Kiểm tra trạng thái tài khoản
+                if (user.getIsActive()) {
+                    // Đăng nhập thành công, lưu thông tin vào session
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", user);
+                    response.sendRedirect("/SWP391_E_BL5_G4");  // Chuyển hướng đến trang chính
+                } else{
+                    // Tài khoản bị ban, thông báo cho người dùng
+                    request.setAttribute("error", "Tài khoản của bạn đã bị ban.");
+                    request.getRequestDispatcher("/account/login.jsp").forward(request, response);
+                }
+            } else {
+                // Tên đăng nhập hoặc mật khẩu sai
+                request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng.");
+                request.getRequestDispatcher("/account/login.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("error", "Đã có lỗi xảy ra, vui lòng thử lại sau.");
+            request.getRequestDispatcher("/account/login.jsp").forward(request, response);
         }
     }
-  }
 }

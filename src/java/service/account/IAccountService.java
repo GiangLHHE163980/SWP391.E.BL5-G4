@@ -13,5 +13,5 @@ import service.IGeneralService;
  * @author tuana
  */
 public interface IAccountService extends IGeneralService<User> {
-    
+    public User login(String username, String password);
 }

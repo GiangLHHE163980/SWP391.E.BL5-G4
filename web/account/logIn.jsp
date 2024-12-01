@@ -3,7 +3,6 @@
     Created on : Nov 28, 2024, 1:35:38 PM
     Author     : TH Computer
 --%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -116,22 +115,32 @@
         <%@ include file="../header.jsp" %>
         <!-- Login Form -->
         <div class="login-container">
-            <form class="login-form">
-                <h2>Đăng nhập</h2>
-                <div class="form-group">
-                    <input type="text" placeholder="Tên tài khoản" required>
+             <form class="login-form" method="POST" action="login">
+        <h2>Đăng nhập</h2>
+        <div class="form-group">
+            <input type="text" name="username" placeholder="Tên tài khoản" required>
+        </div>
+        <div class="form-group">
+            <input type="password" name="password" placeholder="Mật khẩu" required>
+        </div>
+        <div class="form-group">
+            <a href="forgetPassword.jsp">Quên mật khẩu</a>
+        </div>
+
+        <!-- Hiển thị thông báo lỗi nếu có -->
+        <div class="form-group">
+            <c:if test="${not empty error}">
+                <div class="error-message" style="color:red;">
+                    ${error}
                 </div>
-                <div class="form-group">
-                    <input type="password" placeholder="Mật khẩu" required>
-                </div>
-                <div class="form-group">
-                    <a href="forgetPassword.jsp">Quên mật khẩu</a>
-                </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn-login">Đăng nhập</button>
-                    <button type="button" class="btn-register"  onclick="window.location.href='register.jsp'">Đăng ký</button>
-                </div>
-            </form>
+            </c:if>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-login">Đăng nhập</button>
+            <button type="button" class="btn-register" onclick="window.location.href='register.jsp'">Đăng ký</button>
+        </div>
+    </form>
         </div>
         <!-- Footer -->
     <%@ include file="../footer.jsp" %>
