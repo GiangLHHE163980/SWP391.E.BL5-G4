@@ -1,21 +1,46 @@
-﻿CREATE DATABASE SWP391_G5_V3;
+﻿CREATE DATABASE SWP391_G5_V4;
 GO
-USE SWP391_G5_V3;
+USE SWP391_G5_V4;
 GO
 
 --Lưu thông tin cơ bản của người dùng.
-CREATE TABLE Users (
-    UserID INT PRIMARY KEY IDENTITY(1,1),
-    FullName NVARCHAR(255) NOT NULL,
-    Email NVARCHAR(255) UNIQUE NOT NULL,
-    PasswordHash NVARCHAR(500) NOT NULL,
-    PhoneNumber NVARCHAR(20),
-    Address NVARCHAR(500),
-    Avatar NVARCHAR(255), -- Ảnh đại diện (nếu có)
-    IsActive BIT DEFAULT 1, -- Trạng thái tài khoản: 1 = hoạt động, 0 = khóa
-    CreatedAt DATETIME DEFAULT GETDATE(),
-    UpdatedAt DATETIME NULL
-);
+CREATE TABLE [dbo].[Users](
+	[UserID] [int] IDENTITY(1,1) NOT NULL,
+	[Username] [nvarchar](100) NOT NULL,
+	[FullName] [nvarchar](255) NOT NULL,
+	[Email] [nvarchar](255) NOT NULL,
+	[PasswordHash] [nvarchar](500) NOT NULL,
+	[PhoneNumber] [nvarchar](20) NULL,
+	[Address] [nvarchar](500) NULL,
+	[Avatar] [nvarchar](255) NULL,
+	[IsActive] [bit] NULL,
+	[CreatedAt] [datetime] NULL,
+	[UpdatedAt] [datetime] NULL,
+	[SocialSecurityNumber] [int] NOT NULL,
+	[Sex] [nvarchar](10) NOT NULL,
+	[Birthday] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[UserID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[Email] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Users] ADD  DEFAULT ((1)) FOR [IsActive]
+GO
+
+ALTER TABLE [dbo].[Users] ADD  DEFAULT (getdate()) FOR [CreatedAt]
+GO
+
+ALTER TABLE [dbo].[Users] ADD  DEFAULT ((0)) FOR [SocialSecurityNumber]
+GO
+
+ALTER TABLE [dbo].[Users] ADD  DEFAULT ('Unknown') FOR [Sex]
+GO
 
 --Quản lý các vai trò trong hệ thống.
 CREATE TABLE Roles (
