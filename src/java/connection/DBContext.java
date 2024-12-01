@@ -19,10 +19,10 @@ public class DBContext {
     public static Connection conn;
 
     private static String jdbcURL = "jdbc:sqlserver://localhost:1433;databaseName=SWP391_G5_V3";
-    private static String jdbcUsername = "sa";
-    private static String jdbcPassword = "sa";
+    private static String jdbcUsername = "HUYBER";
+    private static String jdbcPassword = "090703";
 
-    public static Connection getConnection() {
+    public static Connection getConnection() { 
         if (conn == null) {
             try {
                 //load driver và đăng kí nó với ứng dụng (Đăng ký gọi phương thức Class.forName("driverName")
