@@ -129,7 +129,7 @@ public class AccountController extends HttpServlet {
                     // Đăng nhập thành công, lưu thông tin vào session
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-                    response.sendRedirect(request.getContextPath());  // Chuyển hướng đến trang chính
+                    response.sendRedirect(request.getContextPath()+"homePage.jsp");  // Chuyển hướng đến trang chính
                 } else{
                     // Tài khoản bị ban, thông báo cho người dùng
                     request.setAttribute("error", "Tài khoản của bạn đã bị ban.");
