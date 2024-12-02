@@ -148,16 +148,20 @@ public class AccountController extends HttpServlet {
     }
     //Gửi email
     private void sendEmail(String email, HttpServletRequest request, HttpServletResponse response) throws IOException{
-        if ("true".equals(request.getParameter("sendVerificationCode"))) {
-            // Tạo mã xác thực ngẫu nhiên
-                    String verificationCode = SendEmail.getRandomCode();
-                    // Gửi email chứa mã xác thực
-                    SendEmail.sendEmail(email, verificationCode);
-                    // Lưu mã xác thực vào session để kiểm tra khi người dùng nhập mã
-                    HttpSession session = request.getSession();
-                    session.setAttribute("verificationCode", verificationCode);
-                    // Gửi phản hồi về kết quả gửi email
-                    response.getWriter().write("Mã xác thực đã được gửi đến email của bạn.");
+        if (email != null && email.contains("@") && email.endsWith(".com")) {
+            if ("true".equals(request.getParameter("sendVerificationCode"))) {
+                // Tạo mã xác thực ngẫu nhiên
+                String verificationCode = SendEmail.getRandomCode();
+                // Gửi email chứa mã xác thực
+                SendEmail.sendEmail(email, verificationCode);
+                // Lưu mã xác thực vào session để kiểm tra khi người dùng nhập mã
+                HttpSession session = request.getSession();
+                session.setAttribute("verificationCode", verificationCode);
+                // Gửi phản hồi về kết quả gửi email
+                response.getWriter().write("Mã xác thực đã được gửi đến email của bạn.");
+            }
+        } else {
+            response.getWriter().write("Email không hợp lệ. Vui lòng kiểm tra lại.");
         }
     }
     //Đăng ký

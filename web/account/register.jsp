@@ -165,7 +165,9 @@
                 // Kiểm tra phản hồi từ server
                 if (response.indexOf('Mã xác thực đã được gửi đến email của bạn.') !== -1) {
                     alert('Mã xác thực đã được gửi đến email của bạn.');
-                } else {
+                }else if(response.indexOf('Email không hợp lệ. Vui lòng kiểm tra lại.') !== -1) {
+                    alert('Email không hợp lệ. Vui lòng kiểm tra lại.');
+                }else {
                     alert('Có lỗi xảy ra khi gửi mã xác thực.');
                 }
             }
