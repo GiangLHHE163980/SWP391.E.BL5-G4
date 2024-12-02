@@ -7,6 +7,7 @@ public class User {
     private int userID;
     private String fullName;
     private String email;
+    private String username;
     private String passwordHash;
     private String phoneNumber;
     private String address;
@@ -22,12 +23,21 @@ public class User {
     public User() {
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     // Constructor with all fields
     public User(int userID, String fullName, String email, String passwordHash, String phoneNumber, String address,
                 String avatar, boolean isActive, Date createdAt, Date updatedAt, String sex, int socialSecurityNumber, Date birthday) {
         this.userID = userID;
         this.fullName = fullName;
         this.email = email;
+        this.username=username;
         this.passwordHash = passwordHash;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -45,6 +55,7 @@ public class User {
                 String avatar, boolean isActive, Date createdAt, String sex, int socialSecurityNumber, Date birthday) {
         this.fullName = fullName;
         this.email = email;
+        this.username=username;
         this.passwordHash = passwordHash;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -55,8 +66,11 @@ public class User {
         this.socialSecurityNumber = socialSecurityNumber;
         this.birthday = birthday; // Initialize birthday
     }
-
-    // Getters and setters
+    public User(int userID, String username,boolean isActive){
+        this.userID = userID;
+        this.username=username;
+        this.isActive = isActive;
+    }
     public int getUserID() {
         return userID;
     }
@@ -167,6 +181,7 @@ public class User {
                 "userID=" + userID +
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
                 ", passwordHash='" + passwordHash + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
