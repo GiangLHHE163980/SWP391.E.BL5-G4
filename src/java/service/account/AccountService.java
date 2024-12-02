@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import model.User;
 
@@ -24,21 +25,38 @@ public class AccountService implements IAccountService{
     
     private final String INSERT_Users ="INSERT INTO Users (FullName,Username, PasswordHash, Email) VALUES (?,?, ?, ?)";
     
+    private final String INSERT_USER_ROLES = "INSERT INTO UserRoles (UserID, RoleID) VALUES (?, ?)";
+    
     private final String UPDATE_PASSWORD_BY_EMAIL = "UPDATE Users SET PasswordHash = ? WHERE Email = ?";
 
     
     @Override
     public void add(User user) {
-         try (PreparedStatement ps = connection.prepareStatement(INSERT_Users)) {
+    try (PreparedStatement ps = connection.prepareStatement(INSERT_Users, Statement.RETURN_GENERATED_KEYS)) {
+        // Thêm User vào bảng Users
         ps.setString(1, user.getFullName());
         ps.setString(2, user.getUsername());
         ps.setString(3, user.getPasswordHash());
         ps.setString(4, user.getEmail());
         ps.executeUpdate();
+
+        // Lấy userId vừa được thêm
+        try (ResultSet rs = ps.getGeneratedKeys()) {
+            if (rs.next()) {
+                int userId = rs.getInt(1); // Lấy giá trị của cột auto_increment
+                
+                // Gán roleId = 2 cho user mới
+                try (PreparedStatement psRole = connection.prepareStatement(INSERT_USER_ROLES)) {
+                    psRole.setInt(1, userId);
+                    psRole.setInt(2, 2); // RoleID = 2
+                    psRole.executeUpdate();
+                }
+            }
+        }
     } catch (SQLException e) {
         e.printStackTrace();
-        }
     }
+}
 
     @Override
     public List<User> findAll() {
