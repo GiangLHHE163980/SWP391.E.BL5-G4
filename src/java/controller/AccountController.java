@@ -72,7 +72,7 @@ public class AccountController extends HttpServlet {
         // Xử lý đăng xuất
         HttpSession session = request.getSession();
         session.invalidate();  // Hủy session
-        response.sendRedirect(request.getContextPath()); 
+        response.sendRedirect(request.getContextPath()+"/homePage.jsp"); 
         }else if ("/account/forgetPassword".equals(path)) {
             request.getRequestDispatcher("/account/forgetPassword.jsp").forward(request, response);
         }else if ("/account/confirmChangePassword".equals(path)) {
@@ -129,7 +129,7 @@ public class AccountController extends HttpServlet {
                     // Đăng nhập thành công, lưu thông tin vào session
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-                    response.sendRedirect(request.getContextPath()+"homePage.jsp");  // Chuyển hướng đến trang chính
+                    response.sendRedirect(request.getContextPath()+"/homePage.jsp");  // Chuyển hướng đến trang chính
                 } else{
                     // Tài khoản bị ban, thông báo cho người dùng
                     request.setAttribute("error", "Tài khoản của bạn đã bị ban.");
