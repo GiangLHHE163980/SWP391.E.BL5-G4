@@ -17,13 +17,29 @@ public class InsuranceCardsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Get the UserID from request parameter (default to 1 if not provided)
+        HttpSession session = request.getSession();
+        Integer userId = null;
+
+// Get userId from request parameter
         String userIdParam = request.getParameter("userId");
-        int userId = (userIdParam != null) ? Integer.parseInt(userIdParam) : 2;  // Default to UserID = 1
-        
+
+        if (userIdParam != null) {
+            try {
+                userId = Integer.parseInt(userIdParam); // Parse the userId from the URL parameter
+                session.setAttribute("userId", userId); // Store userId in session
+            } catch (NumberFormatException e) {
+                // Handle the case where the userId parameter is invalid (optional)
+                response.sendRedirect("error.jsp"); // Redirect to error page or handle appropriately
+                return;
+            }
+        } else {
+            // Redirect to error page if userId is not provided in the URL
+            response.sendRedirect("error.jsp");
+            return;
+        }
         // Fetch insurance cards for the given user ID
         List<InsuranceCard> insuranceCards = getInsuranceCardsByUser(userId);
-        
+
         // If insurance cards are found, forward to the JSP page, otherwise redirect to error page
         if (insuranceCards != null && !insuranceCards.isEmpty()) {
             request.setAttribute("insuranceCards", insuranceCards);
@@ -42,15 +58,15 @@ public class InsuranceCardsController extends HttpServlet {
 
         try {
             conn = DBContext.getConnection(); // Ensure DBContext is configured properly
-            
+
             // SQL query to fetch insurance cards by user ID
-            String sql = "SELECT ic.CardID, ic.CardNumber, ic.StartDate, ic.EndDate, ic.Status, ic.CreatedAt, ic.UpdatedAt, " +
-                         "u.UserID, u.FullName, ip.ProductID, ip.ProductName " +
-                         "FROM InsuranceCards ic " +
-                         "JOIN Users u ON ic.UserID = u.UserID " +
-                         "JOIN InsuranceProducts ip ON ic.ProductID = ip.ProductID " +
-                         "WHERE u.UserID = ?";
-                         
+            String sql = "SELECT ic.CardID, ic.CardNumber, ic.StartDate, ic.EndDate, ic.Status, ic.CreatedAt, ic.UpdatedAt, "
+                    + "u.UserID, u.FullName, ip.ProductID, ip.ProductName "
+                    + "FROM InsuranceCards ic "
+                    + "JOIN Users u ON ic.UserID = u.UserID "
+                    + "JOIN InsuranceProducts ip ON ic.ProductID = ip.ProductID "
+                    + "WHERE u.UserID = ?";
+
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, userId); // Set the userId parameter in the query
             rs = pstmt.executeQuery();
@@ -87,9 +103,15 @@ public class InsuranceCardsController extends HttpServlet {
         } finally {
             // Close resources
             try {
-                if (rs != null) rs.close();
-                if (pstmt != null) pstmt.close();
-                if (conn != null) conn.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace(); // Log error related to closing resources
             }
