@@ -102,8 +102,13 @@
             <a href="forgetPassword" class="back-to-login">Trở về</a>
             <form action="confirmChangePassword" method="POST">
                 <h2>Thay đổi mật khẩu</h2>
+                    <c:if test="${not empty error}">
+                    <div class="error-message" style="color:red;">
+                        ${error}
+                    </div>
+                    </c:if>
                 <p class="description">
-                    Mật khẩu mới tối thiểu 8 ký tự.
+                    Mật khẩu mới tối thiểu 8 ký tự, 1 ký tự viết hoa, 1 ký tự đặc biệt.
                 </p>
                 <input type="hidden" name="email" value="<%= request.getAttribute("email") %>">
                 <input type="password" name="password" placeholder="Mật khẩu" required>

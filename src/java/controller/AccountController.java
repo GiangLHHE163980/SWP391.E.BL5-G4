@@ -177,7 +177,12 @@ public class AccountController extends HttpServlet {
     // Kiểm tra mã xác thực
     HttpSession session = request.getSession();
     String sessionVerificationCode = (String) session.getAttribute("verificationCode");
-
+    
+    // Kiểm tra mật khẩu có hợp lệ không
+    if (!validatePassword(password, request, response, "/account/register.jsp")) {
+        return;
+    }
+    
     // Kiểm tra mật khẩu khớp
     if (!password.equals(confirmPassword)) {
         request.setAttribute("error", "Mật khẩu không khớp.");
@@ -231,6 +236,11 @@ public class AccountController extends HttpServlet {
         String newPassword = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
         
+        // Kiểm tra mật khẩu có hợp lệ không
+        if (!validatePassword(newPassword, request, response, "/account/confirmChangePassword.jsp")) {
+            return;
+        }
+        //Kiểm tra mật khẩu khớp
         if (newPassword.equals(confirmPassword)) {
             try {
                 accountService.updatePasswordByEmail(email, newPassword);
@@ -238,11 +248,24 @@ public class AccountController extends HttpServlet {
                 response.sendRedirect(request.getContextPath()+ "/account/login");
             } catch (RuntimeException e) {
                 request.setAttribute("errorMessage", e.getMessage());
-                request.getRequestDispatcher("confirmChangePassword.jsp").forward(request, response);
+                request.getRequestDispatcher("/account/confirmChangePassword.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("errorMessage", "Mật khẩu không khớp.");
-            request.getRequestDispatcher("confirmChangePassword.jsp").forward(request, response);
+            request.getRequestDispatcher("/account/confirmChangePassword.jsp").forward(request, response);
         }
+    }
+    //Validate password
+    private boolean validatePassword(String password, HttpServletRequest request, HttpServletResponse response,String path) throws ServletException, IOException {
+    // Biểu thức regex kiểm tra yêu cầu mật khẩu
+        String passwordRegex = "^(?=.*[A-Z])(?=.*\\W).{8,}$"; // Yêu cầu: 8 ký tự, 1 chữ hoa, 1 ký tự đặc biệt
+
+        // Kiểm tra mật khẩu với regex
+        if (!password.matches(passwordRegex)) {
+            request.setAttribute("error", "Yêu cầu mật khẩu gồm 8 kí tự, 1 chữ hoa, và 1 kí tự đặc biệt.");
+            request.getRequestDispatcher(path).forward(request, response);
+            return false;
+        }
+        return true;
     }
 }
