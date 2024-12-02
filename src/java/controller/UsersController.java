@@ -13,15 +13,36 @@ public class UsersController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int userID = 2; // Assume user ID is passed as a parameter or retrieved from session
-        User user = getUserById(userID);
-        
-        if (user != null) {
-            request.setAttribute("user", user);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("viewPersonalInfo.jsp");
-            dispatcher.forward(request, response);
+         String userIdParam = request.getParameter("userID");
+
+        // If userID is provided in the URL, update session
+        if (userIdParam != null) {
+            try {
+                int userID = Integer.parseInt(userIdParam); // Parse the userID
+                HttpSession session = request.getSession();
+                session.setAttribute("userID", userID); // Store userID in session
+            } catch (NumberFormatException e) {
+                 // Redirect to error if userID is invalid
+                return;
+            }
+        } 
+
+        // Retrieve userID from session
+        HttpSession session = request.getSession();
+        Integer userID = (Integer) session.getAttribute("userID"); // Get userID from session
+
+        if (userID != null) {
+            User user = getUserById(userID); // Fetch user details using userID
+            
+            if (user != null) {
+                request.setAttribute("user", user);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("viewPersonalInfo.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                response.sendRedirect("error.jsp"); // Redirect if user is not found
+            }
         } else {
-            response.sendRedirect("error.jsp");
+            response.sendRedirect("error.jsp"); // Redirect to error page if no userID in session
         }
     }
 
@@ -30,7 +51,7 @@ public class UsersController extends HttpServlet {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-
+        
         try {
             // Get connection from your connection file
             conn = DBContext.getConnection();
