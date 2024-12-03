@@ -29,6 +29,9 @@ public class AccountService implements IAccountService{
     
     private final String UPDATE_PASSWORD_BY_EMAIL = "UPDATE Users SET PasswordHash = ? WHERE Email = ?";
 
+    private final String SELECT_COUNT_Username_Exit="SELECT COUNT(*) FROM Users WHERE Username = ?";
+    
+    private final String SELECT_COUNT_Email_Exit="SELECT COUNT(*) FROM Users WHERE Email = ?";
     
     @Override
     public void add(User user) {
@@ -110,7 +113,35 @@ public class AccountService implements IAccountService{
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("Không thể cập nhật mật khẩu.");
         }
+    }
+    @Override
+    public boolean isUsernameExists(String username) {
+        try ( PreparedStatement ps = connection.prepareStatement(SELECT_COUNT_Username_Exit)) {
+            ps.setString(1, username);
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    @Override
+    public boolean isEmailExists(String email) {
+        try ( PreparedStatement ps = connection.prepareStatement(SELECT_COUNT_Email_Exit)) {
+            ps.setString(1, email);
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

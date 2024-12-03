@@ -178,10 +178,21 @@ public class AccountController extends HttpServlet {
     HttpSession session = request.getSession();
     String sessionVerificationCode = (String) session.getAttribute("verificationCode");
     
-    // Kiểm tra mật khẩu có hợp lệ không
-    if (!validatePassword(password, request, response, "/account/register.jsp")) {
+    //Kiểm tra username đã tồn tại không
+        if (accountService.isUsernameExists(username)) {
+        request.setAttribute("error", "Tên đăng nhập đã tồn tại.");
+        request.getRequestDispatcher("/account/register.jsp").forward(request, response);
         return;
     }
+        if (accountService.isEmailExists(email)) {
+        request.setAttribute("error", "Email đã được sử dụng.");
+        request.getRequestDispatcher("/account/register.jsp").forward(request, response);
+        return;
+    }
+    // Kiểm tra mật khẩu có hợp lệ không
+//    if (!validatePassword(password, request, response, "/account/register.jsp")) {
+//        return;
+//    }
     
     // Kiểm tra mật khẩu khớp
     if (!password.equals(confirmPassword)) {
@@ -237,9 +248,9 @@ public class AccountController extends HttpServlet {
         String confirmPassword = request.getParameter("confirmPassword");
         
         // Kiểm tra mật khẩu có hợp lệ không
-        if (!validatePassword(newPassword, request, response, "/account/confirmChangePassword.jsp")) {
-            return;
-        }
+//        if (!validatePassword(newPassword, request, response, "/account/confirmChangePassword.jsp")) {
+//            return;
+//        }
         //Kiểm tra mật khẩu khớp
         if (newPassword.equals(confirmPassword)) {
             try {
