@@ -77,5 +77,88 @@ img {
 }
 
 
+/* Sidebar styles */
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    background-color: #233446;
+}
+
+.sidebar-header {
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar ul {
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+.sidebar ul li a:hover {
+    background-color: #2c3e50;
+    border-radius: 4px;
+}
+
+/* Main content styles */
+.main-content {
+    margin-left: 240px;
+    min-height: 100vh;
+}
+
+.header {
+    border-bottom: 1px solid #ddd;
+}
+
+.card {
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.breadcrumb-container {
+    background-color: #f8f9fa;
+}
+
+.breadcrumb a {
+    color: #007bff;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
 
 
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar {
+    background-color: #343a40;
+}
+
+.navbar a {
+    color: #ffffff !important;
+}
+
+.dropdown-menu {
+    width: 200px;
+}
+
+.table th {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.table td {
+    text-align: center;
+}

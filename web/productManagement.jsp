@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -6,84 +6,162 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Quản lý Sản phẩm Bảo hiểm</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"> <!-- Thêm Bootstrap Icons -->
-        <style>
-            body {
-                background-color: #f8f9fa;
-                font-family: Arial, sans-serif;
-            }
-            .container {
-                margin-top: 30px;
-            }
-        </style>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Datatables CSS -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <!-- Custom CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="./assets/css/style.css">
     </head>
     <body>
-        <!-- Header -->
-        <%@ include file="header.jsp" %>
-        <div class="container">
-            <h1 class="mb-4 text-center">Quản lý Sản phẩm Bảo hiểm</h1>
+        <div class="wrapper d-flex">
+            <!-- Sidebar -->
+            <nav class="sidebar bg-dark">
+                <div class="sidebar-header text-center text-white py-4">
+                    <h4><span style="color: #FF69B4;">Giang</span>Admin</h4>
+                </div>
+                <ul class="list-unstyled px-2">
+                    <li><a href="#" class="text-white d-block py-2 px-3"><i class="fas fa-home me-2"></i> Dashboard</a></li>
+                    <li>
+                        <a href="#tablesSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white d-block py-2 px-3">
+                            <i class="fas fa-table me-2"></i> Tables
+                        </a>
+                        <ul class="collapse list-unstyled ps-4" id="tablesSubmenu">
+                            <li><a href="#" class="text-white d-block py-2">Basic Table</a></li>
+                            <li><a href="#" class="text-white d-block py-2">Datatables</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#" class="text-white d-block py-2 px-3"><i class="fas fa-chart-bar me-2"></i> Charts</a></li>
+                </ul>
+            </nav>
 
-            <!-- Thanh tìm kiếm -->
-            <div class="mb-3">
-                <form action="ProductController" method="get">
-                    <div class="input-group">
-                        <!-- Tham số action cố định giá trị showFullProduct -->
-                        <input type="hidden" name="action" value="showFullProduct">
-                        <input type="text" class="form-control" name="search" placeholder="Tìm kiếm sản phẩm..." value="${search}">
-                        <button class="btn btn-outline-primary" type="submit">
-                            <i class="bi bi-search"></i> Tìm kiếm
-                        </button>
+            <!-- Main Content -->
+            <div class="main-content flex-grow-1 bg-light">
+                <!-- Header -->
+                <div class="header bg-white d-flex justify-content-between align-items-center p-3 border-bottom">
+                    <div class="d-flex align-items-center">
+                        <h4 class="mb-0">Staff</h4>
+                        <div class="mb-1 ms-2">
+                            <form action="ProductController" method="get">
+                                <div class="input-group">
+                                    <!-- Tham số action cố định giá trị showFullProduct -->
+                                    <input type="hidden" name="action" value="showFullProduct">
+                                    <input type="text" class="form-control rounded" name="search" placeholder="Tìm kiếm sản phẩm..." value="${search}">
+                                    <button class="btn btn-outline-success rounded px-2 ms-2" type="submit">
+                                        <i class="bi bi-search"></i> Tìm kiếm
+                                    </button>
+                                    
+                                </div>
+                            </form>
+                        </div>
+
                     </div>
-                </form>
-            </div>
+                    <div class="dropdown profile-dropdown">
+                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://via.placeholder.com/40" alt="Profile Picture">
+                            <span class="ms-2">Hi, Hizria</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">My Profile</a></li>
+                            <li><a class="dropdown-item" href="#">My Balance</a></li>
+                            <li><a class="dropdown-item" href="#">Inbox</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Account Settings</a></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
 
-            <!-- Nút thêm mới sản phẩm -->
-            <div class="mb-1 mt-4 text-end">
-                <a href="${pageContext.request.contextPath}/ProductController?action=showAddPage" class="btn btn-primary">
-                    <i class="bi bi-plus"></i>
-                    Thêm mới Sản phẩm</a>
-            </div>
+                <!-- Breadcrumb -->
+                <div class="breadcrumb-container px-3 py-2">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="#">Tables</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Datatables</li>
+                        </ol>
+                    </nav>
+                </div>
+                <!-- Nút thêm mới sản phẩm -->
+                <div class="mb-1 mt-4 text-end">
+                    <a href="${pageContext.request.contextPath}/ProductController?action=showAddPage" class="btn btn-outline-success">
+                        <i class="bi bi-plus"></i>
+                        Thêm mới Sản phẩm</a>
+                </div>
 
-            <!-- Bảng danh sách sản phẩm -->
-            <h2 class="mb-3">Danh sách Sản phẩm</h2>
-            <table class="table table-bordered table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Tên sản phẩm</th>
-                        <th>Loại bảo hiểm</th>
-                        <th>Chi phí</th>
-                        <th>Quyền lợi</th>
-                        <th>Điều kiện</th>
-                        <th>Nhà cung cấp</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Dữ liệu sản phẩm được lọc theo từ khóa tìm kiếm -->
-                    <c:forEach var="product" items="${productList}">
-                        <tr>
-                            <td>${product.productID}</td>
-                            <td>${product.productName}</td>
-                            <td>${product.insuranceType}</td>
-                            <td>${product.description}</td>
-                            <td>${product.cost} VNĐ/năm</td>
-                            <td>${product.conditions}</td>
-                            <td>${product.insuranceCompany.companyName}</td>
-                            <td>
-                                <a href="${pageContext.request.contextPath}/ProductController?action=showEditPage&product_id=${product.productID}" class="btn btn-warning btn-sm" title="Chỉnh sửa">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                                <button class="btn btn-danger btn-sm" title="Xóa">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                <!-- Table Card -->
+                <div class="card mx-3 my-4">
+                    <div class="card-header bg-white">
+                        <h5>Basic</h5>
+                    </div>
+                    <div class="card-body">
+                        <table id="datatable" class="table table-bordered table-striped">
+
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Loại bảo hiểm</th>
+                                    <th>Chi phí</th>
+                                    <th>Quyền lợi</th>
+                                    <th>Điều kiện</th>
+                                    <th>Nhà cung cấp</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Loop to display products dynamically -->
+                                <c:forEach var="product" items="${productList}">
+                                    <tr>
+                                        <td>${product.productID}</td>
+                                        <td>${product.productName}</td>
+                                        <td>${product.insuranceType}</td>
+                                        <td>${product.description}</td>
+                                        <td>${product.cost} VNĐ/năm</td>
+                                        <td>${product.conditions}</td>
+                                        <td>${product.insuranceCompany.companyName}</td>
+                                        <td>
+                                            <a href="${pageContext.request.contextPath}/ProductController?action=showEditPage&product_id=${product.productID}" class="btn btn-warning btn-sm" title="Chỉnh sửa">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+                                            <a href="${pageContext.request.contextPath}/ProductController?action=deleteProduct&product_id=${product.productID}" class="btn btn-danger btn-sm" title="Xóa">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-        <%@ include file="footer.jsp" %>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <!-- Datatables -->
+        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#datatable').DataTable({
+                    paging: true,
+                    searching: false,
+                    info: true,
+                    lengthChange: true,
+                });
+            });
+        </script>
+        <script>
+            function searchProduct() {
+                const searchValue = document.getElementById('searchInput').value;
+                // Thực hiện chuyển hướng trang với tham số tìm kiếm
+                window.location.href = 'ProductController?action=showFullProduct&search=' + encodeURIComponent(searchValue);
+            }
+        </script>
     </body>
 </html>
