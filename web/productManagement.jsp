@@ -75,9 +75,10 @@
                                 <a href="${pageContext.request.contextPath}/ProductController?action=showEditPage&product_id=${product.productID}" class="btn btn-warning btn-sm" title="Chỉnh sửa">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
-                                <button class="btn btn-danger btn-sm" title="Xóa">
+                                <a href="${pageContext.request.contextPath}/ProductController?action=deleteProduct&product_id=${product.productID}" class="btn btn-danger btn-sm" title="Xóa">
                                     <i class="bi bi-trash"></i>
-                                </button>
+                                </a>
+
                             </td>
                         </tr>
                     </c:forEach>

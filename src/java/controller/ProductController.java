@@ -44,9 +44,21 @@ public class ProductController extends HttpServlet {
         }
     }
 
+    private void deleteProduct(HttpServletRequest request, HttpServletResponse response) {
+
+        try {
+            int id = Integer.parseInt(request.getParameter("product_id"));
+            System.out.println("deleteProduct::::::" + productService.findById(id));
+            productService.delete(id);
+            response.sendRedirect("ProductController?action=showFullProduct");
+        } catch (IOException ex) {
+            Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void showEditPage(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("product_id"));
-        System.out.println("ahihihihiihihi" + productService.findById(id));
+//        System.out.println("ahihihihiihihi" + productService.findById(id));
         Object product = productService.findById(id);
         if (product == null) {
             System.out.println("Product not found for ID: " + id);
@@ -180,6 +192,9 @@ public class ProductController extends HttpServlet {
                 break;
             case "showEditPage":
                 showEditPage(request, response);
+                break;
+            case "deleteProduct":
+                deleteProduct(request, response);
                 break;
             default:
                 // Chuyển đến trang lỗi nếu action không hợp lệ
