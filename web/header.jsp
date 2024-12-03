@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<link rel="stylesheet" href="./css/style.css"/>
+<link rel="stylesheet" href="./assets/css/style.css"/>
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"><img src="./image/logo-removebg-preview1.png" alt="alt"/></a>
