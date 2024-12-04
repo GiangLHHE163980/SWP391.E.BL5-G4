@@ -76,7 +76,7 @@
                     <div class="card text-white bg-primary mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Khách hàng</h5>
-                            <p class="card-text">Tổng số: <strong>${totalCustomers}</strong></p>
+                            <p class="card-text">Tổng số: <strong>${customerCount}</strong></p>
                             <a href="CustomerController?action=list" class="btn btn-light btn-sm">Xem chi tiết</a>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                     <div class="card text-white bg-success mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Yêu cầu bảo hiểm</h5>
-                            <p class="card-text">Chờ xử lý: <strong>${pendingRequests}</strong></p>
+                            <p class="card-text">Chờ xử lý: <strong>${InsuranceCardCount}</strong></p>
                             <a href="RequestController?action=list" class="btn btn-light btn-sm">Xem chi tiết</a>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                     <div class="card text-white bg-warning mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Sản phẩm bảo hiểm</h5>
-                            <p class="card-text">Tổng số: <strong>${totalProducts}</strong></p>
+                            <p class="card-text">Tổng số: <strong>${RequestCount}</strong></p>
                             <a href="ProductController?action=list" class="btn btn-light btn-sm">Xem chi tiết</a>
                         </div>
                     </div>

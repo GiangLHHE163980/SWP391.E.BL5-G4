@@ -12,5 +12,9 @@ import java.sql.Connection;
  * @author Lenovo
  */
 public interface IHomepageForStaffService {
+     public int getCountOfCustomer();
      
+     public int getCountOfInsuranceCard();
+     
+     public int getCountOfRequest() ;
 }

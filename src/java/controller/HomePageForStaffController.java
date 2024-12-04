@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
 
 import jakarta.servlet.RequestDispatcher;
@@ -15,55 +14,59 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import service.homepageForStaff.HomepageForStaffService;
+import service.homepageForStaff.IHomepageForStaffService;
 
 /**
  *
  * @author Lenovo
  */
-@WebServlet(name="HomePageForStaffController", urlPatterns={"/HomePageForStaffController"})
+@WebServlet(name = "HomePageForStaffController", urlPatterns = {"/HomePageForStaffController"})
 public class HomePageForStaffController extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    IHomepageForStaffService dao = new HomepageForStaffService();
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomePageForStaffController</title>");  
+            out.println("<title>Servlet HomePageForStaffController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HomePageForStaffController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet HomePageForStaffController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
-    
-    
-       private void showFull(HttpServletRequest request, HttpServletResponse response) {
-        int id = Integer.parseInt(request.getParameter("product_id"));
-//        System.out.println("ahihihihiihihi" + productService.findById(id));
-//        Object product = productService.findById(id);
-//        if (product == null) {
-//            System.out.println("Product not found for ID: " + id);
-//        } else {
-//            System.out.println("Product found: " + product);
-//        }
-//        request.setAttribute("productList", product);
-        getRequestDispatch(request, response, "/product/editProduct.jsp");
+    }
+
+    private void showFull(HttpServletRequest request, HttpServletResponse response) {
+        int customerCount = dao.getCountOfCustomer();
+        int InsuranceCardCount = dao.getCountOfInsuranceCard();
+        int RequestCount = dao.getCountOfRequest();
+
+        request.setAttribute("customerCount", customerCount);
+        request.setAttribute("InsuranceCardCount", InsuranceCardCount);
+        request.setAttribute("RequestCount", RequestCount);
+        getRequestDispatch(request, response, "homepageForSaff.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -71,14 +74,14 @@ public class HomePageForStaffController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-         String action = request.getParameter("action");
+            throws ServletException, IOException {
+        String action = request.getParameter("action");
         if (action == null) {
             action = "default"; // Gán giá trị mặc định nếu không có action
         }
 
         switch (action) {
-            case "showFullProduct":
+            case "homepageForStaff":
                 showFull(request, response);
                 break;
             default:
@@ -86,10 +89,11 @@ public class HomePageForStaffController extends HttpServlet {
                 getRequestDispatch(request, response, "error.jsp");
                 break;
         }
-    } 
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -97,21 +101,21 @@ public class HomePageForStaffController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-    
-        /**
+
+    /**
      * Hàm hỗ trợ điều hướng.
      */
     private void getRequestDispatch(HttpServletRequest request, HttpServletResponse response, String view) {
