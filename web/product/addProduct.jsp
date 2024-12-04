@@ -7,7 +7,7 @@
         <title>Thêm/Chỉnh sửa Sản phẩm</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"> <!-- Thêm Bootstrap Icons -->
-        <link rel="stylesheet" href="./css/style.css"/>
+        <link rel="stylesheet" href="../assets/css/style.css"/>
     </head>
     <body>
         <div class="wrapper d-flex">
@@ -124,7 +124,7 @@
         </div>
 
         <!-- Footer -->
-        <%@ include file="footer.jsp" %>
+        <%@ include file="../footer.jsp" %>
 
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

@@ -36,7 +36,7 @@ public class ProductController extends HttpServlet {
                 request.setAttribute("productList", productService.findAll());
             }
             // Điều hướng đến view
-            getRequestDispatch(request, response, "productManagement.jsp");
+            getRequestDispatch(request, response, "/product/productManagement.jsp");
         } catch (Exception e) {
             // Log lỗi và chuyển đến trang lỗi
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, e);
@@ -66,7 +66,7 @@ public class ProductController extends HttpServlet {
             System.out.println("Product found: " + product);
         }
         request.setAttribute("productList", product);
-        getRequestDispatch(request, response, "editProduct.jsp");
+        getRequestDispatch(request, response, "/product/editProduct.jsp");
     }
 
     private void editProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -126,7 +126,7 @@ public class ProductController extends HttpServlet {
     }
 
     private void showAddPage(HttpServletRequest request, HttpServletResponse response) {
-        getRequestDispatch(request, response, "addOrEditProduct.jsp");
+        getRequestDispatch(request, response, "product/addProduct.jsp");
     }
 
     // add new product with company
