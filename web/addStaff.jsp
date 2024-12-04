@@ -22,7 +22,16 @@
     </head>
     <body>
         <%@ include file="header.jsp" %>
-
+<c:if test="${not empty message}">
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: '${message}',
+                        showConfirmButton: true
+                    });
+                </script>
+            </c:if>
         <div class="container">
             <h1 class="mb-4 text-center">Thêm Mới Nhân Viên</h1>
 

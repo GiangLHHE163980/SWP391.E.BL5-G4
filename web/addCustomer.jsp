@@ -25,7 +25,16 @@
 
         <div class="container">
             <h1 class="mb-4 text-center">Thêm Mới Khách Hàng</h1>
-
+<c:if test="${not empty message}">
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: '${message}',
+                        showConfirmButton: true
+                    });
+                </script>
+            </c:if>
             <!-- Form thêm mới khách hàng -->
             <form action="manage-customer" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" class="form-control" value="add" />
