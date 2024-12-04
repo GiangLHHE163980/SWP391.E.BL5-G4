@@ -20,7 +20,7 @@ public class DBContext {
 
     private static String jdbcURL = "jdbc:sqlserver://localhost:1433;databaseName=SWP391_G5_V5";
     private static String jdbcUsername = "sa";
-    private static String jdbcPassword = "123";
+    private static String jdbcPassword = "sa";
 
     public static Connection getConnection() { 
         if (conn == null) {
