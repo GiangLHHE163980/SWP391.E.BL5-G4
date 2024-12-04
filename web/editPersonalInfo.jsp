@@ -12,7 +12,7 @@
         <!-- Main Container -->
         <div class="container mt-4">
             <!-- Return Button -->
-            <a href="viewPersonalInfo.jsp" class="btn btn-secondary mb-3">
+            <a href="viewPersonalInfo.jsp" class="btn btn-success mb-3">
                 <i class="bi bi-arrow-left"></i> Cancel
             </a>
 
@@ -83,11 +83,11 @@
                 </div>
                 <!-- Buttons -->
                 <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-primary me-3">
-                        <i class="bi bi-check-circle"></i> Submit
+                    <button type="submit" class="btn btn-success me-3">
+                        <i></i> Submit
                     </button>
                     <a href="viewPersonalInfo.jsp" class="btn btn-secondary">
-                        <i class="bi bi-x-circle"></i> Cancel
+                        <i></i> Cancel
                     </a>
                 </div>
             </form>
