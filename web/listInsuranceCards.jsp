@@ -52,10 +52,14 @@
                             <td><fmt:formatDate value="${card.startDate}" pattern="yyyy-MM-dd" /></td>
                             <td><fmt:formatDate value="${card.endDate}" pattern="yyyy-MM-dd" /></td>
                             <td>
-                                <a href="viewInsuranceInfo?cardID=${card.cardID}" class="btn btn-primary">View</a>
-                                <a href="renewCard?cardID=${card.cardID}" class="btn btn-success">Renew</a>
-                                <a href="cancelCard?cardID=${card.cardID}" class="btn btn-danger">Cancel</a>
+                                <div class="d-flex justify-content-between">
+                                    <a href="viewInsuranceInfo?cardID=${card.cardID}" class="btn btn-primary">View</a>
+                                    <a href="renewCard?cardID=${card.cardID}" class="btn btn-success">Renew</a>
+                                    <a href="cancelCard?cardID=${card.cardID}" class="btn btn-danger">Cancel</a>
+                                </div>
+                                
                             </td>
+
                         </tr>
                     </c:forEach>
                     <c:if test="${empty insuranceCards}">
