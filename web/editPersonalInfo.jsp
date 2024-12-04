@@ -17,7 +17,7 @@
             </a>
 
             <!-- Main Layout -->
-            <form action="updatePersonalInfo" method="post" enctype="multipart/form-data">
+            <form action="updateUserInfo" method="POST" enctype="multipart/form-data">
                 <div class="row g-4">
                     <!-- Avatar Section (1/3 of the page) -->
                     <div class="col-md-4 text-center mt-5">
@@ -86,7 +86,7 @@
                     <button type="submit" class="btn btn-success me-3">
                         <i></i> Submit
                     </button>
-                    <a href="viewPersonalInfo.jsp" class="btn btn-secondary">
+                    <a href="userInfo?userID=${user.userID}" class="btn btn-secondary">
                         <i></i> Cancel
                     </a>
                 </div>
