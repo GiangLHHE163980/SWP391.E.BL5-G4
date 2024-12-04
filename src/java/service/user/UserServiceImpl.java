@@ -32,8 +32,10 @@ public class UserServiceImpl {
         return matcher.matches();
     }
 
-    // Validate user object
     public String validateUser(User user) {
+        if (user.getUsername() == null || user.getUsername().trim().isEmpty()) {
+            return "Username is required.";
+        }
         if (user.getFullName() == null || user.getFullName().trim().isEmpty()) {
             return "Full name is required.";
         }
@@ -53,7 +55,16 @@ public class UserServiceImpl {
         if (user.getAddress() == null || user.getAddress().trim().isEmpty()) {
             return "Address is required.";
         }
-        return null; // No validation errors
+        if (user.getSocialSecurityNumber() <= 0) {
+            return "Social Security Number is required.";
+        }
+        if (user.getSex() == null || user.getSex().trim().isEmpty()) {
+            return "Sex is required.";
+        }
+        if (user.getBirthday() == null) {
+            return "Birthday is required.";
+        }
+        return null;
     }
 
     public boolean createUser(User user, String roleName) throws SQLException {
@@ -61,15 +72,28 @@ public class UserServiceImpl {
         if (validationMessage != null) {
             throw new IllegalArgumentException(validationMessage);
         }
+        if (userDAO.isEmailExists(user.getEmail(), 0)) {
+            throw new IllegalArgumentException("Email already exists.");
+        }
+        if (userDAO.isPhoneExists(user.getPhoneNumber(), 0)) {
+            throw new IllegalArgumentException("Phone number already exists.");
+        }
+        if (userDAO.isUsernameExists(user.getUsername(), 0)) {
+            throw new IllegalArgumentException("Username already exists.");
+        }
         return userDAO.addUser(user, roleName);
     }
 
     public List<User> getAllUsers() throws SQLException {
         return userDAO.findAll();
     }
-    
-     public List<User> getUsersByRole(String roleName) throws SQLException {
-        return userDAO.getUsersByRole(roleName);
+
+    public List<User> getUsersByNameAndStatusRole(String name, String status, int page, int pageSize, String roleName) throws SQLException {
+        return userDAO.getUsersByNameAndStatusRole(name, status, page, pageSize, roleName);
+    }
+
+    public int countUsersByNameAndStatusAndRole(String name, String status, String roleName) throws SQLException {
+        return userDAO.countUsersByNameAndStatusAndRole(name, status, roleName);
     }
 
     public User getUserById(int userID) throws SQLException {
@@ -80,6 +104,15 @@ public class UserServiceImpl {
         String validationMessage = validateUser(user);
         if (validationMessage != null) {
             throw new IllegalArgumentException(validationMessage);
+        }
+        if (userDAO.isEmailExists(user.getEmail(), user.getUserID())) {
+            throw new IllegalArgumentException("Email already exists.");
+        }
+        if (userDAO.isPhoneExists(user.getPhoneNumber(), user.getUserID())) {
+            throw new IllegalArgumentException("Phone number already exists.");
+        }
+        if (userDAO.isUsernameExists(user.getUsername(), user.getUserID())) {
+            throw new IllegalArgumentException("Username already exists.");
         }
         return userDAO.updateUser(user);
     }

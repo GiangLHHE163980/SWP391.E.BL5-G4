@@ -15,4 +15,6 @@ public interface IProductService {
     public Object findById(int id);
 
     public void editCompanyAndProduct(int id, InsuranceCompany company, InsuranceProduct product);
+
+    public void delete(int id);
 }

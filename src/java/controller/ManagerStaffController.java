@@ -28,8 +28,8 @@ import ultil.Upload;
         maxFileSize = 1024 * 1024 * 10, // 10 MB
         maxRequestSize = 1024 * 1024 * 15 // 15 MB
 )
-@WebServlet(name = "ManagerCustomerController", urlPatterns = {"/manage-customer"})
-public class ManagerCustomerController extends HttpServlet {
+@WebServlet(name = "ManagerStaffController", urlPatterns = {"/manage-staff"})
+public class ManagerStaffController extends HttpServlet {
 
     private UserServiceImpl userService;
 
@@ -51,7 +51,7 @@ public class ManagerCustomerController extends HttpServlet {
             switch (action) {
                 case "add":
                     // Redirect to Add Customer page
-                    RequestDispatcher dispatcherAdd = request.getRequestDispatcher("/addCustomer.jsp");
+                    RequestDispatcher dispatcherAdd = request.getRequestDispatcher("/addStaff.jsp");
                     dispatcherAdd.forward(request, response);
                     break;
 
@@ -60,7 +60,7 @@ public class ManagerCustomerController extends HttpServlet {
                     int editID = Integer.parseInt(request.getParameter("id"));
                     User editUser = userService.getUserById(editID);
                     request.setAttribute("user", editUser);
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/updateCustomer.jsp");
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/updateStaff.jsp");
                     dispatcher.forward(request, response);
                     break;
 
@@ -75,7 +75,7 @@ public class ManagerCustomerController extends HttpServlet {
                     String name = request.getParameter("name");
                     name = name != null ? name : "";
                     String status = request.getParameter("status");
-                    String roleName = "Customer";
+                    String roleName = "Staff";
                     String pageParam = request.getParameter("page");
                     int page = (pageParam != null && !pageParam.isEmpty()) ? Integer.parseInt(pageParam) : 1;
                     int pageSize = 1;
@@ -86,7 +86,7 @@ public class ManagerCustomerController extends HttpServlet {
                     request.setAttribute("users", users);
                     request.setAttribute("totalPages", totalPages);
                     request.setAttribute("currentPage", page);
-                    request.getRequestDispatcher("customer_list.jsp").forward(request, response);
+                    request.getRequestDispatcher("staff_list.jsp").forward(request, response);
                     break;
             }
         } catch (Exception e) {
@@ -150,17 +150,17 @@ public class ManagerCustomerController extends HttpServlet {
                 } else {
                     user.setAvatar("./image/default-avatar.jpg");
                 }
-                isAction = userService.createUser(user, "Customer");
+                isAction = userService.createUser(user, "Staff");
             }
-            response.sendRedirect("manage-customer?isAction=" + isAction);
+            response.sendRedirect("manage-staff?isAction=" + isAction);
         } catch (Exception e) {
             if (action.equals("add")) {
                 request.setAttribute("message", e.getMessage());
-                request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
+                request.getRequestDispatcher("addStaff.jsp").forward(request, response);
             } else {
                 request.setAttribute("message", e.getMessage());
                 request.setAttribute("user", editUser);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/updateCustomer.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/updateStaff.jsp");
                 dispatcher.forward(request, response);
             }
         }

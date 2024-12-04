@@ -6,7 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Cập Nhật Thông Tin Khách Hàng</title>
+        <title>Cập Nhật Thông Tin Nhân Viên</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="./css/style.css"/>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert CDN -->
@@ -29,7 +29,7 @@
         <%@ include file="header.jsp" %>
 
         <div class="container py-5">
-            <h1 class="mb-4 text-center text-primary">Cập Nhật Thông Tin Khách Hàng</h1>
+            <h1 class="mb-4 text-center text-primary">Cập Nhật Thông Tin Nhân Viên</h1>
 
             <!-- Error Message -->
             <c:if test="${not empty message}">
@@ -43,7 +43,7 @@
                 </script>
             </c:if>
 
-            <form action="manage-customer" method="post" enctype="multipart/form-data">
+            <form action="manage-staff" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="userID" value="${user.userID}" />
                 <input type="hidden" name="action" value="update" />
                 <input type="hidden" name="oldPassword" value="${user.passwordHash}" />
@@ -129,7 +129,7 @@
                 <!-- Submit Buttons -->
                 <div class="text-center">
                     <button type="submit" class="btn btn-success">Cập nhật</button>
-                    <a href="manage-customer" class="btn btn-secondary">Hủy</a>
+                    <a href="manage-staff" class="btn btn-secondary">Hủy</a>
                 </div>
             </form>
         </div>

@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Quản lý Khách hàng</title>
+        <title>Quản lý Nhân Viên</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="./css/style.css"/>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert CDN -->
@@ -34,10 +34,10 @@
         <!-- Header -->
         <%@ include file="header.jsp" %>
         <div class="container">
-            <h1 class="mb-4 text-center">Quản lý Khách hàng</h1>
+            <h1 class="mb-4 text-center">Quản lý Nhân Viên</h1>
 
             <!-- Bộ lọc và Tìm kiếm -->
-            <form action="manage-customer" method="get" class="row mb-4">
+            <form action="manage-staff" method="get" class="row mb-4">
                 <div class="col-md-3">
                     <input type="text" name="name" class="form-control" placeholder="Tìm theo tên" value="${param.name}">
                 </div>
@@ -55,10 +55,10 @@
 
             <a href="manage-customer?action=add" class="btn btn-success mb-3">Thêm mới</a>
 
-            <!-- Bảng danh sách khách hàng -->
+            <!-- Bảng danh sách nhân viên -->
             <c:if test="${empty users}">
                 <div class="alert alert-warning" role="alert">
-                    Không có khách hàng nào.
+                    Không có nhân viên nào.
                 </div>
             </c:if>
             <c:if test="${users.size() != 0}">
@@ -86,8 +86,8 @@
                                 <td><img src="${user.avatar}" alt="Avatar" width="50"></td>
                                 <td>${user.isActive ? 'Kích hoạt' : 'Không kích hoạt'}</td>
                                 <td>
-                                    <a href="manage-customer?action=edit&id=${user.userID}" class="btn btn-warning btn-sm">Chỉnh sửa</a>
-                                    <a href="manage-customer?action=delete&id=${user.userID}" class="btn btn-danger btn-sm">Xóa</a>
+                                    <a href="manage-staff?action=edit&id=${user.userID}" class="btn btn-warning btn-sm">Chỉnh sửa</a>
+                                    <a href="manage-staff?action=delete&id=${user.userID}" class="btn btn-danger btn-sm">Xóa</a>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -100,7 +100,7 @@
                     <ul class="pagination">
                         <c:forEach var="i" begin="1" end="${totalPages}" step="1">
                             <li class="page-item ${currentPage == i ? 'active' : ''}">
-                                <a class="page-link" href="manage-customer?page=${i}&name=${param.name}&status=${param.status}&role=${param.role}">${i}</a>
+                                <a class="page-link" href="manage-staff?page=${i}&name=${param.name}&status=${param.status}&role=${param.role}">${i}</a>
                             </li>
                         </c:forEach>
                     </ul>

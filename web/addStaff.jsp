@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Thêm Mới Khách Hàng</title>
+        <title>Thêm Mới Nhân Viên</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="./css/style.css"/>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert CDN -->
@@ -24,10 +24,10 @@
         <%@ include file="header.jsp" %>
 
         <div class="container">
-            <h1 class="mb-4 text-center">Thêm Mới Khách Hàng</h1>
+            <h1 class="mb-4 text-center">Thêm Mới Nhân Viên</h1>
 
             <!-- Form thêm mới khách hàng -->
-            <form action="manage-customer" method="post" enctype="multipart/form-data">
+            <form action="manage-staff" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="action" class="form-control" value="add" />
 
                 <div class="row mb-3">
@@ -119,7 +119,7 @@
                 <div class="row mb-3 text-center">
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-success">Thêm mới</button>
-                        <a href="manage-customer" class="btn btn-secondary">Hủy</a>
+                        <a href="manage-staff" class="btn btn-secondary">Hủy</a>
                     </div>
                 </div>
             </form>
