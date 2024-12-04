@@ -67,15 +67,15 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="fw-bold">Email</label>
-                                    <p class="form-control-plaintext">${user.email}</p>
+                                <div class="card p-3">
+                                    <h6 class="fw-bold">Email</h6>
+                                    <p class="text-muted mb-0">${user.email}</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="fw-bold">Social Security Number</label>
-                                    <p class="form-control-plaintext">${user.socialSecurityNumber}</p>
+                                <div class="card p-3">
+                                    <h6 class="fw-bold">Social Security Number</h6>
+                                    <p class="text-muted mb-0">${user.socialSecurityNumber}</p>
                                 </div>
                             </div>
                         </div>
