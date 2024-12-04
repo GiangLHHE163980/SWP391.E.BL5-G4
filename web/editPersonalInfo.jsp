@@ -13,7 +13,7 @@
         <div class="container mt-4">
             <!-- Return Button -->
             <a href="viewPersonalInfo.jsp" class="btn btn-success mb-3">
-                <i class="bi bi-arrow-left"></i> Cancel
+                <i class="bi bi-arrow-left"></i> Quay Lại
             </a>
 
             <!-- Main Layout -->
