@@ -12,12 +12,12 @@
         <!-- Main Container -->
         <div class="container mt-4">
             <!-- Return Button -->
-            <a href="viewPersonalInfo.jsp" class="btn btn-success mb-3">
+            <a href="userInfo?userID=${user.userID}" class="btn btn-success mb-3">
                 <i class="bi bi-arrow-left"></i> Quay Lại
             </a>
 
             <!-- Main Layout -->
-            <form action="updateUserInfo" method="POST" enctype="multipart/form-data">
+            <form action="UpdateUserInfoController" method="post" >
                 <div class="row g-4">
                     <!-- Avatar Section (1/3 of the page) -->
                     <div class="col-md-4 text-center mt-5">
@@ -42,19 +42,19 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="birthday" class="fw-bold">Birthday</label>
-                                    <input type="date" id="birthday" name="birthday" class="form-control" value="${user.birthday}" required>
+                                    <input type="date" id="birthday" name="birthday" class="form-control" value="${user.birthday}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phoneNumber" class="fw-bold">Phone Number</label>
-                                    <input type="tel" id="phoneNumber" name="phoneNumber" class="form-control" value="${user.phoneNumber}" required>
+                                    <input type="tel" id="phoneNumber" name="phoneNumber" class="form-control" value="${user.phoneNumber}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="sex" class="fw-bold">Sex</label>
-                                    <select id="sex" name="sex" class="form-control" required>
+                                    <select id="sex" name="sex" class="form-control">
                                         <option value="Male" ${user.sex == 'Male' ? 'selected' : ''}>Male</option>
                                         <option value="Female" ${user.sex == 'Female' ? 'selected' : ''}>Female</option>
                                     </select>
