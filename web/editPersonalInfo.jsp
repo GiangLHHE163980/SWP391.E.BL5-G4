@@ -17,7 +17,7 @@
             </a>
 
             <!-- Main Layout -->
-            <form action="UpdateUserInfoController" method="post" >
+            <form action="updateUserInfo" method="post" >
                 <div class="row g-4">
                     <!-- Avatar Section (1/3 of the page) -->
                     <div class="col-md-4 text-center mt-5">
