@@ -93,6 +93,9 @@ public class ProductService implements IProductService {
             + "  DELETE FROM InsuranceCompanies\n"
             + "WHERE CompanyID NOT IN (SELECT CompanyID FROM InsuranceProducts);";
 
+    private static final String SELECT_TOP_PRODUCT = "SELECT TOP (?) ip.ProductID, ip.ProductName, ip.InsuranceType, ip.Cost, ip.Description, ip.Conditions, ip.Avatar "
+            + "FROM InsuranceProducts ip";
+    
     //delete product and company
     @Override
     public void delete(int id) {
@@ -336,7 +339,31 @@ public class ProductService implements IProductService {
 //        return find(query,"Bảo hiểm Y tế ABC");
         return find(query, "%" + searchName + "%");
     }
+    @Override
+    public List<InsuranceProduct> getTopProducts(int limit) {
+    List<InsuranceProduct> products = new ArrayList<>();
 
+    try (PreparedStatement ps = connection.prepareStatement(SELECT_TOP_PRODUCT)) {
+        ps.setInt(1, limit);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            InsuranceProduct product = new InsuranceProduct();
+            product.setProductID(rs.getInt("ProductID"));
+            product.setProductName(rs.getString("ProductName"));
+            product.setInsuranceType(rs.getString("InsuranceType"));
+            product.setCost(rs.getBigDecimal("Cost"));
+            product.setDescription(rs.getString("Description"));
+            product.setConditions(rs.getString("Conditions"));
+            product.setAvatar(rs.getString("Avatar"));
+            products.add(product);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return products;
+}
 //    //Test delete product and company
 //    public static void main(String[] args) {
 //        // Khởi tạo ProductService (DAO)

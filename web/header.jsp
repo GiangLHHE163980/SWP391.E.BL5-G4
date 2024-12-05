@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="model.User" %>
 <link rel="stylesheet" href="./assets/css/style.css"/>
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
     <div class="container-fluid">
@@ -10,12 +11,13 @@
             <ul class="navbar-nav ms-auto">
                 <% 
                    if (session != null && session.getAttribute("user") != null) {  
+                        User user = (User) session.getAttribute("user");
                 %>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="productManagement.jsp">Quản lý sản phẩm</a>
+                        <a class="nav-link" href="account/logout">Đăng xuất</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="account/logout">Đăng xuất</a>
+                        <span class="nav-link">Hi, <%= user.getUsername() %></span>
                     </li>
                 <% 
                     } else { 

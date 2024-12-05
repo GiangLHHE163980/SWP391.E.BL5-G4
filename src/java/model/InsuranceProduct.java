@@ -14,6 +14,7 @@ public class InsuranceProduct {
     private String conditions;
     private Date createdAt;  // Sử dụng java.sql.Date hoặc java.sql.Timestamp
     private Date updatedAt;  // Sử dụng java.sql.Date hoặc java.sql.Timestamp
+    private String avatar;
 
     public InsuranceProduct() {
     }
@@ -41,11 +42,7 @@ public class InsuranceProduct {
         this.conditions = conditions;
   
     }
-    
-    
-    
-    
-
+        
     public InsuranceProduct(InsuranceCompany insuranceCompany, String productName, String insuranceType, String description, BigDecimal cost, String conditions) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
@@ -129,6 +126,14 @@ public class InsuranceProduct {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     @Override

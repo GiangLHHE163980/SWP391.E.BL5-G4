@@ -17,4 +17,6 @@ public interface IProductService {
     public void editCompanyAndProduct(int id, InsuranceCompany company, InsuranceProduct product);
 
     public void delete(int id);
+    
+    List<InsuranceProduct> getTopProducts(int limit);
 }
