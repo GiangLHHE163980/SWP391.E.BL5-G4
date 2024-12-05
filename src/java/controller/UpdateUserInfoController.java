@@ -16,10 +16,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.File;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import model.User;
 import service.user.IUserService;
 import service.user.UserService;
@@ -28,10 +30,12 @@ import service.user.UserService;
  *
  * @author Admin
  */
-@WebServlet(name = "UpdateUserInfoController", urlPatterns = {"/updateUserInfo"})
+@WebServlet(name = "UpdateUserInfoController", urlPatterns = {"/UpdateUserInfoController"})
 public class UpdateUserInfoController extends HttpServlet {
-private static IUserService userService = new UserService();
-private static final String UPLOAD_DIR = "uploads";
+
+    private static IUserService userService = new UserService();
+    private static final String UPLOAD_DIR = "uploads";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -49,7 +53,7 @@ private static final String UPLOAD_DIR = "uploads";
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateUserInfoController</title>");            
+            out.println("<title>Servlet UpdateUserInfoController</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet UpdateUserInfoController at " + request.getContextPath() + "</h1>");
@@ -70,7 +74,7 @@ private static final String UPLOAD_DIR = "uploads";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         String userIdParam = request.getParameter("userID");
+        String userIdParam = request.getParameter("userID");
 
         // If userID is provided in the URL, update session
         if (userIdParam != null) {
@@ -79,10 +83,10 @@ private static final String UPLOAD_DIR = "uploads";
                 HttpSession session = request.getSession();
                 session.setAttribute("userID", userID); // Store userID in session
             } catch (NumberFormatException e) {
-                 // Redirect to error if userID is invalid
+                // Redirect to error if userID is invalid
                 return;
             }
-        } 
+        }
 
         // Retrieve userID from session
         HttpSession session = request.getSession();
@@ -90,7 +94,7 @@ private static final String UPLOAD_DIR = "uploads";
 
         if (userID != null) {
             User user = userService.getUserById(userID); // Fetch user details using userID
-            
+
             if (user != null) {
                 request.setAttribute("user", user);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("editPersonalInfo.jsp");
@@ -102,7 +106,6 @@ private static final String UPLOAD_DIR = "uploads";
             response.sendRedirect("error.jsp"); // Redirect to error page if no userID in session
         }
     }
-    
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -115,89 +118,89 @@ private static final String UPLOAD_DIR = "uploads";
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+
+        // Retrieve user ID from session
         HttpSession session = request.getSession();
         Integer userID = (Integer) session.getAttribute("userID");
-          response.setContentType("text/html;charset=UTF-8");
 
-        // Retrieve user inputs
-        String fullName = request.getParameter("fullName");
-        String birthday = request.getParameter("birthday");
-        String phoneNumber = request.getParameter("phoneNumber");
-        String sex = request.getParameter("sex");
-        String address = request.getParameter("address");
+        
+            // Fetch input from form
+            String fullName = request.getParameter("fullName");
+            String phoneNumber = request.getParameter("phoneNumber");
+            String address = request.getParameter("address");
+            String sex = request.getParameter("sex");
+            java.sql.Date birthday = null;
 
-        // Check if fullName is provided
-        if (fullName == null || fullName.trim().isEmpty()) {
-            request.setAttribute("errorMessage", "Full name is required.");
-            request.getRequestDispatcher("editPersonalInfo.jsp").forward(request, response);
-            return;
-        }
-
-        // Handle avatar upload
-        Part avatarPart = request.getPart("avatar");
-        String avatarFileName = null;
-
-        if (avatarPart != null && avatarPart.getSize() > 0) {
-            String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
+            // Handle birthday parsing
+            String birthdayParam = request.getParameter("birthday");
+            if (birthdayParam != null && !birthdayParam.trim().isEmpty()) {
+                birthday = java.sql.Date.valueOf(birthdayParam); // Convert string to SQL date
             }
 
-            avatarFileName = new File(avatarPart.getSubmittedFileName()).getName();
-            String filePath = uploadPath + File.separator + avatarFileName;
-            avatarPart.write(filePath);
-        }
+            // Handle avatar file upload (if any)
+//            Part avatarPart = request.getPart("avatar");
+//            String avatarFileName = null;
+//            if (avatarPart != null && avatarPart.getSize() > 0) {
+//                // Save uploaded file
+//                String uploadPath = getServletContext().getRealPath("/") + "uploads/";
+//                File uploadDir = new File(uploadPath);
+//                if (!uploadDir.exists()) {
+//                    uploadDir.mkdir();
+//                }
+//                avatarFileName = Paths.get(avatarPart.getSubmittedFileName()).getFileName().toString();
+//                avatarPart.write(uploadPath + avatarFileName);
+//            }
 
-        // Assume user ID is stored in session
-        int userId = (int) request.getSession().getAttribute("userId");
+            // Fetch the existing user data to preserve the avatar if not updated
+            User existingUser = userService.getUserById(userID); // Fetch current user data
+            //String avatarToUpdate = avatarFileName != null ? "uploads/" + avatarFileName : existingUser.getAvatar();
 
-        // Connect to the database and update user information
-        try (Connection connection = DBContext.getConnection()) {
-            // Fetch existing user information
-            String selectSql = "SELECT birthday, phone_number, sex, address, avatar FROM users WHERE user_id = ?";
-            PreparedStatement selectStatement = connection.prepareStatement(selectSql);
-            selectStatement.setInt(1, userId);
-            ResultSet resultSet = selectStatement.executeQuery();
+            // Populate User object
+            User user = new User();
+            user.setUserID(userID);
+            user.setFullName(fullName);
+            user.setPhoneNumber(phoneNumber);
+            user.setAddress(address);
+            user.setBirthday(birthday);
+            user.setSex(sex);
+            //user.setAvatar(avatarToUpdate); // Keep the existing avatar if no new file uploaded
 
-            String existingBirthday = null, existingPhoneNumber = null, existingSex = null, existingAddress = null, existingAvatar = null;
+            // Call updateUser method to update database
+            boolean isUpdated = updateUser(user);
 
-            if (resultSet.next()) {
-                existingBirthday = resultSet.getString("birthday");
-                existingPhoneNumber = resultSet.getString("phone_number");
-                existingSex = resultSet.getString("sex");
-                existingAddress = resultSet.getString("address");
-                existingAvatar = resultSet.getString("avatar");
-            }
-
-            // Update user information
-            String updateSql = "UPDATE users SET full_name = ?, birthday = ?, phone_number = ?, sex = ?, address = ?, avatar = ? WHERE user_id = ?";
-            PreparedStatement updateStatement = connection.prepareStatement(updateSql);
-
-            updateStatement.setString(1, fullName);
-            updateStatement.setString(2, birthday != null && !birthday.trim().isEmpty() ? birthday : existingBirthday);
-            updateStatement.setString(3, phoneNumber != null && !phoneNumber.trim().isEmpty() ? phoneNumber : existingPhoneNumber);
-            updateStatement.setString(4, sex != null && !sex.trim().isEmpty() ? sex : existingSex);
-            updateStatement.setString(5, address != null && !address.trim().isEmpty() ? address : existingAddress);
-            updateStatement.setString(6, avatarFileName != null ? UPLOAD_DIR + "/" + avatarFileName : existingAvatar);
-            updateStatement.setInt(7, userId);
-
-            int rowsUpdated = updateStatement.executeUpdate();
-
-            if (rowsUpdated > 0) {
+            if (isUpdated) {
+                // Redirect to the user info page
                 response.sendRedirect("userInfo?userID=" + userID);
             } else {
-                request.setAttribute("errorMessage", "Failed to update information.");
-                request.getRequestDispatcher("userInfo?userID=" + userID).forward(request, response);
-            }
+                // Redirect to error page if update fails
 
+            }
+        
+    }
+
+    public boolean updateUser(User user) {
+        String query = "UPDATE Users SET FullName = ?, PhoneNumber = ?, Address = ?, "
+                + "Birthday = ?, Sex = ?, UpdatedAt = GETDATE() WHERE UserID = ?";
+
+        try ( PreparedStatement stmt = DBContext.getConnection().prepareStatement(query)) {
+            stmt.setString(1, user.getFullName());
+            stmt.setString(2, user.getPhoneNumber());
+            stmt.setString(3, user.getAddress());
+           // stmt.setString(4, user.getAvatar());
+            stmt.setDate(4, user.getBirthday() != null ? new java.sql.Date(user.getBirthday().getTime()) : null);
+            stmt.setString(5, user.getSex());
+            stmt.setInt(6, user.getUserID());
+            
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage", "An error occurred while updating your information.");
-            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
+        return false;
     }
-    
+
     /**
      * Returns a short description of the servlet.
      *
