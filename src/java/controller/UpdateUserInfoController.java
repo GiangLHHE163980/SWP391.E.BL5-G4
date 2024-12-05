@@ -30,7 +30,7 @@ import service.user.UserService;
  *
  * @author Admin
  */
-@WebServlet(name = "UpdateUserInfoController", urlPatterns = {"/UpdateUserInfoController"})
+@WebServlet(name = "UpdateUserInfoController", urlPatterns = {"/updateUserInfo"})
 public class UpdateUserInfoController extends HttpServlet {
 
     private static IUserService userService = new UserService();
