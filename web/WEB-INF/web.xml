@@ -37,6 +37,14 @@
         <servlet-name>AccountController</servlet-name>
         <url-pattern>/account/confirmChangePassword</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>UpdateUserInfoController</servlet-name>
+        <servlet-class>controller.UpdateUserInfoController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateUserInfoController</servlet-name>
+        <url-pattern>/UpdateUserInfoController</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -46,5 +54,5 @@
         <servlet-name>default</servlet-name>
         <url-pattern>/assets/*</url-pattern>
     </servlet-mapping>
-
+    
 </web-app>
