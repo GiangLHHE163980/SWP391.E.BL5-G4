@@ -18,7 +18,7 @@ public class User {
     private String sex; // New field
     private int socialSecurityNumber; // New field
     private Date birthday; // New field for birthday
-    private String username;
+   
 
     public User(int userID, String username, boolean isActive) {
         this.userID = userID;
@@ -30,17 +30,10 @@ public class User {
     public User() {
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     // Constructor with all fields
     public User(int userID, String fullName, String email, String passwordHash, String phoneNumber, String address,
-            String avatar, boolean isActive, Date createdAt, Date updatedAt, String sex, int socialSecurityNumber, Date birthday) {
+            String avatar, boolean isActive, Date createdAt, Date updatedAt, String sex, int socialSecurityNumber, Date birthday,String username) {
         this.userID = userID;
         this.fullName = fullName;
         this.email = email;
@@ -59,7 +52,7 @@ public class User {
 
     // Constructor without userID and updatedAt (useful for creating new users)
     public User(String fullName, String email, String passwordHash, String phoneNumber, String address,
-            String avatar, boolean isActive, Date createdAt, String sex, int socialSecurityNumber, Date birthday) {
+            String avatar, boolean isActive, Date createdAt, String sex, int socialSecurityNumber, Date birthday,String username) {
         this.fullName = fullName;
         this.email = email;
         this.username=username;
@@ -73,11 +66,7 @@ public class User {
         this.socialSecurityNumber = socialSecurityNumber;
         this.birthday = birthday; // Initialize birthday
     }
-    public User(int userID, String username,boolean isActive){
-        this.userID = userID;
-        this.username=username;
-        this.isActive = isActive;
-    }
+    
 
     public User(String fullName, String email, String passwordHash, String phoneNumber, String address, String avatar, boolean isActive, Date createdAt) {
         this.fullName = fullName;
