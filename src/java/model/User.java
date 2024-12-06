@@ -19,6 +19,7 @@ public class User {
     private String sex; // New field
     private int socialSecurityNumber; // New field
     private Date birthday; // New field for birthday
+    private InsuranceCard insuranceCard;
    
 
     public User(int userID, String username, boolean isActive) {
@@ -34,8 +35,7 @@ public class User {
 
     // Constructor with all fields
     public User(int userID, String fullName, String email, String passwordHash, String phoneNumber, String address,
-            String avatar, boolean isActive, Date createdAt, Date updatedAt, String sex, int socialSecurityNumber, Date birthday,String username) {
-    // Constructor
+            String avatar, boolean isActive, Date createdAt, Date updatedAt, String sex, int socialSecurityNumber, Date birthday,String username) {}
     public User(int userId, String fullName, String email) {
         this.userID = userId;
         this.fullName = fullName;
@@ -220,14 +220,14 @@ public class User {
     public void setBirthday(Date birthday) {
         this.birthday = birthday; // Setter for birthday
     }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
+//
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
 
     @Override
     public String toString() {
@@ -241,6 +241,10 @@ public class User {
 
     public void setInsuranceCards(List<InsuranceCard> insuranceCards) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public InsuranceCard setInsuranceCard(InsuranceCard card) {
+        return this.insuranceCard;
     }
 
 }
