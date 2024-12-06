@@ -27,4 +27,6 @@ public interface IProductService {
     List<InsuranceProduct> getDistinctInsuranceTypes();
     
     List<InsuranceProduct> getProductsByCategory(String category);
+
+    List<InsuranceProduct> getProductByNameAndCategory(String searchName, String category);
 }

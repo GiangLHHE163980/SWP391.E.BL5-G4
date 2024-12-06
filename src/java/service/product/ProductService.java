@@ -139,6 +139,20 @@ public class ProductService implements IProductService {
                 "FROM InsuranceProducts ip\n" +
                 "JOIN InsuranceCompanies ic ON ip.CompanyID = ic.CompanyID\n" +
                 "WHERE ip.InsuranceType = ?";
+        
+        private static final String GET_PRODUCT_BY_NAME_AND_CATEGORY = "SELECT \n" +
+            "    ip.ProductID,\n" +
+            "    ip.ProductName,\n" +
+            "    ip.InsuranceType,\n" +
+            "    ip.Cost,\n" +
+            "    ip.Description,\n" +
+            "    ip.Conditions,\n" +
+            "    ip.Avatar,\n" +
+            "    ic.CompanyName\n" +
+            "FROM InsuranceProducts ip\n" +
+            "JOIN InsuranceCompanies ic ON ip.CompanyID = ic.CompanyID\n" +
+            "WHERE ip.ProductName LIKE ? AND ip.InsuranceType = ?";
+
     //delete product and company
     @Override
     public void delete(int id) {
@@ -430,6 +444,12 @@ public class ProductService implements IProductService {
      public List<InsuranceProduct> getProductsByCategory(String category) {
         String query = GET_PRODUCTS_BY_CATEGORY;
         return find(query, category);
+    }
+     
+    @Override
+    public List<InsuranceProduct> getProductByNameAndCategory(String searchName, String category) {
+        String query = GET_PRODUCT_BY_NAME_AND_CATEGORY;
+        return find(query, "%" + searchName + "%", category);
     }
 //    //Test delete product and company
 //    public static void main(String[] args) {
