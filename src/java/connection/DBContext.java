@@ -22,7 +22,7 @@ public class DBContext {
     private static String jdbcUsername = "sa";
     private static String jdbcPassword = "123";
 
-    public static Connection getConnection() {
+    public static Connection getConnection() { 
         if (conn == null) {
             try {
                 //load driver và đăng kí nó với ứng dụng (Đăng ký gọi phương thức Class.forName("driverName")

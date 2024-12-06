@@ -12,6 +12,15 @@
                         <a class="nav-link active" aria-current="page" href="productManagement.jsp">Quản lý sản phẩm</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="manage-customer">Quản lý khách hàng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="manage-staff">Quản lý nhân viên</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profileAdmin">Profile</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="logout">Đăng xuất</a>
                     </li>
                 </ul>

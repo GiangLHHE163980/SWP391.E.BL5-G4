@@ -18,6 +18,13 @@ public class User {
     private String sex; // New field
     private int socialSecurityNumber; // New field
     private Date birthday; // New field for birthday
+    private String username;
+
+    public User(int userID, String username, boolean isActive) {
+        this.userID = userID;
+        this.isActive = isActive;
+        this.username = username;
+    }
 
     // Default constructor
     public User() {
@@ -33,7 +40,7 @@ public class User {
 
     // Constructor with all fields
     public User(int userID, String fullName, String email, String passwordHash, String phoneNumber, String address,
-                String avatar, boolean isActive, Date createdAt, Date updatedAt, String sex, int socialSecurityNumber, Date birthday) {
+            String avatar, boolean isActive, Date createdAt, Date updatedAt, String sex, int socialSecurityNumber, Date birthday) {
         this.userID = userID;
         this.fullName = fullName;
         this.email = email;
@@ -52,7 +59,7 @@ public class User {
 
     // Constructor without userID and updatedAt (useful for creating new users)
     public User(String fullName, String email, String passwordHash, String phoneNumber, String address,
-                String avatar, boolean isActive, Date createdAt, String sex, int socialSecurityNumber, Date birthday) {
+            String avatar, boolean isActive, Date createdAt, String sex, int socialSecurityNumber, Date birthday) {
         this.fullName = fullName;
         this.email = email;
         this.username=username;
@@ -71,6 +78,37 @@ public class User {
         this.username=username;
         this.isActive = isActive;
     }
+
+    public User(String fullName, String email, String passwordHash, String phoneNumber, String address, String avatar, boolean isActive, Date createdAt) {
+        this.fullName = fullName;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.avatar = avatar;
+        this.isActive = isActive;
+        this.createdAt = createdAt;
+    }
+
+    public User(String username, String fullName, String email, String passwordHash, String phoneNumber, String address,
+            String sex, int socialSecurityNumber, boolean isActive, Date createdAt) {
+    this.username = username;
+    this.fullName = fullName;
+    this.email = email;
+    this.passwordHash = passwordHash;
+    this.phoneNumber = phoneNumber;
+    this.address = address;
+    this.sex = sex;
+    this.socialSecurityNumber = socialSecurityNumber;
+    this.isActive = isActive;
+    this.createdAt = createdAt;
+    this.updatedAt = createdAt; // Initialize updatedAt as same as createdAt or set it later
+    this.avatar = "./image/default-avatar.jpg"; // default avatar path
+    this.birthday = null; // Can be set later
+}
+
+
+    // Getters and setters
     public int getUserID() {
         return userID;
     }
@@ -173,6 +211,14 @@ public class User {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday; // Setter for birthday
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
