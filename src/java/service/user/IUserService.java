@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-<<<<<<< HEAD
+
 package service.user;
 
+import java.util.List;
 import model.User;
 import service.IGeneralService;
 
@@ -13,15 +14,7 @@ import service.IGeneralService;
  * @author Admin
  */
 public interface IUserService extends IGeneralService<User>{
-    User getUserById(int userID);
-=======
 
-package service.user;
-
-import model.User;
-import java.util.List;
-
-public interface IUserService {
     // Phương thức để lấy tất cả người dùng
     List<User> findAll();
     
@@ -36,5 +29,5 @@ public interface IUserService {
     
     // Phương thức để xóa người dùng
     boolean deleteUser(int userID);
->>>>>>> HuyPQHE171509
+
 }
