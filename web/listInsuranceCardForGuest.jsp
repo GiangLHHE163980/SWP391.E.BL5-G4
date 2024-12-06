@@ -72,6 +72,7 @@
     <div class="mb-4">
         <form method="get" action="">
             <input type="hidden" name="action" value="showAllProduct">
+            <input type="hidden" name="category" value="${param.category}">
             <div class="input-group">
                 <input type="text" name="searchQuery" class="form-control" placeholder="Tìm kiếm sản phẩm..." value="${param.searchQuery}">
                 <button type="submit" class="btn btn-primary">Tìm kiếm</button>
@@ -86,12 +87,12 @@
             <h5 class="mb-3">Lọc theo:</h5>
             <div class="category-list">
                 <c:forEach var="type" items="${insuranceTypes}">
-                    <a href="?action=showAllProduct&category=${type.insuranceType}" 
+                    <a href="?action=showAllProduct&category=${type.insuranceType}&searchQuery=${param.searchQuery}" 
                        class="d-block py-2 px-3 rounded ${type.insuranceType == selectedCategory ? 'active' : ''}">
                         ${type.insuranceType}
                     </a>
                 </c:forEach>
-            </div>
+</div>
         </div>
 
         <!-- Product List -->
