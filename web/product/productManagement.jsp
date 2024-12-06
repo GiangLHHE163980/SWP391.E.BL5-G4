@@ -27,7 +27,7 @@
                     <h4><span style="color: #FF69B4;">Giang</span>Admin</h4>
                 </div>
                 <ul class="list-unstyled px-2">
-                    <li><a href="#" class="text-white d-block py-2 px-3"><i class="fas fa-home me-2"></i> Dashboard</a></li>
+                    <li><a href="HomePageForStaffController?action=homepageForStaff" class="text-white d-block py-2 px-3"><i class="fas fa-home me-2"></i> Dashboard</a></li>
                     <li>
                         <a href="#tablesSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white d-block py-2 px-3">
                             <i class="fas fa-table me-2"></i> Tables

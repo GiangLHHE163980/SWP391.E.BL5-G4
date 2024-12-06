@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Date;
+import java.util.List;
 
 public class User {
 
@@ -18,9 +19,17 @@ public class User {
     private String sex; // New field
     private int socialSecurityNumber; // New field
     private Date birthday; // New field for birthday
+    private InsuranceCard insuranceCard; // Thêm thuộc tính này
 
     // Default constructor
     public User() {
+    }
+
+    // Constructor
+    public User(int userId, String fullName, String email) {
+        this.userID = userId;
+        this.fullName = fullName;
+        this.email = email;
     }
 
     public String getUsername() {
@@ -33,11 +42,11 @@ public class User {
 
     // Constructor with all fields
     public User(int userID, String fullName, String email, String passwordHash, String phoneNumber, String address,
-                String avatar, boolean isActive, Date createdAt, Date updatedAt, String sex, int socialSecurityNumber, Date birthday) {
+            String avatar, boolean isActive, Date createdAt, Date updatedAt, String sex, int socialSecurityNumber, Date birthday) {
         this.userID = userID;
         this.fullName = fullName;
         this.email = email;
-        this.username=username;
+        this.username = username;
         this.passwordHash = passwordHash;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -52,10 +61,10 @@ public class User {
 
     // Constructor without userID and updatedAt (useful for creating new users)
     public User(String fullName, String email, String passwordHash, String phoneNumber, String address,
-                String avatar, boolean isActive, Date createdAt, String sex, int socialSecurityNumber, Date birthday) {
+            String avatar, boolean isActive, Date createdAt, String sex, int socialSecurityNumber, Date birthday) {
         this.fullName = fullName;
         this.email = email;
-        this.username=username;
+        this.username = username;
         this.passwordHash = passwordHash;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -66,11 +75,24 @@ public class User {
         this.socialSecurityNumber = socialSecurityNumber;
         this.birthday = birthday; // Initialize birthday
     }
-    public User(int userID, String username,boolean isActive){
-        this.userID = userID;
-        this.username=username;
-        this.isActive = isActive;
+
+    // Getter và Setter cho InsuranceCard
+    public InsuranceCard getInsuranceCard() {
+        return insuranceCard;
     }
+
+    public void setInsuranceCard(InsuranceCard card) {
+        // Đảm bảo rằng bạn đang xử lý thông tin thẻ bảo hiểm đúng cách
+        this.insuranceCard = card;  // Đảm bảo biến 'insuranceCard' đã được định nghĩa trong lớp User
+    }
+
+    public User(int userID, String username, boolean isActive, InsuranceCard insuranceCard) {
+        this.userID = userID;
+        this.username = username;
+        this.isActive = isActive;
+        this.insuranceCard = insuranceCard;
+    }
+
     public int getUserID() {
         return userID;
     }
@@ -178,20 +200,15 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userID=" + userID +
-                ", fullName='" + fullName + '\'' +
-                ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
-                ", passwordHash='" + passwordHash + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", address='" + address + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", isActive=" + isActive +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", sex='" + sex + '\'' +
-                ", socialSecurityNumber=" + socialSecurityNumber +
-                ", birthday=" + birthday + // Add birthday to toString
-                '}';
+            "userID=" + userID +
+            ", fullName='" + fullName + '\'' +
+            ", email='" + email + '\'' +
+            ", insuranceCard=" + insuranceCard + 
+            '}';
     }
+
+    public void setInsuranceCards(List<InsuranceCard> insuranceCards) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

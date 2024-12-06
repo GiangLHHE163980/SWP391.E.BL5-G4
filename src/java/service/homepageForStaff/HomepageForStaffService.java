@@ -28,7 +28,7 @@ public class HomepageForStaffService implements IHomepageForStaffService {
             + "JOIN UserRoles ur ON u.UserID = ur.UserID\n"
             + "JOIN Roles r ON ur.RoleID = r.RoleID\n"
             + "WHERE r.RoleName = 'Customer'";
-    private static final String GET_NUMBER_OF_INSURANCECARD = "SELECT COUNT(*) FROM InsuranceCards";
+    private static final String GET_NUMBER_OF_INSURANCECARD = "SELECT COUNT(*) FROM InsuranceProducts";
      private static final String GET_NUMBER_OF_REQUEST = "SELECT COUNT(*) FROM Claims";
 
     @Override

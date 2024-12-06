@@ -36,6 +36,12 @@ public class Claim {
         this.submittedAt = submittedAt;
     }
 
+  public Claim(int claimId, String status, String reason) {
+        this.claimID = claimId;
+        this.status = status;
+        this.reason = reason;
+    }
+
     public int getClaimID() {
         return claimID;
     }

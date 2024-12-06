@@ -13,6 +13,7 @@ public class InsuranceCard {
     private String status;
     private Date createdAt;
     private Date updatedAt;
+    
 
     public InsuranceCard() {
     }
@@ -37,6 +38,11 @@ public class InsuranceCard {
         this.endDate = endDate;
         this.status = status;
         this.createdAt = createdAt;
+    }
+
+    public InsuranceCard(String cardNumber, String status) {
+         this.cardNumber = cardNumber;
+         this.status = status;
     }
 
     public int getCardID() {
@@ -111,18 +117,11 @@ public class InsuranceCard {
         this.updatedAt = updatedAt;
     }
 
-    @Override
+  @Override
     public String toString() {
         return "InsuranceCard{" +
-                "cardID=" + cardID +
-                ", cardNumber='" + cardNumber + '\'' +
-                ", user=" + user +
-                ", insuranceProduct=" + insuranceProduct +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", status='" + status + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+            "cardNumber='" + cardNumber + '\'' +
+            ", status='" + status + '\'' +
+            '}';
     }
 }

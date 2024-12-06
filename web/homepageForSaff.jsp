@@ -34,7 +34,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="ProductController?action=list" class="text-white d-block py-2 px-3">
+                    <a href="ProductController?action=showFullProduct" class="text-white d-block py-2 px-3">
                         <i class="fas fa-box me-2"></i> Quản lý Sản phẩm
                     </a>
                 </li>
@@ -77,7 +77,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Khách hàng</h5>
                             <p class="card-text">Tổng số: <strong>${customerCount}</strong></p>
-                            <a href="CustomerController?action=list" class="btn btn-light btn-sm">Xem chi tiết</a>
+                            <a href="CustomerForStaffController?action=showAllCustomer" class="btn btn-light btn-sm">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                     <div class="card text-white bg-success mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Yêu cầu bảo hiểm</h5>
-                            <p class="card-text">Chờ xử lý: <strong>${InsuranceCardCount}</strong></p>
+                            <p class="card-text">Chờ xử lý: <strong>${RequestCount}</strong></p>
                             <a href="RequestController?action=list" class="btn btn-light btn-sm">Xem chi tiết</a>
                         </div>
                     </div>
@@ -94,8 +94,8 @@
                     <div class="card text-white bg-warning mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Sản phẩm bảo hiểm</h5>
-                            <p class="card-text">Tổng số: <strong>${RequestCount}</strong></p>
-                            <a href="ProductController?action=list" class="btn btn-light btn-sm">Xem chi tiết</a>
+                            <p class="card-text">Tổng số: <strong>${InsuranceCardCount}</strong></p>
+                            <a href="ProductController?action=showFullProduct" class="btn btn-light btn-sm">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>
