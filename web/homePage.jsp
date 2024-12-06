@@ -1,140 +1,177 @@
-<%-- 
-    Document   : homePage
-    Created on : Nov 29, 2024, 11:42:58 AM
-    Author     : TH Computer
---%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Home Page</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"> <!-- Thêm Bootstrap Icons -->
-        <link rel="stylesheet" href="./css/style.css"/>
-        <style>
-        /* Định dạng chung */
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>NT Insurance</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"> <!-- Bootstrap Icons -->
+
+    <!-- Custom CSS -->
+    <style>
+        /* Body and General styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            background-color: #f8f9fa;
         }
+
+        /* Header Section */
         h1 {
             text-align: center;
-            margin: 90px auto;
-            max-width: 900px;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #d9534f;
+            margin: 40px auto 10px;
         }
-        /* Nội dung chính */
-        .container {
-            transform: scale(1.3);
+
+        h1 + p {
             text-align: center;
-            margin: 20px auto;
-            max-width: 900px;
-            padding: 20px; /* Thêm padding cho nội dung bên trong */
-            background: white; /* Đảm bảo nền trắng để thấy rõ bóng */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Bóng xung quanh */
-            border-radius: 5px; /* Tùy chọn bo góc */
+            font-size: 1.2rem;
+            color: #5cb85c;
+            margin-bottom: 30px;
         }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Product Grid */
         .insurance-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Hai cột */
+            grid-template-columns: repeat(3, 1fr); /* 3 columns */
             gap: 20px;
         }
+
+        /* Product Card */
         .insurance-item {
-            display: flex; /* Flexbox cho sắp xếp ngang */
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            background-color: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
         }
+
+        .insurance-item:hover {
+            transform: translateY(-5px);
+        }
+
         .insurance-item img {
-            width: 150px;
+            width: 100%;
             height: 150px;
             object-fit: cover;
-            background-color: #f0f0f0; /* Placeholder nếu ảnh không tải */
         }
+
         .insurance-item .content {
-            flex: 1;
-            padding: 10px;
+            padding: 15px;
             display: flex;
-            flex-direction: column; /* Sắp xếp tên trên, nút dưới */
-            justify-content: space-between;
+            flex-direction: column;
+            gap: 10px;
         }
+
         .insurance-item h3 {
-            text-align: left;
-            font-size: 16px;
+            font-size: 1rem;
             color: #333;
+            margin: 0;
         }
+
+        .insurance-item p.price {
+            font-size: 0.9rem;
+            color: #d9534f;
+            margin: 0;
+        }
+
+        .insurance-item .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .insurance-item button {
-            background-color: #b38b00;
+            background-color: #ff9900;
             color: white;
             border: none;
             padding: 8px 12px;
             cursor: pointer;
+            font-size: 0.9rem;
             font-weight: bold;
             border-radius: 5px;
-            align-self: flex-start; /* Căn nút sang trái */
         }
+
         .insurance-item button:hover {
-            background-color: #d4a517;
+            background-color: #cc7a00;
         }
-        /* Xem tất cả */
+
+        .insurance-item a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 0.9rem;
+        }
+
+        .insurance-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* See All Button */
         .see-all {
             text-align: center;
-            margin: 20px 0;
+            margin-top: 20px;
         }
+
         .see-all a {
-            color: #b38b00;
+            color: #ff9900;
             font-weight: bold;
             text-decoration: none;
+            font-size: 1.1rem;
         }
+
         .see-all a:hover {
             text-decoration: underline;
         }
     </style>
-    </head>
-    <body>
-        <%@ include file="header.jsp" %>
-        <%@ include file="footer.jsp" %>
-        <!-- Nội dung chính -->
-    <h1>Chào mừng đến với NT Insurance</h1>
-     <div class="container">
+</head>
+<body>
+    <!-- Header -->
+    <%@ include file="header.jsp" %>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>Bảo Hiểm Trực Tuyến</h1>
+        <p>Dễ Dàng, Thuận Tiện, Nhanh Chóng</p>
+
         <div class="insurance-grid">
-            <div class="insurance-item">
-                <img src="image/anh01.jpg" alt="Bảo hiểm chăm sóc sức khỏe">
-                <div class="content">
-                    <h3>Bảo hiểm chăm sóc sức khỏe</h3>
-                    <button>Tham gia</button>
+            <!-- Loop through the list of products -->
+            <c:forEach var="product" items="${topProducts}">
+                <div class="insurance-item">
+                    <img src="${product.avatar}" alt="${product.productName}">
+                    <div class="content">
+                        <h3>${product.productName}</h3>
+                        <p class="price">Chỉ từ ${product.cost} VNĐ</p>
+                        <div class="actions">
+                            <button>Tìm hiểu</button>
+<!--                            <a href="#">Tìm hiểu <i class="bi bi-chevron-right"></i></a>-->
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="insurance-item">
-                <img src="image/anh2.jpg" alt="Bảo hiểm du lịch">
-                <div class="content">
-                    <h3>Bảo hiểm du lịch</h3>
-                    <button>Tham gia</button>
-                </div>
-            </div>
-            <div class="insurance-item">
-                <img src="image/anh3.jpg" alt="Bảo hiểm nhân thọ">
-                <div class="content">
-                    <h3>Bảo hiểm nhân thọ</h3>
-                    <button>Tham gia</button>
-                </div>
-            </div>
-            <div class="insurance-item">
-                <img src="image/anh4.jpg" alt="Bảo hiểm xe cộ">
-                <div class="content">
-                    <h3>Bảo hiểm xe cộ</h3>
-                    <button>Tham gia</button>
-                </div>
-            </div>
+            </c:forEach>
         </div>
+
         <div class="see-all">
-            <a href="#">Xem tất cả</a>
+            <a href="ProductController?action=showAllProduct">Xem tất cả</a>
         </div>
     </div>
-    </body>
+
+    <!-- Footer -->
+    <%@ include file="footer.jsp" %>
+</body>
 </html>

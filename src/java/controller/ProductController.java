@@ -175,6 +175,35 @@ public class ProductController extends HttpServlet {
 
     }
 
+    private void showAllProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String searchQuery = request.getParameter("searchQuery");
+    String category = request.getParameter("category");
+    List<InsuranceProduct> products;
+    
+    List<InsuranceProduct> insuranceTypes = productService.getDistinctInsuranceTypes();
+    request.setAttribute("insuranceTypes", insuranceTypes);
+    
+    if (searchQuery != null && !searchQuery.trim().isEmpty() && category != null && !category.trim().isEmpty()) {
+        // Tìm kiếm trong danh mục
+        products = productService.getProductByNameAndCategory(searchQuery, category);
+        request.setAttribute("selectedCategory", category);
+    } else if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+        // Tìm kiếm không phân loại
+        products = productService.getProductByNameWithAvatar(searchQuery);
+    } else if (category != null && !category.trim().isEmpty()) {
+        // Lọc theo danh mục
+        products = productService.getProductsByCategory(category);
+        request.setAttribute("selectedCategory", category);
+    } else {
+        // Hiển thị tất cả sản phẩm
+        products = productService.getAllProducts();
+    }
+
+    request.setAttribute("products", products);
+    RequestDispatcher dispatcher = request.getRequestDispatcher("listInsuranceCardForGuest.jsp");
+    dispatcher.forward(request, response);
+}
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -195,6 +224,9 @@ public class ProductController extends HttpServlet {
                 break;
             case "deleteProduct":
                 deleteProduct(request, response);
+                break;
+            case "showAllProduct":
+                showAllProduct(request, response);
                 break;
             default:
                 // Chuyển đến trang lỗi nếu action không hợp lệ
