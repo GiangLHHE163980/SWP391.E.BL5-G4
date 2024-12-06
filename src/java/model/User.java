@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Date;
+import java.util.List;
 
 public class User {
 
@@ -34,10 +35,28 @@ public class User {
     // Constructor with all fields
     public User(int userID, String fullName, String email, String passwordHash, String phoneNumber, String address,
             String avatar, boolean isActive, Date createdAt, Date updatedAt, String sex, int socialSecurityNumber, Date birthday,String username) {
+    // Constructor
+    public User(int userId, String fullName, String email) {
+        this.userID = userId;
+        this.fullName = fullName;
+        this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    // Constructor with all fields
+    public User(int userID, String fullName, String email, String passwordHash, String phoneNumber, String address,
+            String avatar, boolean isActive, Date createdAt, Date updatedAt, String sex, int socialSecurityNumber, Date birthday) {
         this.userID = userID;
         this.fullName = fullName;
         this.email = email;
-        this.username=username;
+        this.username = username;
         this.passwordHash = passwordHash;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -55,7 +74,7 @@ public class User {
             String avatar, boolean isActive, Date createdAt, String sex, int socialSecurityNumber, Date birthday,String username) {
         this.fullName = fullName;
         this.email = email;
-        this.username=username;
+        this.username = username;
         this.passwordHash = passwordHash;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -213,20 +232,15 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userID=" + userID +
-                ", fullName='" + fullName + '\'' +
-                ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
-                ", passwordHash='" + passwordHash + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", address='" + address + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", isActive=" + isActive +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", sex='" + sex + '\'' +
-                ", socialSecurityNumber=" + socialSecurityNumber +
-                ", birthday=" + birthday + // Add birthday to toString
-                '}';
+            "userID=" + userID +
+            ", fullName='" + fullName + '\'' +
+            ", email='" + email + '\'' +
+            ", insuranceCard=" + insuranceCard + 
+            '}';
     }
+
+    public void setInsuranceCards(List<InsuranceCard> insuranceCards) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }
