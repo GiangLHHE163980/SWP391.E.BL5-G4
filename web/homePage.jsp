@@ -167,7 +167,7 @@
         </div>
 
         <div class="see-all">
-            <a href="#">Xem tất cả</a>
+            <a href="ProductController?action=showAllProduct">Xem tất cả</a>
         </div>
     </div>
 
