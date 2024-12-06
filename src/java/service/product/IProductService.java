@@ -19,4 +19,12 @@ public interface IProductService {
     public void delete(int id);
     
     List<InsuranceProduct> getTopProducts(int limit);
+    
+    List<InsuranceProduct> getProductByNameWithAvatar(String searchName);
+    
+    List<InsuranceProduct> getAllProducts();
+    
+    List<InsuranceProduct> getDistinctInsuranceTypes();
+    
+    List<InsuranceProduct> getProductsByCategory(String category);
 }
