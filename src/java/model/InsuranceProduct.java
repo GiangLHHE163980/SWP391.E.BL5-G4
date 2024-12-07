@@ -30,8 +30,8 @@ public class InsuranceProduct {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-    
-        public InsuranceProduct(int productID, InsuranceCompany insuranceCompany, String productName, String insuranceType, String description, BigDecimal cost, String conditions) {
+
+    public InsuranceProduct(int productID, InsuranceCompany insuranceCompany, String productName, String insuranceType, String description, BigDecimal cost, String conditions) {
         this.productID = productID;
         this.insuranceCompany = insuranceCompany;
         this.productName = productName;
@@ -39,12 +39,12 @@ public class InsuranceProduct {
         this.description = description;
         this.cost = cost;
         this.conditions = conditions;
-  
+
     }
-    
-    
-    
-    
+
+    public InsuranceProduct(String productName) {
+        this.productName = productName;
+    }
 
     public InsuranceProduct(InsuranceCompany insuranceCompany, String productName, String insuranceType, String description, BigDecimal cost, String conditions) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -54,13 +54,7 @@ public class InsuranceProduct {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public InsuranceProduct(String productName) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-
-
-
+  
 
     // Getters và Setters
     public int getProductID() {
@@ -137,28 +131,28 @@ public class InsuranceProduct {
 
     @Override
     public String toString() {
-        return "InsuranceProduct{" +
-                "productID=" + productID +
-                ", insuranceCompany=" + insuranceCompany +
-                ", productName='" + productName + '\'' +
-                ", insuranceType='" + insuranceType + '\'' +
-                ", description='" + description + '\'' +
-                ", cost=" + cost +
-                ", conditions='" + conditions + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+        return "InsuranceProduct{"
+                + "productID=" + productID
+                + ", insuranceCompany=" + insuranceCompany
+                + ", productName='" + productName + '\''
+                + ", insuranceType='" + insuranceType + '\''
+                + ", description='" + description + '\''
+                + ", cost=" + cost
+                + ", conditions='" + conditions + '\''
+                + ", createdAt=" + createdAt
+                + ", updatedAt=" + updatedAt
+                + '}';
     }
 
     public int getCompanyID() {
-      return insuranceCompany.getCompanyID();
+        return insuranceCompany.getCompanyID();
     }
 
- public void setCompanyID(int companyID) {
-    if (this.insuranceCompany == null) {
-        this.insuranceCompany = new InsuranceCompany(); // Khởi tạo đối tượng nếu null
+    public void setCompanyID(int companyID) {
+        if (this.insuranceCompany == null) {
+            this.insuranceCompany = new InsuranceCompany(); // Khởi tạo đối tượng nếu null
+        }
+        this.insuranceCompany.setCompanyID(companyID); // Gán giá trị cho companyID của InsuranceCompany
     }
-    this.insuranceCompany.setCompanyID(companyID); // Gán giá trị cho companyID của InsuranceCompany
-}
 
 }

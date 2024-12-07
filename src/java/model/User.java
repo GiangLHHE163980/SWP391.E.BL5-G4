@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,35 @@ public class User {
     private int socialSecurityNumber; // New field
     private Date birthday; // New field for birthday
     private InsuranceCard insuranceCard; // Thêm thuộc tính này
+    private List<Claim> claims;
+    private InsuranceProduct insuranceProduct;
+    
+    // gianglh findByCustomerByIdV1
+    public List<Claim> getClaims() {
+    return this.claims;
+}
+
+    // gianglh findByCustomerByIdV1
+    public void setInsuranceCard(InsuranceCard card) {
+        this.insuranceCard = card;
+    }
+
+    // gianglh findByCustomerByIdV1
+    public void addClaim(Claim claim) {
+        if (this.claims == null) {
+            this.claims = new ArrayList<>();
+        }
+        this.claims.add(claim);
+    }
+    
+     // Thêm getter và setter cho insuranceProduct
+    public InsuranceProduct getInsuranceProduct() {
+        return insuranceProduct;
+    }
+    
+     public void setInsuranceProduct(InsuranceProduct insuranceProduct) {
+        this.insuranceProduct = insuranceProduct;
+    }
 
     // Default constructor
     public User() {
@@ -40,6 +70,7 @@ public class User {
         this.username = username;
     }
 
+    //
     // Constructor with all fields
     public User(int userID, String fullName, String email, String passwordHash, String phoneNumber, String address,
             String avatar, boolean isActive, Date createdAt, Date updatedAt, String sex, int socialSecurityNumber, Date birthday) {
@@ -81,11 +112,10 @@ public class User {
         return insuranceCard;
     }
 
-    public void setInsuranceCard(InsuranceCard card) {
-        // Đảm bảo rằng bạn đang xử lý thông tin thẻ bảo hiểm đúng cách
-        this.insuranceCard = card;  // Đảm bảo biến 'insuranceCard' đã được định nghĩa trong lớp User
-    }
-
+//    public void setInsuranceCard(InsuranceCard card) {
+//        // Đảm bảo rằng bạn đang xử lý thông tin thẻ bảo hiểm đúng cách
+//        this.insuranceCard = card;  // Đảm bảo biến 'insuranceCard' đã được định nghĩa trong lớp User
+//    }
     public User(int userID, String username, boolean isActive, InsuranceCard insuranceCard) {
         this.userID = userID;
         this.username = username;
@@ -199,13 +229,14 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-            "userID=" + userID +
-            ", fullName='" + fullName + '\'' +
-            ", email='" + email + '\'' +
-            ", insuranceCard=" + insuranceCard + 
-            '}';
+        return "User{"
+                + "userID=" + userID
+                + ", fullName='" + fullName + '\''
+                + ", email='" + email + '\''
+                + ", insuranceCard=" + insuranceCard + '\''
+                + "claims=" + claims+ '\''
+                + "InsuranceProduct=" + insuranceProduct
+                + '}';
     }
-
 
 }
