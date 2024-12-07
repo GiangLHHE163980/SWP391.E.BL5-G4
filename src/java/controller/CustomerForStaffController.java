@@ -56,7 +56,6 @@ public class CustomerForStaffController extends HttpServlet {
     private void showAllCustomer(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (dao.findAllCustomers() != null) {
             request.setAttribute("listC", dao.findAllCustomers());
-            System.out.println("data issssssss::::" + dao.findAllCustomers());
             getRequestDispatch(request, response, "/customerstaff/listCustomerForStaff.jsp");
         } else {
             response.sendRedirect("ProductController?action=showFullProduct");
@@ -65,9 +64,15 @@ public class CustomerForStaffController extends HttpServlet {
     }
 
     private void showFullCustomerInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        request.setAttribute("listC", dao.findAllCustomers());
-        System.out.println("data issssssss::::" + dao.findAllCustomers());
+        int uId = Integer.parseInt(request.getParameter("CustomerId"));
+        Object customer = dao.findCustomerInforById(uId);
+        if(customer == null){
+            System.out.println("Product not found for ID: " + uId);
+             response.sendRedirect("ProductController?action=showFullProduct");
+        }else {
+             System.out.println("Product found: " + customer);
+              request.setAttribute("listCI", customer);
+        }
         getRequestDispatch(request, response, "/customerstaff/CustomerDetailForStaff.jsp");
 
     }

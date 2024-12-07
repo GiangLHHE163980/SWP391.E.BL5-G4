@@ -70,24 +70,24 @@
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="customerName" class="form-label">Name:</label>
-                                    <input type="text" class="form-control" id="customerName" value="${customer.name}" readonly>
+                                    <input type="text" class="form-control" id="customerName" value="${listCI[0].fullName}" readonly>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="customerEmail" class="form-label">Email:</label>
-                                    <input type="text" class="form-control" id="customerEmail" value="${customer.email}" readonly>
+                                    <input type="text" class="form-control" id="customerEmail" value="${listCI[0].email}" readonly>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="insuranceCard" class="form-label">Insurance Card:</label>
-                                    <input type="text" class="form-control" id="insuranceCard" value="${customer.insuranceCard}" readonly>
+                                    <input type="text" class="form-control" id="insuranceCard" value="${listCI[0].insuranceCard.cardNumber}" readonly>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="cardStatus" class="form-label">Card Status:</label>
                                     <select class="form-select" id="cardStatus">
-                                        <option value="active" ${customer.cardStatus == 'active' ? 'selected' : ''}>Active</option>
-                                        <option value="expired" ${customer.cardStatus == 'expired' ? 'selected' : ''}>Expired</option>
-                                        <option value="revoked" ${customer.cardStatus == 'revoked' ? 'selected' : ''}>Revoked</option>
+                                        <option value="active" ${listCI[0].insuranceCard.status == 'active' ? 'selected' : ''}>Active</option>
+                                        <option value="expired" ${listCI[0].insuranceCard.status == 'expired' ? 'selected' : ''}>Expired</option>
+                                        <option value="revoked" ${listCI[0].insuranceCard.status == 'revoked' ? 'selected' : ''}>Revoked</option>
                                     </select>
                                 </div>
                             </div>
@@ -100,11 +100,12 @@
                 <div class="card mb-4">
                     <div class="card-header">Insurance Requests</div>
                     <div class="card-body">
-                        <table class="table table-striped">
-                            <thead>
+                        <table class="table table-striped table-bordered table-sm text-center align-middle">
+                            <thead class="thead-dark">
                                 <tr>
                                     <th>Request ID</th>
                                     <th>Product</th>
+                                    <th>Reason</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -114,6 +115,7 @@
                                     <tr>
                                         <td>${request.id}</td>
                                         <td>${request.product}</td>
+                                         <td>${request.product}</td>
                                         <td>${request.status}</td>
                                         <td>
                                             <button class="btn btn-success btn-sm">Approve</button>

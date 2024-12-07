@@ -207,8 +207,5 @@ public class User {
             '}';
     }
 
-    public void setInsuranceCards(List<InsuranceCard> insuranceCards) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
 }

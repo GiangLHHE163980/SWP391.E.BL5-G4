@@ -24,7 +24,7 @@
             <ul class="list-unstyled px-2">
                 <li><a href="#" class="text-white d-block py-2 px-3"><i class="fas fa-home me-2"></i> Dashboard</a></li>
                 <li>
-                    <a href="CustomerController?action=list" class="text-white d-block py-2 px-3">
+                    <a href="CustomerForStaffController?action=showAllCustomer" class="text-white d-block py-2 px-3">
                         <i class="fas fa-users me-2"></i> Quản lý Khách hàng
                     </a>
                 </li>

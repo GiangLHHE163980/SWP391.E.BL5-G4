@@ -42,7 +42,14 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "    u.FullName, \n"
             + "    u.Email, \n"
             + "    ic.CardNumber, \n"
-            + "    ic.Status AS CardStatus, \n"
+            + "    ic.Status\n"
+            + "FROM Users u\n"
+            + "JOIN UserRoles ur ON u.UserID = ur.UserID\n"
+            + "JOIN Roles r ON ur.RoleID = r.RoleID\n"
+            + "LEFT JOIN InsuranceCards ic ON u.UserID = ic.UserID\n"
+            + "WHERE r.RoleName = 'Customer' AND u.UserID = ?;";
+
+    private static final String GET_CUSTOMER_REQUEST_BY_ID = "SELECT \n"
             + "    c.ClaimID, \n"
             + "    c.Status AS ClaimStatus, \n"
             + "    c.Reason, \n"
@@ -53,11 +60,8 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "LEFT JOIN InsuranceCards ic ON u.UserID = ic.UserID\n"
             + "LEFT JOIN Claims c ON ic.CardID = c.CardID\n"
             + "LEFT JOIN InsuranceProducts ip ON ic.ProductID = ip.ProductID\n"
-            + "WHERE r.RoleName = 'Customer' AND u.UserID = ?;";
-    
-    
-
-
+            + "WHERE r.RoleName = 'Customer' \n"
+            + "  AND u.UserID = 2;";
 
     @Override
     public List<User> findAllCustomers() {
@@ -98,7 +102,56 @@ public class CustomerForStaffService implements ICustomerForStaffService {
 
         return customers; // Trả về danh sách khách hàng
     }
-    
+
+    public List<User> findByCustomerById(String query, Object... args) {
+        List<User> list = new ArrayList<>();
+        try ( PreparedStatement pre = connection.prepareStatement(query)) {
+            // Gán tham số truy vấn
+            for (int i = 0; i < args.length; i++) {
+                pre.setObject(i + 1, args[i]);
+            }
+
+            // Thực thi truy vấn
+            try ( ResultSet rs = pre.executeQuery()) {
+                while (rs.next()) {
+                    // Lấy thông tin từ kết quả truy vấn
+                    int userId = rs.getInt("UserID");
+                    String fullName = rs.getString("FullName");
+                    String email = rs.getString("Email");
+
+                    // Tạo đối tượng User
+                    User customer = new User(userId, fullName, email);
+
+                    // Kiểm tra và thêm InsuranceCard
+                    String cardNumber = rs.getString("CardNumber");
+                    String status = rs.getString("Status");
+
+                    if (cardNumber != null && status != null) {
+                        InsuranceCard card = new InsuranceCard(cardNumber, status);
+                        customer.setInsuranceCard(card); // Gắn thẻ bảo hiểm vào User
+                    }
+
+                    // Thêm khách hàng vào danh sách
+                    list.add(customer);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL Error while executing query: " + GET_ALL_CUSTOMERS);
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Unexpected Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    @Override
+    public Object findCustomerInforById(int id) {
+        String query = GET_CUSTOMERS_BY_ID;
+        return findByCustomerById(query, id);
+    }
+
     //    //Test delete product and company
     public static void main(String[] args) {
         // Khởi tạo ProductService (DAO)
@@ -106,10 +159,9 @@ public class CustomerForStaffService implements ICustomerForStaffService {
 
         // Gọi phương thức delete để xóa sản phẩm với ProductID = 1
 //        dao.findCustomerInforById(2);
-
         // Kiểm tra lại sản phẩm sau khi xóa
-        List<InsuranceProduct> pList = (List<InsuranceProduct>) dao.findCustomerInforById(2);
-            for (InsuranceProduct o : pList) {
+        List<User> pList = (List<User>) dao.findCustomerInforById(2);
+        for (User o : pList) {
             System.out.println(o);
         }
     }
@@ -122,10 +174,4 @@ public class CustomerForStaffService implements ICustomerForStaffService {
 //        System.out.println(dao.findAllCustomers());
 //
 //    }
-
-    @Override
-    public Object findCustomerInforById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
 }
