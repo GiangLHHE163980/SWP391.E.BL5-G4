@@ -176,33 +176,54 @@ public class ProductController extends HttpServlet {
     }
 
     private void showAllProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    String searchQuery = request.getParameter("searchQuery");
-    String category = request.getParameter("category");
-    List<InsuranceProduct> products;
-    
-    List<InsuranceProduct> insuranceTypes = productService.getDistinctInsuranceTypes();
-    request.setAttribute("insuranceTypes", insuranceTypes);
-    
-    if (searchQuery != null && !searchQuery.trim().isEmpty() && category != null && !category.trim().isEmpty()) {
-        // Tìm kiếm trong danh mục
-        products = productService.getProductByNameAndCategory(searchQuery, category);
-        request.setAttribute("selectedCategory", category);
-    } else if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-        // Tìm kiếm không phân loại
-        products = productService.getProductByNameWithAvatar(searchQuery);
-    } else if (category != null && !category.trim().isEmpty()) {
-        // Lọc theo danh mục
-        products = productService.getProductsByCategory(category);
-        request.setAttribute("selectedCategory", category);
-    } else {
-        // Hiển thị tất cả sản phẩm
-        products = productService.getAllProducts();
-    }
+        String searchQuery = request.getParameter("searchQuery");
+        String category = request.getParameter("category");
+        String sortBy = request.getParameter("sortBy");
 
-    request.setAttribute("products", products);
-    RequestDispatcher dispatcher = request.getRequestDispatcher("listInsuranceCardForGuest.jsp");
-    dispatcher.forward(request, response);
-}
+        List<InsuranceProduct> products;
+        // Lấy danh sách các loại bảo hiểm
+        List<InsuranceProduct> insuranceTypes = productService.getDistinctInsuranceTypes();
+        request.setAttribute("insuranceTypes", insuranceTypes);
+        
+        // Tìm kiếm và lọc category
+        if (searchQuery != null && !searchQuery.trim().isEmpty() && category != null && !category.trim().isEmpty()) {
+            if (sortBy != null && !sortBy.trim().isEmpty()) {
+                products = productService.getProductByNameAndCategoryWithSort(searchQuery, category, sortBy);
+            } else {
+                products = productService.getProductByNameAndCategory(searchQuery, category);
+            }
+            request.setAttribute("selectedCategory", category);
+         // Tìm kiếm không phân loại và sắp xếp 
+        } else if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+            if (sortBy != null && !sortBy.trim().isEmpty()) {
+                products = productService.getProductByNameWithAvatarAndSort(searchQuery, sortBy);
+            } else {
+                products = productService.getProductByNameWithAvatar(searchQuery);
+            }
+         // Lọc category và sắp xếp
+        } else if (category != null && !category.trim().isEmpty()) {
+            if (sortBy != null && !sortBy.trim().isEmpty()) {
+                products = productService.getProductsByCategoryWithSort(category, sortBy);
+            } else {
+                products = productService.getProductsByCategory(category);
+            }
+            request.setAttribute("selectedCategory", category);
+        } else {
+            // Trường hợp không có tìm kiếm và sắp xếp, hiển thị tất cả sản phẩm mà không sắp xếp
+            if (sortBy == null || sortBy.trim().isEmpty()) {
+                products = productService.getAllProducts();
+            } else {
+                // Hiển thị tất cả sản phẩm có sắp xếp
+                products = productService.getAllProductsWithSort(sortBy);
+            }
+        }
+
+        request.setAttribute("products", products);
+        request.setAttribute("selectedSortBy", sortBy); // Lưu giá trị sortBy để hiển thị lại trên giao diện
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("listInsuranceCardForGuest.jsp");
+        dispatcher.forward(request, response);
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

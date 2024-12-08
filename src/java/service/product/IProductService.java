@@ -29,4 +29,12 @@ public interface IProductService {
     List<InsuranceProduct> getProductsByCategory(String category);
 
     List<InsuranceProduct> getProductByNameAndCategory(String searchName, String category);
+    
+    List<InsuranceProduct> getAllProductsWithSort(String sortBy);
+    
+    List<InsuranceProduct> getProductByNameAndCategoryWithSort(String searchName, String category, String sortBy);
+            
+    List<InsuranceProduct> getProductByNameWithAvatarAndSort(String searchName, String sortBy);
+    
+    List<InsuranceProduct> getProductsByCategoryWithSort(String category, String sortBy);
 }
