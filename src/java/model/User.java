@@ -21,20 +21,19 @@ public class User {
     private int socialSecurityNumber; // New field
     private Date birthday; // New field for birthday
     private InsuranceCard insuranceCard;
-   
+    private List<Claim> claims;
+    private InsuranceProduct insuranceProduct;
 
     public User(int userID, String username, boolean isActive) {
         this.userID = userID;
         this.isActive = isActive;
         this.username = username;
-    private InsuranceCard insuranceCard; // Thêm thuộc tính này
-    private List<Claim> claims;
-    private InsuranceProduct insuranceProduct;
-    
+    }
+
     // gianglh findByCustomerByIdV1
     public List<Claim> getClaims() {
-    return this.claims;
-}
+        return this.claims;
+    }
 
     // gianglh findByCustomerByIdV1
     public void setInsuranceCard(InsuranceCard card) {
@@ -48,13 +47,13 @@ public class User {
         }
         this.claims.add(claim);
     }
-    
-     // Thêm getter và setter cho insuranceProduct
+
+    // Thêm getter và setter cho insuranceProduct
     public InsuranceProduct getInsuranceProduct() {
         return insuranceProduct;
     }
-    
-     public void setInsuranceProduct(InsuranceProduct insuranceProduct) {
+
+    public void setInsuranceProduct(InsuranceProduct insuranceProduct) {
         this.insuranceProduct = insuranceProduct;
     }
 
@@ -62,10 +61,11 @@ public class User {
     public User() {
     }
 
-
     // Constructor with all fields
     public User(int userID, String fullName, String email, String passwordHash, String phoneNumber, String address,
-            String avatar, boolean isActive, Date createdAt, Date updatedAt, String sex, int socialSecurityNumber, Date birthday,String username) {}
+            String avatar, boolean isActive, Date createdAt, Date updatedAt, String sex, int socialSecurityNumber, Date birthday, String username) {
+    }
+
     public User(int userId, String fullName, String email) {
         this.userID = userId;
         this.fullName = fullName;
@@ -102,7 +102,7 @@ public class User {
 
     // Constructor without userID and updatedAt (useful for creating new users)
     public User(String fullName, String email, String passwordHash, String phoneNumber, String address,
-            String avatar, boolean isActive, Date createdAt, String sex, int socialSecurityNumber, Date birthday,String username) {
+            String avatar, boolean isActive, Date createdAt, String sex, int socialSecurityNumber, Date birthday, String username) {
         this.fullName = fullName;
         this.email = email;
         this.username = username;
@@ -116,7 +116,6 @@ public class User {
         this.socialSecurityNumber = socialSecurityNumber;
         this.birthday = birthday; // Initialize birthday
     }
-    
 
     public User(String fullName, String email, String passwordHash, String phoneNumber, String address, String avatar, boolean isActive, Date createdAt) {
         this.fullName = fullName;
@@ -125,7 +124,8 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.avatar = avatar;
-    // Getter và Setter cho InsuranceCard
+    }
+        // Getter và Setter cho InsuranceCard
     public InsuranceCard getInsuranceCard() {
         return insuranceCard;
     }
@@ -143,21 +143,20 @@ public class User {
 
     public User(String username, String fullName, String email, String passwordHash, String phoneNumber, String address,
             String sex, int socialSecurityNumber, boolean isActive, Date createdAt) {
-    this.username = username;
-    this.fullName = fullName;
-    this.email = email;
-    this.passwordHash = passwordHash;
-    this.phoneNumber = phoneNumber;
-    this.address = address;
-    this.sex = sex;
-    this.socialSecurityNumber = socialSecurityNumber;
-    this.isActive = isActive;
-    this.createdAt = createdAt;
-    this.updatedAt = createdAt; // Initialize updatedAt as same as createdAt or set it later
-    this.avatar = "./image/default-avatar.jpg"; // default avatar path
-    this.birthday = null; // Can be set later
-}
-
+        this.username = username;
+        this.fullName = fullName;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.sex = sex;
+        this.socialSecurityNumber = socialSecurityNumber;
+        this.isActive = isActive;
+        this.createdAt = createdAt;
+        this.updatedAt = createdAt; // Initialize updatedAt as same as createdAt or set it later
+        this.avatar = "./image/default-avatar.jpg"; // default avatar path
+        this.birthday = null; // Can be set later
+    }
 
     // Getters and setters
     public int getUserID() {
@@ -279,13 +278,13 @@ public class User {
                 + ", fullName='" + fullName + '\''
                 + ", email='" + email + '\''
                 + ", insuranceCard=" + insuranceCard + '\''
-                + "claims=" + claims+ '\''
+                + "claims=" + claims + '\''
                 + "InsuranceProduct=" + insuranceProduct
                 + '}';
     }
 
-    public InsuranceCard setInsuranceCard(InsuranceCard card) {
-        return this.insuranceCard;
-    }
+//    public InsuranceCard setInsuranceCard(InsuranceCard card) {
+//        return this.insuranceCard;
+//    }
 
 }

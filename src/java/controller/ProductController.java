@@ -197,7 +197,7 @@ public class ProductController extends HttpServlet {
         // Lấy danh sách các loại bảo hiểm
         List<InsuranceProduct> insuranceTypes = productService.getDistinctInsuranceTypes();
         request.setAttribute("insuranceTypes", insuranceTypes);
-        
+
         // Tìm kiếm và lọc category
         if (searchQuery != null && !searchQuery.trim().isEmpty() && category != null && !category.trim().isEmpty()) {
             if (sortBy != null && !sortBy.trim().isEmpty()) {
@@ -206,14 +206,14 @@ public class ProductController extends HttpServlet {
                 products = productService.getProductByNameAndCategory(searchQuery, category);
             }
             request.setAttribute("selectedCategory", category);
-         // Tìm kiếm không phân loại và sắp xếp 
+            // Tìm kiếm không phân loại và sắp xếp 
         } else if (searchQuery != null && !searchQuery.trim().isEmpty()) {
             if (sortBy != null && !sortBy.trim().isEmpty()) {
                 products = productService.getProductByNameWithAvatarAndSort(searchQuery, sortBy);
             } else {
                 products = productService.getProductByNameWithAvatar(searchQuery);
             }
-         // Lọc category và sắp xếp
+            // Lọc category và sắp xếp
         } else if (category != null && !category.trim().isEmpty()) {
             if (sortBy != null && !sortBy.trim().isEmpty()) {
                 products = productService.getProductsByCategoryWithSort(category, sortBy);
@@ -261,7 +261,7 @@ public class ProductController extends HttpServlet {
                 break;
             case "showAllProduct":
                 showAllProduct(request, response);
-                 break;
+                break;
             case "showViewPage":
                 showViewPage(request, response);
                 break;
