@@ -187,19 +187,36 @@ public class ProductController extends HttpServlet {
         request.setAttribute("insuranceTypes", insuranceTypes);
 
         if (searchQuery != null && !searchQuery.trim().isEmpty() && category != null && !category.trim().isEmpty()) {
-            // Tìm kiếm trong danh mục
-            products = productService.getProductByNameAndCategory(searchQuery, category);
+            // Tìm kiếm trong danh mục và sắp xếp
+            if (sortBy != null && !sortBy.trim().isEmpty()) {
+                products = productService.getProductByNameAndCategoryWithSort(searchQuery, category, sortBy);
+            } else {
+                products = productService.getProductByNameAndCategory(searchQuery, category);
+            }
             request.setAttribute("selectedCategory", category);
         } else if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-            // Tìm kiếm không phân loại
-            products = productService.getProductByNameWithAvatar(searchQuery);
+            // Tìm kiếm không phân loại và sắp xếp
+            if (sortBy != null && !sortBy.trim().isEmpty()) {
+                products = productService.getProductByNameWithAvatarAndSort(searchQuery, sortBy);
+            } else {
+                products = productService.getProductByNameWithAvatar(searchQuery);
+            }
         } else if (category != null && !category.trim().isEmpty()) {
-            // Lọc theo danh mục
-            products = productService.getProductsByCategory(category);
+            // Lọc theo danh mục và sắp xếp
+            if (sortBy != null && !sortBy.trim().isEmpty()) {
+                products = productService.getProductsByCategoryWithSort(category, sortBy);
+            } else {
+                products = productService.getProductsByCategory(category);
+            }
             request.setAttribute("selectedCategory", category);
         } else {
-            // Hiển thị tất cả sản phẩm
-            products = productService.getAllProductsWithSort(sortBy);
+            // Trường hợp không có tìm kiếm và sắp xếp, hiển thị tất cả sản phẩm mà không sắp xếp
+            if (sortBy == null || sortBy.trim().isEmpty()) {
+                products = productService.getAllProducts();
+            } else {
+                // Hiển thị tất cả sản phẩm có sắp xếp
+                products = productService.getAllProductsWithSort(sortBy);
+            }
         }
 
         request.setAttribute("products", products);
