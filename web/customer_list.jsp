@@ -33,7 +33,8 @@
         </c:if>
         <!-- Header -->
         <%@ include file="header.jsp" %>
-        <div class="container">
+      
+        <div class="container content">
             <h1 class="mb-4 text-center">Quản lý Khách hàng</h1>
 
             <!-- Bộ lọc và Tìm kiếm -->

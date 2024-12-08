@@ -67,8 +67,8 @@ public class ManagerStaffController extends HttpServlet {
                 case "delete":
                     // Handle delete
                     int deleteID = Integer.parseInt(request.getParameter("id"));
-                    userService.deleteUser(deleteID);
-                    response.sendRedirect("manage-customer");
+                    boolean isAction = userService.deleteUser(deleteID);
+                    response.sendRedirect("manage-staff?isAction=" + isAction);
                     break;
 
                 default:
