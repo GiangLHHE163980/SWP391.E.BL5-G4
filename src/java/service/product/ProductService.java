@@ -315,8 +315,6 @@ public class ProductService implements IProductService {
 
         return list;
     }
-    
- 
 
     @Override
     public Object findById(int id) {
@@ -353,7 +351,6 @@ public class ProductService implements IProductService {
 //            System.out.println(o);
 //        }
 //    }
-
 //    //Test search product by name
 //    public static void main(String[] args) {
 //        ProductService dao = new ProductService();

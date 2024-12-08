@@ -14,12 +14,15 @@ public class InsuranceProduct {
     private String conditions;
     private Date createdAt;  // Sử dụng java.sql.Date hoặc java.sql.Timestamp
     private Date updatedAt;  // Sử dụng java.sql.Date hoặc java.sql.Timestamp
+    private String avatar;
 
+ 
+    
     public InsuranceProduct() {
     }
 
     // Constructor với tất cả các tham số
-    public InsuranceProduct(int productID, InsuranceCompany insuranceCompany, String productName, String insuranceType, String description, BigDecimal cost, String conditions, Date createdAt, Date updatedAt) {
+    public InsuranceProduct(int productID, InsuranceCompany insuranceCompany, String productName, String insuranceType, String description, BigDecimal cost, String conditions, Date createdAt, Date updatedAt, String avatar) {
         this.productID = productID;
         this.insuranceCompany = insuranceCompany;
         this.productName = productName;
@@ -29,6 +32,7 @@ public class InsuranceProduct {
         this.conditions = conditions;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.avatar = avatar;
     }
 
     public InsuranceProduct(int productID, InsuranceCompany insuranceCompany, String productName, String insuranceType, String description, BigDecimal cost, String conditions) {
@@ -54,7 +58,14 @@ public class InsuranceProduct {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-  
+     public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
 
     // Getters và Setters
     public int getProductID() {
