@@ -29,4 +29,6 @@ public interface IProductService {
     List<InsuranceProduct> getProductsByCategory(String category);
 
     List<InsuranceProduct> getProductByNameAndCategory(String searchName, String category);
+    
+    List<InsuranceProduct> getAllProductsWithSort(String sortBy);
 }

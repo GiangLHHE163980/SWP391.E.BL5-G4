@@ -153,6 +153,10 @@ public class ProductService implements IProductService {
             "JOIN InsuranceCompanies ic ON ip.CompanyID = ic.CompanyID\n" +
             "WHERE ip.ProductName LIKE ? AND ip.InsuranceType = ?";
 
+        private static final String SORT_BY_COST_ASC = " ORDER BY ip.Cost ASC";
+        private static final String SORT_BY_COST_DESC = " ORDER BY ip.Cost DESC";
+        private static final String SORT_BY_DATE_NEWEST = " ORDER BY ip.CreatedAt DESC";
+        private static final String SORT_BY_DATE_OLDEST = " ORDER BY ip.CreatedAt ASC";
     //delete product and company
     @Override
     public void delete(int id) {
@@ -451,6 +455,26 @@ public class ProductService implements IProductService {
         String query = GET_PRODUCT_BY_NAME_AND_CATEGORY;
         return find(query, "%" + searchName + "%", category);
     }
+    
+    @Override
+    public List<InsuranceProduct> getAllProductsWithSort(String sortBy) {
+    // Khởi tạo query cơ bản
+    StringBuilder query = new StringBuilder(GET_ALL_PRODUCTS_WITH_AVATAR);
+
+    // Thêm điều kiện sắp xếp dựa vào giá trị của sortBy
+    if ("costAsc".equals(sortBy)) {
+        query.append(SORT_BY_COST_ASC);
+    } else if ("costDesc".equals(sortBy)) {
+        query.append(SORT_BY_COST_DESC);
+    } else if ("dateNewest".equals(sortBy)) {
+        query.append(SORT_BY_DATE_NEWEST);
+    } else if ("dateOldest".equals(sortBy)) {
+        query.append(SORT_BY_DATE_OLDEST);
+    }
+
+    // Thực thi query và trả về danh sách sản phẩm
+    return find(query.toString());
+}
 //    //Test delete product and company
 //    public static void main(String[] args) {
 //        // Khởi tạo ProductService (DAO)

@@ -73,9 +73,23 @@
         <form method="get" action="">
             <input type="hidden" name="action" value="showAllProduct">
             <input type="hidden" name="category" value="${param.category}">
-            <div class="input-group">
-                <input type="text" name="searchQuery" class="form-control" placeholder="Tìm kiếm sản phẩm..." value="${param.searchQuery}">
-                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            <input type="text" name="searchQuery" class="form-control mb-2" placeholder="Tìm kiếm sản phẩm..." value="${param.searchQuery}">
+
+            <!-- Dropdown Sort -->
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="sortBy" class="form-label">Sắp xếp theo:</label>
+                    <select name="sortBy" id="sortBy" class="form-select" onchange="this.form.submit()">
+                        <option value="" ${empty param.sortBy ? "selected" : ""}>Mặc định</option>
+                        <option value="costAsc" ${param.sortBy == 'costAsc' ? "selected" : ""}>Giá: Tăng dần</option>
+                        <option value="costDesc" ${param.sortBy == 'costDesc' ? "selected" : ""}>Giá: Giảm dần</option>
+                        <option value="dateNewest" ${param.sortBy == 'dateNewest' ? "selected" : ""}>Ngày: Mới nhất</option>
+                        <option value="dateOldest" ${param.sortBy == 'dateOldest' ? "selected" : ""}>Ngày: Cũ nhất</option>
+                    </select>
+                </div>
+                <div class="col-md-2 align-self-end">
+                    <button type="submit" class="btn btn-primary">Áp dụng</button>
+                </div>
             </div>
         </form>
     </div>
