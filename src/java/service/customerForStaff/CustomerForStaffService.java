@@ -42,6 +42,18 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "    u.FullName, \n"
             + "    u.Email, \n"
             + "    ic.CardNumber, \n"
+            + "    ic.Status\n"
+            + "FROM Users u\n"
+            + "JOIN UserRoles ur ON u.UserID = ur.UserID\n"
+            + "JOIN Roles r ON ur.RoleID = r.RoleID\n"
+            + "LEFT JOIN InsuranceCards ic ON u.UserID = ic.UserID\n"
+            + "WHERE r.RoleName = 'Customer' AND u.UserID = ?;";
+
+    private static final String GET_CUSTOMER_REQUEST_BY_ID = "SELECT \n"
+            + "    u.UserID, \n"
+            + "    u.FullName, \n"
+            + "    u.Email, \n"
+            + "    ic.CardNumber, \n"
             + "    ic.Status AS CardStatus, \n"
             + "    c.ClaimID, \n"
             + "    c.Status AS ClaimStatus, \n"
@@ -53,11 +65,63 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "LEFT JOIN InsuranceCards ic ON u.UserID = ic.UserID\n"
             + "LEFT JOIN Claims c ON ic.CardID = c.CardID\n"
             + "LEFT JOIN InsuranceProducts ip ON ic.ProductID = ip.ProductID\n"
-            + "WHERE r.RoleName = 'Customer' AND u.UserID = ?;";
-    
-    
+            + "WHERE r.RoleName = 'Customer'\n"
+            + "  AND u.UserID = ?;";
 
+    private static final String UPDATE_INSURANCE_REQUEST_STATUS_BY_ID = "UPDATE Claims "
+            + "SET Status = ? "
+            + "FROM Claims c "
+            + "JOIN InsuranceCards ic ON c.CardID = ic.CardID "
+            + "JOIN Users u ON ic.UserID = u.UserID "
+            + "JOIN UserRoles ur ON u.UserID = ur.UserID "
+            + "JOIN Roles r ON ur.RoleID = r.RoleID "
+            + "WHERE r.RoleName = 'Customer' "
+            + "AND u.UserID = ? ";
+    
+     private static final String UPDATE_INSURANCE_CARD_STATUS_BY_ID = "UPDATE InsuranceCards "
+            + "SET Status = ? "
+            + "FROM InsuranceCards ic "
+            + "JOIN Users u ON ic.UserID = u.UserID "
+            + "JOIN UserRoles ur ON u.UserID = ur.UserID "
+            + "JOIN Roles r ON ur.RoleID = r.RoleID "
+            + "WHERE r.RoleName = 'Customer' "
+            + "AND u.UserID = ? ";
 
+         
+     
+     
+     
+        @Override
+    public void updateInsuranceCardStatusByUserId(String newStatus, int userID) {
+        try ( PreparedStatement ps = connection.prepareStatement(UPDATE_INSURANCE_CARD_STATUS_BY_ID)) {
+            ps.setString(1, newStatus); // Cập nhật trạng thái mới (ví dụ 'Pending', 'Approved', ...)
+            ps.setInt(2, userID); // Truyền vào userID
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Claims status updated successfully.");
+            } else {
+                System.out.println("No records found for update.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    } 
+     
+    @Override
+    public void updateInsuranceRequestStatusByUserId(String newStatus, int userID) {
+        try ( PreparedStatement ps = connection.prepareStatement(UPDATE_INSURANCE_REQUEST_STATUS_BY_ID)) {
+            ps.setString(1, newStatus); // Cập nhật trạng thái mới (ví dụ 'Pending', 'Approved', ...)
+            ps.setInt(2, userID); // Truyền vào userID
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Claims status updated successfully.");
+            } else {
+                System.out.println("No records found for update.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public List<User> findAllCustomers() {
@@ -98,21 +162,86 @@ public class CustomerForStaffService implements ICustomerForStaffService {
 
         return customers; // Trả về danh sách khách hàng
     }
-    
-    //    //Test delete product and company
-    public static void main(String[] args) {
-        // Khởi tạo ProductService (DAO)
-        ICustomerForStaffService dao = new CustomerForStaffService();
 
-        // Gọi phương thức delete để xóa sản phẩm với ProductID = 1
-//        dao.findCustomerInforById(2);
+    public List<User> findByCustomerById(String query, Object... args) {
+        List<User> list = new ArrayList<>();
+        try ( PreparedStatement pre = connection.prepareStatement(query)) {
+            // Gán tham số truy vấn
+            for (int i = 0; i < args.length; i++) {
+                pre.setObject(i + 1, args[i]);
+            }
 
-        // Kiểm tra lại sản phẩm sau khi xóa
-        List<InsuranceProduct> pList = (List<InsuranceProduct>) dao.findCustomerInforById(2);
-            for (InsuranceProduct o : pList) {
-            System.out.println(o);
+            // Thực thi truy vấn
+            try ( ResultSet rs = pre.executeQuery()) {
+                while (rs.next()) {
+                    // Lấy thông tin từ kết quả truy vấn
+                    int userId = rs.getInt("UserID");
+                    String fullName = rs.getString("FullName");
+                    String email = rs.getString("Email");
+
+                    // Tạo đối tượng User
+                    User customer = new User(userId, fullName, email);
+
+                    // Kiểm tra và thêm InsuranceCard
+                    String cardNumber = rs.getString("CardNumber");
+                    String cardStatus = rs.getString("CardStatus");
+
+                    if (cardNumber != null && cardStatus != null) {
+                        InsuranceCard card = new InsuranceCard(cardNumber, cardStatus);
+                        customer.setInsuranceCard(card);
+                    }
+
+                    // Kiểm tra và thêm Claim
+                    int claimId = rs.getInt("ClaimID");
+                    String claimStatus = rs.getString("ClaimStatus");
+                    String reason = rs.getString("Reason");
+
+                    if (claimId != 0) {
+                        Claim claim = new Claim(claimId, claimStatus, reason);
+                        customer.addClaim(claim); // Gắn yêu cầu bảo hiểm vào User
+                    }
+
+                    // Lấy và thêm thông tin sản phẩm bảo hiểm
+                    String productName = rs.getString("ProductName");
+                    if (productName != null) {
+                        InsuranceProduct product = new InsuranceProduct(productName);
+                        customer.setInsuranceProduct(product);  // Gắn thông tin sản phẩm bảo hiểm vào User
+                    }
+
+                    // Thêm khách hàng vào danh sách
+                    list.add(customer);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL Error while executing query: " + query);
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Unexpected Error: " + e.getMessage());
+            e.printStackTrace();
         }
+
+        return list;
     }
+
+    @Override
+    public Object findCustomerInforById(int id) {
+        String query = GET_CUSTOMER_REQUEST_BY_ID;
+        return findByCustomerById(query, id);
+    }
+
+    //    //Test find Customer Infor By use Id
+//    public static void main(String[] args) {
+//        // Khởi tạo ProductService (DAO)
+//        ICustomerForStaffService dao = new CustomerForStaffService();
+//
+//        // Gọi phương thức delete để xóa sản phẩm với ProductID = 1
+//        dao.updateInsuranceCardStatusByUserId("Expired", 2);
+//        // Kiểm tra lại sản phẩm sau khi xóa
+//        List<User> pList = (List<User>) dao.findCustomerInforById(2);
+//        for (User o : pList) {
+//            System.out.println(o);
+//        }
+//    }
 
 //    public static void main(String[] args) {
 //        // Khởi tạo ProductService (DAO)
@@ -122,10 +251,4 @@ public class CustomerForStaffService implements ICustomerForStaffService {
 //        System.out.println(dao.findAllCustomers());
 //
 //    }
-
-    @Override
-    public Object findCustomerInforById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
 }

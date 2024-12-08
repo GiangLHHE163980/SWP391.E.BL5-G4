@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +27,35 @@ public class User {
         this.userID = userID;
         this.isActive = isActive;
         this.username = username;
+    private InsuranceCard insuranceCard; // Thêm thuộc tính này
+    private List<Claim> claims;
+    private InsuranceProduct insuranceProduct;
+    
+    // gianglh findByCustomerByIdV1
+    public List<Claim> getClaims() {
+    return this.claims;
+}
+
+    // gianglh findByCustomerByIdV1
+    public void setInsuranceCard(InsuranceCard card) {
+        this.insuranceCard = card;
+    }
+
+    // gianglh findByCustomerByIdV1
+    public void addClaim(Claim claim) {
+        if (this.claims == null) {
+            this.claims = new ArrayList<>();
+        }
+        this.claims.add(claim);
+    }
+    
+     // Thêm getter và setter cho insuranceProduct
+    public InsuranceProduct getInsuranceProduct() {
+        return insuranceProduct;
+    }
+    
+     public void setInsuranceProduct(InsuranceProduct insuranceProduct) {
+        this.insuranceProduct = insuranceProduct;
     }
 
     // Default constructor
@@ -50,6 +80,7 @@ public class User {
         this.username = username;
     }
 
+    //
     // Constructor with all fields
     public User(int userID, String fullName, String email, String passwordHash, String phoneNumber, String address,
             String avatar, boolean isActive, Date createdAt, Date updatedAt, String sex, int socialSecurityNumber, Date birthday) {
@@ -94,6 +125,18 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.avatar = avatar;
+    // Getter và Setter cho InsuranceCard
+    public InsuranceCard getInsuranceCard() {
+        return insuranceCard;
+    }
+
+//    public void setInsuranceCard(InsuranceCard card) {
+//        // Đảm bảo rằng bạn đang xử lý thông tin thẻ bảo hiểm đúng cách
+//        this.insuranceCard = card;  // Đảm bảo biến 'insuranceCard' đã được định nghĩa trong lớp User
+//    }
+    public User(int userID, String username, boolean isActive, InsuranceCard insuranceCard) {
+        this.userID = userID;
+        this.username = username;
         this.isActive = isActive;
         this.createdAt = createdAt;
     }
@@ -231,16 +274,14 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-            "userID=" + userID +
-            ", fullName='" + fullName + '\'' +
-            ", email='" + email + '\'' +
-            ", insuranceCard=" + insuranceCard + 
-            '}';
-    }
-
-    public void setInsuranceCards(List<InsuranceCard> insuranceCards) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "User{"
+                + "userID=" + userID
+                + ", fullName='" + fullName + '\''
+                + ", email='" + email + '\''
+                + ", insuranceCard=" + insuranceCard + '\''
+                + "claims=" + claims+ '\''
+                + "InsuranceProduct=" + insuranceProduct
+                + '}';
     }
 
     public InsuranceCard setInsuranceCard(InsuranceCard card) {

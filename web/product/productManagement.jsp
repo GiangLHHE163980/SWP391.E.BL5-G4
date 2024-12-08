@@ -6,7 +6,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Quản lý Sản phẩm Bảo hiểm</title>
-         
+
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Datatables CSS -->
@@ -17,7 +17,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
 
-       
+
     </head>
     <body>
         <div class="wrapper d-flex">
@@ -56,7 +56,7 @@
                                     <button class="btn btn-outline-success rounded px-2 ms-2" type="submit">
                                         <i class="bi bi-search"></i> Tìm kiếm
                                     </button>
-                                    
+
                                 </div>
                             </form>
                         </div>
@@ -107,8 +107,8 @@
                                     <th>ID</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Loại bảo hiểm</th>
-                                    <th>Chi phí</th>
                                     <th>Quyền lợi</th>
+                                    <th>Chi phí</th>                                
                                     <th>Điều kiện</th>
                                     <th>Nhà cung cấp</th>
                                     <th>Hành động</th>
@@ -126,6 +126,10 @@
                                         <td>${product.conditions}</td>
                                         <td>${product.insuranceCompany.companyName}</td>
                                         <td>
+                                            <a href="${pageContext.request.contextPath}/ProductController?action=showViewPage&product_id=${product.productID}" 
+                                               class="btn btn-primary btn-sm" title="Xem chi tiết">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
                                             <a href="${pageContext.request.contextPath}/ProductController?action=showEditPage&product_id=${product.productID}" class="btn btn-warning btn-sm" title="Chỉnh sửa">
                                                 <i class="bi bi-pencil-square"></i>
                                             </a>

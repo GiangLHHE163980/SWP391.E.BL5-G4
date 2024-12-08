@@ -44,6 +44,19 @@ public class ProductController extends HttpServlet {
         }
     }
 
+    private void showViewPage(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("product_id"));
+//        System.out.println("ahihihihiihihi" + productService.findById(id));
+        Object product = productService.findById(id);
+        if (product == null) {
+            System.out.println("Product not found for ID: " + id);
+        } else {
+            System.out.println("Product found: " + product);
+        }
+        request.setAttribute("productList", product);
+        getRequestDispatch(request, response, "product/viewProduct.jsp");
+    }
+
     private void deleteProduct(HttpServletRequest request, HttpServletResponse response) {
 
         try {
@@ -248,6 +261,9 @@ public class ProductController extends HttpServlet {
                 break;
             case "showAllProduct":
                 showAllProduct(request, response);
+                 break;
+            case "showViewPage":
+                showViewPage(request, response);
                 break;
             default:
                 // Chuyển đến trang lỗi nếu action không hợp lệ

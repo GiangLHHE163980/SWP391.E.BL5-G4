@@ -16,11 +16,13 @@ public class InsuranceProduct {
     private Date updatedAt;  // Sử dụng java.sql.Date hoặc java.sql.Timestamp
     private String avatar;
 
+ 
+    
     public InsuranceProduct() {
     }
 
     // Constructor với tất cả các tham số
-    public InsuranceProduct(int productID, InsuranceCompany insuranceCompany, String productName, String insuranceType, String description, BigDecimal cost, String conditions, Date createdAt, Date updatedAt) {
+    public InsuranceProduct(int productID, InsuranceCompany insuranceCompany, String productName, String insuranceType, String description, BigDecimal cost, String conditions, Date createdAt, Date updatedAt, String avatar) {
         this.productID = productID;
         this.insuranceCompany = insuranceCompany;
         this.productName = productName;
@@ -30,9 +32,10 @@ public class InsuranceProduct {
         this.conditions = conditions;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.avatar = avatar;
     }
-    
-        public InsuranceProduct(int productID, InsuranceCompany insuranceCompany, String productName, String insuranceType, String description, BigDecimal cost, String conditions) {
+
+    public InsuranceProduct(int productID, InsuranceCompany insuranceCompany, String productName, String insuranceType, String description, BigDecimal cost, String conditions) {
         this.productID = productID;
         this.insuranceCompany = insuranceCompany;
         this.productName = productName;
@@ -40,9 +43,12 @@ public class InsuranceProduct {
         this.description = description;
         this.cost = cost;
         this.conditions = conditions;
-  
+
     }
-        
+
+    public InsuranceProduct(String productName) {
+        this.productName = productName;
+    }
     public InsuranceProduct(InsuranceCompany insuranceCompany, String productName, String insuranceType, String description, BigDecimal cost, String conditions) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
@@ -51,12 +57,13 @@ public class InsuranceProduct {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public InsuranceProduct(String productName) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+     public String getAvatar() {
+        return avatar;
     }
 
-
-
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
 
     // Getters và Setters
@@ -142,28 +149,28 @@ public class InsuranceProduct {
 
     @Override
     public String toString() {
-        return "InsuranceProduct{" +
-                "productID=" + productID +
-                ", insuranceCompany=" + insuranceCompany +
-                ", productName='" + productName + '\'' +
-                ", insuranceType='" + insuranceType + '\'' +
-                ", description='" + description + '\'' +
-                ", cost=" + cost +
-                ", conditions='" + conditions + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+        return "InsuranceProduct{"
+                + "productID=" + productID
+                + ", insuranceCompany=" + insuranceCompany
+                + ", productName='" + productName + '\''
+                + ", insuranceType='" + insuranceType + '\''
+                + ", description='" + description + '\''
+                + ", cost=" + cost
+                + ", conditions='" + conditions + '\''
+                + ", createdAt=" + createdAt
+                + ", updatedAt=" + updatedAt
+                + '}';
     }
 
     public int getCompanyID() {
-      return insuranceCompany.getCompanyID();
+        return insuranceCompany.getCompanyID();
     }
 
- public void setCompanyID(int companyID) {
-    if (this.insuranceCompany == null) {
-        this.insuranceCompany = new InsuranceCompany(); // Khởi tạo đối tượng nếu null
+    public void setCompanyID(int companyID) {
+        if (this.insuranceCompany == null) {
+            this.insuranceCompany = new InsuranceCompany(); // Khởi tạo đối tượng nếu null
+        }
+        this.insuranceCompany.setCompanyID(companyID); // Gán giá trị cho companyID của InsuranceCompany
     }
-    this.insuranceCompany.setCompanyID(companyID); // Gán giá trị cho companyID của InsuranceCompany
-}
 
 }
