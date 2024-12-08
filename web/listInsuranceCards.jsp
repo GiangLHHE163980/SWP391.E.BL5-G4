@@ -13,6 +13,9 @@
     <body>
         <%@ include file="header.jsp" %>
         <div class="container mt-4">
+            <a href="home.jsp" class="btn btn-success mb-3">
+                <i class="bi bi-arrow-left"></i> Quay lại
+            </a>
             <h1>List of Insurance Cards</h1>
             <!-- Search Bar -->
             <div class="mb-4">
@@ -49,10 +52,14 @@
                             <td><fmt:formatDate value="${card.startDate}" pattern="yyyy-MM-dd" /></td>
                             <td><fmt:formatDate value="${card.endDate}" pattern="yyyy-MM-dd" /></td>
                             <td>
-                                <a href="viewCardDetails?cardID=${card.cardID}" class="btn btn-primary">View</a>
-                                <a href="renewCard?cardID=${card.cardID}" class="btn btn-success">Renew</a>
-                                <a href="cancelCard?cardID=${card.cardID}" class="btn btn-danger">Cancel</a>
+                                <div class="d-flex justify-content-between">
+                                    <a href="viewInsuranceInfo?cardID=${card.cardID}" class="btn btn-primary">View</a>
+                                    <a href="renewCard?cardID=${card.cardID}" class="btn btn-success">Renew</a>
+                                    <a href="cancelCard?cardID=${card.cardID}" class="btn btn-danger">Cancel</a>
+                                </div>
+                                
                             </td>
+
                         </tr>
                     </c:forEach>
                     <c:if test="${empty insuranceCards}">

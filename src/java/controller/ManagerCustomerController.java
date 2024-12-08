@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+import java.util.List;
 import model.User;
 import service.user.UserServiceImpl;
 import ultil.Upload;
@@ -49,25 +50,43 @@ public class ManagerCustomerController extends HttpServlet {
         try {
             switch (action) {
                 case "add":
+                    // Redirect to Add Customer page
                     RequestDispatcher dispatcherAdd = request.getRequestDispatcher("/addCustomer.jsp");
                     dispatcherAdd.forward(request, response);
                     break;
+
                 case "edit":
-                    //Lấy dữ liệu user dựa vào id
+                    // Handle edit
                     int editID = Integer.parseInt(request.getParameter("id"));
                     User editUser = userService.getUserById(editID);
                     request.setAttribute("user", editUser);
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/updateCustomer.jsp");
                     dispatcher.forward(request, response);
                     break;
+
                 case "delete":
+                    // Handle delete
                     int deleteID = Integer.parseInt(request.getParameter("id"));
-                    userService.deleteUser(deleteID);
-                    response.sendRedirect("manage-customer");
+                     boolean isAction = userService.deleteUser(deleteID);
+                    response.sendRedirect("manage-customer?isAction=" + isAction);
                     break;
+
                 default:
-                    request.setAttribute("users", userService.getUsersByRole("Customer"));
-                    request.getRequestDispatcher("/customer_list.jsp").forward(request, response);
+                    String name = request.getParameter("name");
+                    name = name != null ? name : "";
+                    String status = request.getParameter("status");
+                    String roleName = "Customer";
+                    String pageParam = request.getParameter("page");
+                    int page = (pageParam != null && !pageParam.isEmpty()) ? Integer.parseInt(pageParam) : 1;
+                    int pageSize = 10;
+                    List<User> users = userService.getUsersByNameAndStatusRole(name, status, page, pageSize, roleName);
+                    int totalUsers = userService.countUsersByNameAndStatusAndRole(name, status, roleName);
+                    int totalPages = (int) Math.ceil((double) totalUsers / pageSize);
+
+                    request.setAttribute("users", users);
+                    request.setAttribute("totalPages", totalPages);
+                    request.setAttribute("currentPage", page);
+                    request.getRequestDispatcher("customer_list.jsp").forward(request, response);
                     break;
             }
         } catch (Exception e) {
@@ -79,7 +98,9 @@ public class ManagerCustomerController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        User editUser = null;
         try {
+            String username = request.getParameter("username");
             String fullName = request.getParameter("fullName");
             String email = request.getParameter("email");
             String password = request.getParameter("password");
@@ -87,49 +108,60 @@ public class ManagerCustomerController extends HttpServlet {
             String address = request.getParameter("address");
             String oldAvatar = request.getParameter("oldAvatar");
             boolean status = Integer.parseInt(request.getParameter("status")) == 1;
-            //Xử lý Avatar
+
+            // Additional fields
+            String sex = request.getParameter("sex");
+            String socialSecurityNumber = request.getParameter("socialSecurityNumber");
+            String birthday = request.getParameter("birthday");
+
+            // Handle Avatar
             Part filePart = request.getPart("avatar");
-            //Đường dẫn tương đối
             String filePath = "./uploads/";
-            //Đường dẫn tuyệt đối
             String uploadPath = getServletContext().getRealPath(filePath);
             Upload upload = new Upload();
             String nameOfAvatar = upload.uploadFile(filePart, uploadPath);
 
-            User user = new User(fullName, email, password, phoneNumber, address, null, status, new java.util.Date());
+            // Create a User object
+            User user = new User(username, fullName, email, password, phoneNumber, address, sex, Integer.parseInt(socialSecurityNumber), status, new java.util.Date());
 
+            if (birthday != null && !birthday.isEmpty()) {
+                user.setBirthday(java.sql.Date.valueOf(birthday));  // Set the birthday
+            }
+            boolean isAction = false;
             if (request.getParameter("userID") != null) {
-                //Update avatar
                 if (nameOfAvatar == null || nameOfAvatar.equals("")) {
-                    user.setAvatar(oldAvatar); 
+                    user.setAvatar(oldAvatar);
                 } else {
                     user.setAvatar(filePath + nameOfAvatar);
                 }
-                if(password == null || password.equals("")) {
+                if (password == null || password.equals("")) {
                     user.setPasswordHash(request.getParameter("oldPassword"));
                 }
+                System.out.println(user.getAvatar());
                 int userID = Integer.parseInt(request.getParameter("userID"));
                 user.setUserID(userID);
-                userService.updateUser(user);
+
+                editUser = userService.getUserById(userID);
+                isAction = userService.updateUser(user);
             } else {
-                //Add new
                 if (nameOfAvatar != null) {
                     String namePathSaveDB = filePath + nameOfAvatar;
                     user.setAvatar(namePathSaveDB);
                 } else {
                     user.setAvatar("./image/default-avatar.jpg");
                 }
-                userService.createUser(user, "Customer");
+                isAction = userService.createUser(user, "Customer");
             }
-
-            response.sendRedirect("manage-customer");
+            response.sendRedirect("manage-customer?isAction=" + isAction);
         } catch (Exception e) {
             if (action.equals("add")) {
                 request.setAttribute("message", e.getMessage());
                 request.getRequestDispatcher("addCustomer.jsp").forward(request, response);
             } else {
                 request.setAttribute("message", e.getMessage());
-                this.doGet(request, response);
+                request.setAttribute("user", editUser);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/updateCustomer.jsp");
+                dispatcher.forward(request, response);
             }
         }
     }

@@ -1,0 +1,164 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("font-awesome.min.css");
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+
+ body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            padding-bottom: 50px; /* Khoảng cách dưới */
+        }
+        .container {
+            margin-top: 30px;
+        }
+        .form-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .table-section {
+            margin-top: 40px;
+        }
+/* Định dạng cho Header */
+nav.navbar {
+    padding: 10px 20px; /* Thêm khoảng cách cho navbar */
+}
+
+/* Logo */
+.navbar-brand img {
+    height: 40px; /* Cân chỉnh chiều cao của logo */
+    width: auto;  /* Đảm bảo tỷ lệ logo được giữ nguyên */
+}
+
+/* Thay đổi hover cho các liên kết */
+.navbar-nav .nav-link {
+    transition: all 0.3s ease;
+}
+
+/* Hiệu ứng hover cho liên kết */
+.navbar-nav .nav-link:hover {
+    color: #fff; /* Màu sắc khi di chuột lên */
+    text-decoration: underline; /* Gạch chân khi hover */
+}
+
+/* Navbar collapse (menu trên mobile) */
+.navbar-collapse {
+    justify-content: flex-end; /* Căn phải menu khi thu nhỏ */
+}
+
+/* Đảm bảo navbar luôn hiển thị đầy đủ trên màn hình nhỏ */
+@media (max-width: 768px) {
+    .navbar-toggler {
+        border-color: #fff; /* Đổi màu border của nút toggle */
+    }
+    
+    .navbar-toggler-icon {
+        background-color: #fff; /* Đổi màu icon của nút toggle */
+    }
+}
+img {
+    box-sizing: border-box;
+}
+ 
+
+.footer {
+    background-color: #343a40; /* Màu nền tối */
+    color: #ffffff;           /* Màu chữ trắng */
+    text-align: center;       /* Căn giữa nội dung */
+    padding: 15px 0;          /* Khoảng cách trên dưới */
+    width: 100%;              /* Chiều rộng phủ toàn bộ */
+    font-size: 14px;          /* Cỡ chữ nhỏ gọn */
+    position: fixed;          /* Giữ footer ở cuối màn hình */
+    bottom: 0;                /* Căn đáy màn hình */
+    left: 0;                  /* Căn lề trái */
+    z-index: 1000;            /* Bảo đảm footer luôn nổi trên các phần tử khác */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng phía trên */
+}
+
+
+/* Sidebar styles */
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    background-color: #233446;
+}
+
+.sidebar-header {
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar ul {
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+.sidebar ul li a:hover {
+    background-color: #2c3e50;
+    border-radius: 4px;
+}
+
+/* Main content styles */
+.main-content {
+    margin-left: 240px;
+    min-height: 100vh;
+}
+
+.header {
+    border-bottom: 1px solid #ddd;
+}
+
+.card {
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.breadcrumb-container {
+    background-color: #f8f9fa;
+}
+
+.breadcrumb a {
+    color: #007bff;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar {
+    background-color: #343a40;
+}
+
+.navbar a {
+    color: #ffffff !important;
+}
+
+.dropdown-menu {
+    width: 200px;
+}
+
+.table th {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.table td {
+    text-align: center;
+}

@@ -36,12 +36,25 @@ public class ProductController extends HttpServlet {
                 request.setAttribute("productList", productService.findAll());
             }
             // Điều hướng đến view
-            getRequestDispatch(request, response, "productManagement.jsp");
+            getRequestDispatch(request, response, "/product/productManagement.jsp");
         } catch (Exception e) {
             // Log lỗi và chuyển đến trang lỗi
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, e);
             getRequestDispatch(request, response, "error.jsp");
         }
+    }
+
+    private void showViewPage(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("product_id"));
+//        System.out.println("ahihihihiihihi" + productService.findById(id));
+        Object product = productService.findById(id);
+        if (product == null) {
+            System.out.println("Product not found for ID: " + id);
+        } else {
+            System.out.println("Product found: " + product);
+        }
+        request.setAttribute("productList", product);
+        getRequestDispatch(request, response, "product/viewProduct.jsp");
     }
 
     private void deleteProduct(HttpServletRequest request, HttpServletResponse response) {
@@ -66,7 +79,7 @@ public class ProductController extends HttpServlet {
             System.out.println("Product found: " + product);
         }
         request.setAttribute("productList", product);
-        getRequestDispatch(request, response, "editProduct.jsp");
+        getRequestDispatch(request, response, "/product/editProduct.jsp");
     }
 
     private void editProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -126,7 +139,7 @@ public class ProductController extends HttpServlet {
     }
 
     private void showAddPage(HttpServletRequest request, HttpServletResponse response) {
-        getRequestDispatch(request, response, "addOrEditProduct.jsp");
+        getRequestDispatch(request, response, "product/addProduct.jsp");
     }
 
     // add new product with company
@@ -175,6 +188,56 @@ public class ProductController extends HttpServlet {
 
     }
 
+    private void showAllProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String searchQuery = request.getParameter("searchQuery");
+        String category = request.getParameter("category");
+        String sortBy = request.getParameter("sortBy");
+
+        List<InsuranceProduct> products;
+        // Lấy danh sách các loại bảo hiểm
+        List<InsuranceProduct> insuranceTypes = productService.getDistinctInsuranceTypes();
+        request.setAttribute("insuranceTypes", insuranceTypes);
+
+        // Tìm kiếm và lọc category
+        if (searchQuery != null && !searchQuery.trim().isEmpty() && category != null && !category.trim().isEmpty()) {
+            if (sortBy != null && !sortBy.trim().isEmpty()) {
+                products = productService.getProductByNameAndCategoryWithSort(searchQuery, category, sortBy);
+            } else {
+                products = productService.getProductByNameAndCategory(searchQuery, category);
+            }
+            request.setAttribute("selectedCategory", category);
+            // Tìm kiếm không phân loại và sắp xếp 
+        } else if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+            if (sortBy != null && !sortBy.trim().isEmpty()) {
+                products = productService.getProductByNameWithAvatarAndSort(searchQuery, sortBy);
+            } else {
+                products = productService.getProductByNameWithAvatar(searchQuery);
+            }
+            // Lọc category và sắp xếp
+        } else if (category != null && !category.trim().isEmpty()) {
+            if (sortBy != null && !sortBy.trim().isEmpty()) {
+                products = productService.getProductsByCategoryWithSort(category, sortBy);
+            } else {
+                products = productService.getProductsByCategory(category);
+            }
+            request.setAttribute("selectedCategory", category);
+        } else {
+            // Trường hợp không có tìm kiếm và sắp xếp, hiển thị tất cả sản phẩm mà không sắp xếp
+            if (sortBy == null || sortBy.trim().isEmpty()) {
+                products = productService.getAllProducts();
+            } else {
+                // Hiển thị tất cả sản phẩm có sắp xếp
+                products = productService.getAllProductsWithSort(sortBy);
+            }
+        }
+
+        request.setAttribute("products", products);
+        request.setAttribute("selectedSortBy", sortBy); // Lưu giá trị sortBy để hiển thị lại trên giao diện
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("listInsuranceCardForGuest.jsp");
+        dispatcher.forward(request, response);
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -195,6 +258,12 @@ public class ProductController extends HttpServlet {
                 break;
             case "deleteProduct":
                 deleteProduct(request, response);
+                break;
+            case "showAllProduct":
+                showAllProduct(request, response);
+                break;
+            case "showViewPage":
+                showViewPage(request, response);
                 break;
             default:
                 // Chuyển đến trang lỗi nếu action không hợp lệ

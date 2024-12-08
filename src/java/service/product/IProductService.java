@@ -17,4 +17,24 @@ public interface IProductService {
     public void editCompanyAndProduct(int id, InsuranceCompany company, InsuranceProduct product);
 
     public void delete(int id);
+    
+    List<InsuranceProduct> getTopProducts(int limit);
+    
+    List<InsuranceProduct> getProductByNameWithAvatar(String searchName);
+    
+    List<InsuranceProduct> getAllProducts();
+    
+    List<InsuranceProduct> getDistinctInsuranceTypes();
+    
+    List<InsuranceProduct> getProductsByCategory(String category);
+
+    List<InsuranceProduct> getProductByNameAndCategory(String searchName, String category);
+    
+    List<InsuranceProduct> getAllProductsWithSort(String sortBy);
+    
+    List<InsuranceProduct> getProductByNameAndCategoryWithSort(String searchName, String category, String sortBy);
+            
+    List<InsuranceProduct> getProductByNameWithAvatarAndSort(String searchName, String sortBy);
+    
+    List<InsuranceProduct> getProductsByCategoryWithSort(String category, String sortBy);
 }

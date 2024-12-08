@@ -17,4 +17,7 @@ public interface IAccountService extends IGeneralService<User> {
     
     void updatePasswordByEmail(String email, String newPassword);
 
+    boolean isUsernameExists(String username);
+    
+    boolean isEmailExists(String email);
 }

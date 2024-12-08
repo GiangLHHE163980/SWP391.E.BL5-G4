@@ -93,6 +93,70 @@ public class ProductService implements IProductService {
             + "  DELETE FROM InsuranceCompanies\n"
             + "WHERE CompanyID NOT IN (SELECT CompanyID FROM InsuranceProducts);";
 
+    private static final String SELECT_TOP_PRODUCT = "SELECT TOP (?) ip.ProductID, ip.ProductName, ip.InsuranceType, ip.Cost, ip.Description, ip.Conditions, ip.Avatar "
+            + "FROM InsuranceProducts ip";
+    
+    // Query mới để lấy sản phẩm theo tên kèm theo Avatar
+    private static final String GET_PRODUCT_BY_NAME_WITH_AVATAR = "SELECT \n" +
+            "    ip.ProductID,\n" +
+            "    ip.ProductName,\n" +
+            "    ip.InsuranceType,\n" +
+            "    ip.Cost,\n" +
+            "    ip.Description,\n" +
+            "    ip.Conditions,\n" +
+            "    ip.Avatar,\n" +
+            "    ic.CompanyName\n" +
+            "FROM InsuranceProducts ip\n" +
+            "JOIN InsuranceCompanies ic ON ip.CompanyID = ic.CompanyID\n" +
+            "WHERE ip.ProductName LIKE ?";
+    
+        private static final String GET_ALL_PRODUCTS_WITH_AVATAR = "SELECT \n" +
+            "    ip.ProductID,\n" +
+            "    ip.ProductName,\n" +
+            "    ip.InsuranceType,\n" +
+            "    ip.Cost,\n" +
+            "    ip.Description,\n" +
+            "    ip.Conditions,\n" +
+            "    ip.Avatar,\n" +
+            "    ic.CompanyName\n" +
+            "FROM InsuranceProducts ip\n" +
+            "JOIN InsuranceCompanies ic ON ip.CompanyID = ic.CompanyID";
+        
+        private static final String GET_DISTINCT_INSURANCE_TYPES = 
+            "SELECT DISTINCT InsuranceType, NULL AS ProductID, NULL AS ProductName, " +
+            "NULL AS Cost, NULL AS Description, NULL AS Conditions, NULL AS Avatar, NULL AS CompanyName " +
+            "FROM InsuranceProducts";
+
+        private static final String GET_PRODUCTS_BY_CATEGORY = "SELECT \n" +
+                "    ip.ProductID,\n" +
+                "    ip.ProductName,\n" +
+                "    ip.InsuranceType,\n" +
+                "    ip.Cost,\n" +
+                "    ip.Description,\n" +
+                "    ip.Conditions,\n" +
+                "    ip.Avatar,\n" +
+                "    ic.CompanyName\n" +
+                "FROM InsuranceProducts ip\n" +
+                "JOIN InsuranceCompanies ic ON ip.CompanyID = ic.CompanyID\n" +
+                "WHERE ip.InsuranceType = ?";
+        
+        private static final String GET_PRODUCT_BY_NAME_AND_CATEGORY = "SELECT \n" +
+            "    ip.ProductID,\n" +
+            "    ip.ProductName,\n" +
+            "    ip.InsuranceType,\n" +
+            "    ip.Cost,\n" +
+            "    ip.Description,\n" +
+            "    ip.Conditions,\n" +
+            "    ip.Avatar,\n" +
+            "    ic.CompanyName\n" +
+            "FROM InsuranceProducts ip\n" +
+            "JOIN InsuranceCompanies ic ON ip.CompanyID = ic.CompanyID\n" +
+            "WHERE ip.ProductName LIKE ? AND ip.InsuranceType = ?";
+
+        private static final String SORT_BY_COST_ASC = " ORDER BY ip.Cost ASC";
+        private static final String SORT_BY_COST_DESC = " ORDER BY ip.Cost DESC";
+        private static final String SORT_BY_DATE_NEWEST = " ORDER BY ip.CreatedAt DESC";
+        private static final String SORT_BY_DATE_OLDEST = " ORDER BY ip.CreatedAt ASC";
     //delete product and company
     @Override
     public void delete(int id) {
@@ -336,7 +400,132 @@ public class ProductService implements IProductService {
 //        return find(query,"Bảo hiểm Y tế ABC");
         return find(query, "%" + searchName + "%");
     }
+    @Override
+    public List<InsuranceProduct> getTopProducts(int limit) {
+    List<InsuranceProduct> products = new ArrayList<>();
 
+    try (PreparedStatement ps = connection.prepareStatement(SELECT_TOP_PRODUCT)) {
+        ps.setInt(1, limit);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            InsuranceProduct product = new InsuranceProduct();
+            product.setProductID(rs.getInt("ProductID"));
+            product.setProductName(rs.getString("ProductName"));
+            product.setInsuranceType(rs.getString("InsuranceType"));
+            product.setCost(rs.getBigDecimal("Cost"));
+            product.setDescription(rs.getString("Description"));
+            product.setConditions(rs.getString("Conditions"));
+            product.setAvatar(rs.getString("Avatar"));
+            products.add(product);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return products;
+}
+    
+    @Override
+    public List<InsuranceProduct> getProductByNameWithAvatar(String searchName) {
+        String query = GET_PRODUCT_BY_NAME_WITH_AVATAR;
+        return find(query, "%" + searchName + "%");
+    }
+    
+    @Override
+    public List<InsuranceProduct> getAllProducts() {
+        String query = GET_ALL_PRODUCTS_WITH_AVATAR;
+        return find(query);
+    }
+    
+    @Override
+    public List<InsuranceProduct> getDistinctInsuranceTypes() {
+        String query = GET_DISTINCT_INSURANCE_TYPES;
+        return find(query);
+    }
+    
+    @Override
+     public List<InsuranceProduct> getProductsByCategory(String category) {
+        String query = GET_PRODUCTS_BY_CATEGORY;
+        return find(query, category);
+    }
+     
+    @Override
+    public List<InsuranceProduct> getProductByNameAndCategory(String searchName, String category) {
+        String query = GET_PRODUCT_BY_NAME_AND_CATEGORY;
+        return find(query, "%" + searchName + "%", category);
+    }
+    
+    @Override
+    public List<InsuranceProduct> getAllProductsWithSort(String sortBy) {
+    // Khởi tạo query cơ bản
+        StringBuilder query = new StringBuilder(GET_ALL_PRODUCTS_WITH_AVATAR);
+
+        // Thêm điều kiện sắp xếp dựa vào giá trị của sortBy
+        if ("costAsc".equals(sortBy)) {
+            query.append(SORT_BY_COST_ASC);
+        } else if ("costDesc".equals(sortBy)) {
+            query.append(SORT_BY_COST_DESC);
+        } else if ("dateNewest".equals(sortBy)) {
+            query.append(SORT_BY_DATE_NEWEST);
+        } else if ("dateOldest".equals(sortBy)) {
+            query.append(SORT_BY_DATE_OLDEST);
+        }
+
+        // Thực thi query và trả về danh sách sản phẩm
+        return find(query.toString());
+    }
+    
+    @Override
+    public List<InsuranceProduct> getProductByNameAndCategoryWithSort(String searchName, String category, String sortBy) {
+        StringBuilder query = new StringBuilder(GET_PRODUCT_BY_NAME_AND_CATEGORY);
+
+        if ("costAsc".equals(sortBy)) {
+            query.append(SORT_BY_COST_ASC);
+        } else if ("costDesc".equals(sortBy)) {
+            query.append(SORT_BY_COST_DESC);
+        } else if ("dateNewest".equals(sortBy)) {
+            query.append(SORT_BY_DATE_NEWEST);
+        } else if ("dateOldest".equals(sortBy)) {
+            query.append(SORT_BY_DATE_OLDEST);
+        }
+
+        return find(query.toString(), "%" + searchName + "%", category);
+    }
+
+    @Override
+    public List<InsuranceProduct> getProductByNameWithAvatarAndSort(String searchName, String sortBy) {
+        StringBuilder query = new StringBuilder(GET_PRODUCT_BY_NAME_WITH_AVATAR);
+
+        if ("costAsc".equals(sortBy)) {
+            query.append(SORT_BY_COST_ASC);
+        } else if ("costDesc".equals(sortBy)) {
+            query.append(SORT_BY_COST_DESC);
+        } else if ("dateNewest".equals(sortBy)) {
+            query.append(SORT_BY_DATE_NEWEST);
+        } else if ("dateOldest".equals(sortBy)) {
+            query.append(SORT_BY_DATE_OLDEST);
+        }
+
+        return find(query.toString(), "%" + searchName + "%");
+    }
+
+    @Override
+    public List<InsuranceProduct> getProductsByCategoryWithSort(String category, String sortBy) {
+        StringBuilder query = new StringBuilder(GET_PRODUCTS_BY_CATEGORY);
+
+        if ("costAsc".equals(sortBy)) {
+            query.append(SORT_BY_COST_ASC);
+        } else if ("costDesc".equals(sortBy)) {
+            query.append(SORT_BY_COST_DESC);
+        } else if ("dateNewest".equals(sortBy)) {
+            query.append(SORT_BY_DATE_NEWEST);
+        } else if ("dateOldest".equals(sortBy)) {
+            query.append(SORT_BY_DATE_OLDEST);
+        }
+
+        return find(query.toString(), category);
+    }
 //    //Test delete product and company
 //    public static void main(String[] args) {
 //        // Khởi tạo ProductService (DAO)
@@ -351,7 +540,6 @@ public class ProductService implements IProductService {
 //            System.out.println(o);
 //        }
 //    }
-
 //    //Test search product by name
 //    public static void main(String[] args) {
 //        ProductService dao = new ProductService();
