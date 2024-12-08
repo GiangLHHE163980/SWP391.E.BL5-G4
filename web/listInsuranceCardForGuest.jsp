@@ -13,8 +13,8 @@
     <!-- Custom CSS -->
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
         }
         .navbar {
             background-color: #007b5e;
@@ -70,29 +70,36 @@
     <div class="container-fluid mt-2">
     <!-- Search Bar -->
     <div class="mb-4">
-        <form method="get" action="">
-            <input type="hidden" name="action" value="showAllProduct">
-            <input type="hidden" name="category" value="${param.category}">
-            <input type="text" name="searchQuery" class="form-control mb-2" placeholder="Tìm kiếm sản phẩm..." value="${param.searchQuery}">
-
-            <!-- Dropdown Sort -->
-            <div class="row">
-                <div class="col-md-4">
-                    <label for="sortBy" class="form-label">Sắp xếp theo:</label>
-                    <select name="sortBy" id="sortBy" class="form-select" onchange="this.form.submit()">
-                        <option value="" ${empty param.sortBy ? "selected" : ""}>Mặc định</option>
-                        <option value="costAsc" ${param.sortBy == 'costAsc' ? "selected" : ""}>Giá: Tăng dần</option>
-                        <option value="costDesc" ${param.sortBy == 'costDesc' ? "selected" : ""}>Giá: Giảm dần</option>
-                        <option value="dateNewest" ${param.sortBy == 'dateNewest' ? "selected" : ""}>Ngày: Mới nhất</option>
-                        <option value="dateOldest" ${param.sortBy == 'dateOldest' ? "selected" : ""}>Ngày: Cũ nhất</option>
-                    </select>
-                </div>
-                <div class="col-md-2 align-self-end">
-                    <button type="submit" class="btn btn-primary">Áp dụng</button>
-                </div>
+    <form method="get" action="">
+        <input type="hidden" name="action" value="showAllProduct">
+        <input type="hidden" name="category" value="${param.category}">
+        
+        <!-- Row containing both search and sort -->
+        <div class="row align-items-center justify-content-center">
+            <!-- Sort Dropdown (1/5 width) -->
+            <div class="col-md-2">
+                <label for="sortBy" class="form-label d-none">Sắp xếp theo:</label> <!-- Ẩn label, nếu cần -->
+                <select name="sortBy" id="sortBy" class="form-select" onchange="this.form.submit()">
+                    <option value="" ${empty param.sortBy ? "selected" : ""}>Mặc định</option>
+                    <option value="costAsc" ${param.sortBy == 'costAsc' ? "selected" : ""}>Giá: Tăng dần</option>
+                    <option value="costDesc" ${param.sortBy == 'costDesc' ? "selected" : ""}>Giá: Giảm dần</option>
+                    <option value="dateNewest" ${param.sortBy == 'dateNewest' ? "selected" : ""}>Ngày: Mới nhất</option>
+                    <option value="dateOldest" ${param.sortBy == 'dateOldest' ? "selected" : ""}>Ngày: Cũ nhất</option>
+                </select>
             </div>
-        </form>
-    </div>
+
+            <!-- Search Bar (3/5 width) -->
+            <div class="col-md-5">
+                <input type="text" name="searchQuery" class="form-control" placeholder="Tìm kiếm sản phẩm..." value="${param.searchQuery}">
+            </div>
+
+            <!-- Apply Button (1/5 width) -->
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-auto">Áp dụng</button>
+            </div>
+        </div>
+    </form>
+</div>
 
     <!-- Content Container -->
     <div class="row border-container">
@@ -100,8 +107,12 @@
         <div class="col-md-2 vertical-divider pe-3">
             <h5 class="mb-3">Lọc theo:</h5>
             <div class="category-list">
+                <a href="?action=showAllProduct&category=" 
+               class="d-block py-2 px-3 rounded ${empty param.category ? 'active' : ''}">
+                Mặc định
+                </a>
                 <c:forEach var="type" items="${insuranceTypes}">
-                    <a href="?action=showAllProduct&category=${type.insuranceType}&searchQuery=${param.searchQuery}" 
+                    <a href="?action=showAllProduct&category=${type.insuranceType}" 
                        class="d-block py-2 px-3 rounded ${type.insuranceType == selectedCategory ? 'active' : ''}">
                         ${type.insuranceType}
                     </a>
