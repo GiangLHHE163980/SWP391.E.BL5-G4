@@ -73,10 +73,11 @@
         </div>
     </div>
 </nav>
-//            n?u có login thì xóa dòng 77 còn chua thì d? dong 77 d? test
-                <%@ include file="sidebar.jsp" %>
-                
-<% 
+ 
+
+<!-- <%@ include file="sidebar.jsp" %> -->
+                  
+<%
  if (session != null && session.getAttribute("user") != null) {  
  String role = (String) session.getAttribute("role");
      User user = (User) session.getAttribute("user");
