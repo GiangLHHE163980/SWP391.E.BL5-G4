@@ -13,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.util.List;
 import model.User;
@@ -58,7 +59,14 @@ public class ProfileAdminController extends HttpServlet {
                     break;
             }
 //            int editID = Integer.parseInt(request.getParameter("id"));
-            int editID = 2;
+//            HttpSession session = request.getSession();
+//            User user = (User)session.getAttribute("user");
+//            if(user == null) {
+//                response.sendRedirect("Login?action=Login before do this action");
+//                return;
+//            }
+//            int editID = user.getUserID();
+            int editID = 2; //Fix mặc định do thiếu login
             User editUser = userService.getUserById(editID);
             request.setAttribute("user", editUser);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/updateProfileAdmin.jsp");

@@ -67,8 +67,8 @@ public class ManagerCustomerController extends HttpServlet {
                 case "delete":
                     // Handle delete
                     int deleteID = Integer.parseInt(request.getParameter("id"));
-                    userService.deleteUser(deleteID);
-                    response.sendRedirect("manage-customer");
+                     boolean isAction = userService.deleteUser(deleteID);
+                    response.sendRedirect("manage-customer?isAction=" + isAction);
                     break;
 
                 default:
