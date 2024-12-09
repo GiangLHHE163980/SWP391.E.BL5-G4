@@ -3,66 +3,66 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-        <title>View Claim Info</title>
+        <title>Xem Chi Tiết Bồi Thường</title>
     </head>
     <body>
         <%@ include file="header.jsp" %>
         <!-- Main Container -->
         <div class="container mt-4">
-            <!-- Return Button -->
+            <!-- Nút Quay Lại -->
             <a href="home.jsp" class="btn btn-success mb-3">
-                <i class="bi bi-arrow-left"></i> Back
+                <i class="bi bi-arrow-left"></i> Quay Lại
             </a>
 
-            <!-- Main Layout -->
+            <!-- Giao Diện Chính -->
             <div class="row g-4">
-                <!-- Claim Info Section -->
+                <!-- Phần Thông Tin Bồi Thường -->
                 <div class="col-12">
-                    <h1 class="display-6 fw-bold">Claim Details</h1>
+                    <h1 class="display-6 fw-bold">Chi Tiết Bồi Thường</h1>
                     <div class="row g-3">
-                        <!-- ClaimID -->
+                        <!-- Mã Bồi Thường -->
                         <div class="col-md-6">
                             <div class="card p-3">
-                                <h6 class="fw-bold">Claim ID</h6>
+                                <h6 class="fw-bold">Mã Bồi Thường</h6>
                                 <p class="text-muted mb-0">${claimID}</p>
                             </div>
                         </div>
 
-                        <!-- User Full Name -->
+                        <!-- Tên Đầy Đủ -->
                         <div class="col-md-6">
                             <div class="card p-3">
-                                <h6 class="fw-bold">Full Name</h6>
+                                <h6 class="fw-bold">Họ và Tên</h6>
                                 <p class="text-muted mb-0">${userFullName}</p>
                             </div>
                         </div>
 
-                        <!-- User Phone Number -->
+                        <!-- Số Điện Thoại -->
                         <div class="col-md-6">
                             <div class="card p-3">
-                                <h6 class="fw-bold">Phone Number</h6>
+                                <h6 class="fw-bold">Số Điện Thoại</h6>
                                 <p class="text-muted mb-0">${userPhoneNumber}</p>
                             </div>
                         </div>
 
-                        <!-- Status -->
+                        <!-- Trạng Thái -->
                         <div class="col-md-6">
                             <div class="card p-3">
-                                <h6 class="fw-bold">Status</h6>
+                                <h6 class="fw-bold">Trạng Thái</h6>
                                 <p class="mb-0 fw-bold">
                                     <c:choose>
                                         <c:when test="${status == 'Approved'}">
-                                            <span class="text-success">${status}</span>
+                                            <span class="text-success">Đã Duyệt</span>
                                         </c:when>
                                         <c:when test="${status == 'Pending'}">
-                                            <span class="text-warning">${status}</span>
+                                            <span class="text-warning">Đang Xử Lý</span>
                                         </c:when>
                                         <c:when test="${status == 'Rejected'}">
-                                            <span class="text-danger">${status}</span>
+                                            <span class="text-danger">Bị Từ Chối</span>
                                         </c:when>
                                         <c:otherwise>
                                             <span>${status}</span>
@@ -72,53 +72,50 @@
                             </div>
                         </div>
 
-
-                        <!-- Reason -->
+                        <!-- Lý Do -->
                         <div class="col-md-12">
                             <div class="card p-3">
-                                <h6 class="fw-bold">Reason</h6>
+                                <h6 class="fw-bold">Lý Do</h6>
                                 <p class="text-muted mb-0">${reason}</p>
                             </div>
                         </div>
 
-                        <h2 class="mt-4 fw-bold">Plan Details</h2>
-                        <!-- Plan Name -->
+                        <h2 class="mt-4 fw-bold">Chi Tiết Gói Bảo Hiểm</h2>
+                        <!-- Tên Gói -->
                         <div class="col-md-6">
                             <div class="card p-3">
-                                <h6 class="fw-bold">Plan Name</h6>
+                                <h6 class="fw-bold">Tên Gói</h6>
                                 <p class="text-muted mb-0">${productName}</p>
                             </div>
                         </div>
 
-                        <!-- Plan Status -->
+                        <!-- Trạng Thái Gói -->
                         <div class="col-md-6">
                             <div class="card p-3">
-                                <h6 class="fw-bold">Plan Status</h6>
+                                <h6 class="fw-bold">Trạng Thái Gói</h6>
                                 <c:choose>
                                     <c:when test="${cardStatus == 'Active'}">
-                                        <span class="text-success fw-bold">${cardStatus}</span>
+                                        <span class="text-success fw-bold">Còn Hạn</span>
                                     </c:when>
                                     <c:otherwise>
-                                        <span class="text-danger fw-bold">${cardStatus}</span>
+                                        <span class="text-danger fw-bold">Hết Hạn</span>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
                         </div>
 
-
-
-                        <!-- Plan Conditions -->
+                        <!-- Điều Kiện Gói -->
                         <div class="col-md-12">
                             <div class="card p-3">
-                                <h6 class="fw-bold">Conditions</h6>
+                                <h6 class="fw-bold">Điều Kiện</h6>
                                 <p class="text-muted mb-0">${productConditions}</p>
                             </div>
                         </div>
 
-                        <!-- Plan Description -->
+                        <!-- Mô Tả Gói -->
                         <div class="col-md-12">
                             <div class="card p-3">
-                                <h6 class="fw-bold">Description</h6>
+                                <h6 class="fw-bold">Mô Tả</h6>
                                 <p class="text-muted mb-0">${productDescription}</p>
                             </div>
                         </div>
