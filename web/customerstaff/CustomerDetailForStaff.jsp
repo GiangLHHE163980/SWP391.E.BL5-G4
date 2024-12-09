@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>View Customer</title>
+        <title>Xem thông tin Khách hàng</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"> <!-- Bootstrap Icons -->
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
@@ -37,7 +37,7 @@
                 <!-- Header -->
                 <div class="header bg-white d-flex justify-content-between align-items-center p-3 border-bottom">
                     <div class="d-flex align-items-center">
-                        <h4 class="mb-0">View Customer</h4>
+                        <h4 class="mb-0">Xem thông tin Khách hàng</h4>
                     </div>
                     <div class="dropdown profile-dropdown">
                         <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -55,9 +55,9 @@
                 <div class="breadcrumb-container px-3 py-2">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#">Customers</a></li>
-                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/CustomerForStaffController?action=showAllCustomer">Customer List</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">View Customer</li>
+                            <li class="breadcrumb-item"><a href="#">Khách hàng</a></li>
+                            <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/CustomerForStaffController?action=showAllCustomer">Danh sách khách hàng</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Xem thông tin Khách hàng</li>
                         </ol>
                     </nav>
                 </div>
@@ -71,7 +71,7 @@
                                 <input type="hidden" name="userID" value="${listCI[0].userID}">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label for="customerName" class="form-label">Name:</label>
+                                        <label for="customerName" class="form-label">Tên đầy đủ:</label>
                                         <input type="text" class="form-control" id="customerName" value="${listCI[0].fullName}" readonly>
                                     </div>
                                     <div class="col-md-6">
@@ -81,11 +81,11 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label for="insuranceCard" class="form-label">Insurance Card:</label>
+                                        <label for="insuranceCard" class="form-label">Số thẻ bảo hiểm:</label>
                                         <input type="text" class="form-control" id="insuranceCard" value="${listCI[0].insuranceCard.cardNumber}" readonly>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="cardStatus" class="form-label">Card Status:</label>
+                                        <label for="cardStatus" class="form-label">Trạng thái thẻ:</label>
                                         <select class="form-select" id="cardStatus" name="cardStatus">
                                             <option value="Active" ${listCI[0].insuranceCard.status == 'Active' ? 'selected' : ''}>Active</option>
                                             <option value="Expired" ${listCI[0].insuranceCard.status == 'Expired' ? 'selected' : ''}>Expired</option>
@@ -96,23 +96,23 @@
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Update Status</button>
+                                <button type="submit" class="btn btn-primary">Cập nhật trạng thái</button>
                             </form>
                         </div>
                     </div>
 
                     <!-- Insurance Requests -->
                     <div class="card mb-4">
-                        <div class="card-header">Insurance Requests</div>
+                        <div class="card-header">Yêu cầu bảo hiểm</div>
                         <div class="card-body">
                             <table class="table table-striped table-bordered table-sm text-center align-middle">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th>Request ID</th>
-                                        <th>Product</th>
-                                        <th>Reason</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th>Yêu Cầu ID</th>
+                                        <th>Tên Sản phẩm</th>
+                                        <th>Lý do</th>
+                                        <th>Trạng thái</th>
+                                        <th>Hành Động</th>
                                     </tr>
                                 </thead>
                                 <c:if test="${not empty listCI[0].claims}">
