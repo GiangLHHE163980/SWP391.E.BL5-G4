@@ -6,8 +6,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Danh sách khách hàng</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <!-- Custom CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
     </head>
     <body>
@@ -15,20 +19,25 @@
             <!-- Sidebar -->
             <nav class="sidebar bg-dark">
                 <div class="sidebar-header text-center text-white py-4">
-                    <h4><span style="color: #FF69B4;">Giang</span>Admin</h4>
+                    <h4><span style="color: #FF69B4;">Giang</span>Staff</h4>
                 </div>
                 <ul class="list-unstyled px-2">
-                    <li><a href="HomePageForStaffController?action=homepageForStaff" class="text-white d-block py-2 px-3"><i class="fas fa-home me-2"></i> Dashboard</a></li>
+                    <li><a href="${pageContext.request.contextPath}/HomePageForStaffController?action=homepageForStaff" class="text-white d-block py-2 px-3"><i class="fas fa-home me-2"></i> Bảng điều khiển</a></li>
                     <li>
-                        <a href="#tablesSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle text-white d-block py-2 px-3">
-                            <i class="fas fa-table me-2"></i> Customers
+                        <a href="CustomerForStaffController?action=showAllCustomer" class="text-white d-block py-2 px-3">
+                            <i class="fas fa-users me-2"></i> Quản lý Khách hàng
                         </a>
-                        <ul class="collapse list-unstyled ps-4" id="tablesSubmenu">
-                            <li><a href="customerList.jsp" class="text-white d-block py-2">Danh sách khách hàng</a></li>
-                        </ul>
                     </li>
-                    <li><a href="#" class="text-white d-block py-2 px-3"><i class="fas fa-chart-bar me-2"></i> Reports</a></li>
-                    <li><a href="logout.jsp" class="text-white d-block py-2 px-3"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                    <li>
+                        <a href="RequestController?action=list" class="text-white d-block py-2 px-3">
+                            <i class="fas fa-tasks me-2"></i> Xử lý Yêu cầu
+                        </a>
+                    </li>
+                    <li>
+                        <a href="ProductController?action=showFullProduct" class="text-white d-block py-2 px-3">
+                            <i class="fas fa-box me-2"></i> Quản lý Sản phẩm
+                        </a>
+                    </li>
                 </ul>
             </nav>
 
@@ -93,7 +102,9 @@
                                                 </c:choose>
                                             </td>
                                             <td class="text-center">
-                                                <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=showFullCustomerInfo&CustomerId=${customer.userID}" class="btn btn-primary btn-sm">View</a>
+                                                <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=showFullCustomerInfo&CustomerId=${customer.userID}" class="btn btn-primary btn-sm">
+                                                <i class="bi bi-eye"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     </c:forEach>

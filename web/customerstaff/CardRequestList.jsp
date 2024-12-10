@@ -21,7 +21,7 @@
     </head>
     <body>
         <div class="wrapper d-flex">
-               <!-- Sidebar -->
+            <!-- Sidebar -->
             <nav class="sidebar bg-dark">
                 <div class="sidebar-header text-center text-white py-4">
                     <h4><span style="color: #FF69B4;">Giang</span>Staff</h4>
@@ -57,7 +57,7 @@
                                 <div class="input-group">
                                     <!-- Tham số action cố định giá trị showFullProduct -->
                                     <input type="hidden" name="action" value="showFullProduct">
-                                    <input type="text" class="form-control rounded" name="search" placeholder="Tìm kiếm sản phẩm..." value="${search}">
+                                    <input type="text" class="form-control rounded" name="search" placeholder="Tìm kiếm ..." value="${search}">
                                     <button class="btn btn-outline-success rounded px-2 ms-2" type="submit">
                                         <i class="bi bi-search"></i> Tìm kiếm
                                     </button>
@@ -87,16 +87,16 @@
                 <div class="breadcrumb-container px-3 py-2">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#">Sản phẩm</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Danh sách sản phẩm</li>
+                            <li class="breadcrumb-item"><a href="#">yêu cầu thẻ</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Danh sách yêu cầu thẻ</li>
                         </ol>
                     </nav>
                 </div>
                 <!-- Nút thêm mới sản phẩm -->
                 <div class="mb-1 mt-4 text-end">
-                    <a href="${pageContext.request.contextPath}/ProductController?action=showAddPage" class="btn btn-outline-success">
+                    <a href="#" class="btn btn-outline-success">
                         <i class="bi bi-plus"></i>
-                        Thêm mới Sản phẩm</a>
+                        Thêm mới Phản hồi</a>
                 </div>
 
                 <!-- Table Card -->
@@ -110,12 +110,13 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Loại bảo hiểm</th>
-                                    <th>Quyền lợi</th>
-                                    <th>Chi phí</th>                                
-                                    <th>Điều kiện</th>
-                                    <th>Nhà cung cấp</th>
+                                    <th>Tên Khách hàng</th>
+                                    <th>Ngày sinh</th>
+                                    <th>Giới tính</th>
+                                    <th>Thời hạn bảo hiểm</th>                                
+                                    <th>Sản phẩm lựa chọn</th>
+                                    <th>Giá trị</th>
+                                    <th>Xác Nhận thương tật</th>
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
@@ -129,17 +130,18 @@
                                         <td>${product.description}</td>
                                         <td>${product.cost} VNĐ/năm</td>
                                         <td>${product.conditions}</td>
+                                        <td>${product.conditions}</td>
                                         <td>${product.insuranceCompany.companyName}</td>
                                         <td>
                                             <a href="${pageContext.request.contextPath}/ProductController?action=showViewPage&product_id=${product.productID}" 
                                                class="btn btn-primary btn-sm" title="Xem chi tiết">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <a href="${pageContext.request.contextPath}/ProductController?action=showEditPage&product_id=${product.productID}" class="btn btn-warning btn-sm" title="Chỉnh sửa">
-                                                <i class="bi bi-pencil-square"></i>
+                                            <a href="${pageContext.request.contextPath}/ProductController?action=showEditPage&product_id=${product.productID}" class="btn btn-warning btn-sm" title="Đồng ý">
+                                                <i class="bi bi-check"></i>
                                             </a>
-                                            <a href="${pageContext.request.contextPath}/ProductController?action=deleteProduct&product_id=${product.productID}" class="btn btn-danger btn-sm" title="Xóa">
-                                                <i class="bi bi-trash"></i>
+                                            <a href="${pageContext.request.contextPath}/ProductController?action=deleteProduct&product_id=${product.productID}" class="btn btn-danger btn-sm" title="loại bỏ">
+                                                <i class="bi bi-x-circle-fill"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -167,6 +169,6 @@
                 });
             });
         </script>
-       
+
     </body>
 </html>
