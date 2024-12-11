@@ -114,7 +114,7 @@
 
         .insurance-item a {
             text-decoration: none;
-            color: #007bff;
+            color: #f8f9fa;
             font-size: 0.9rem;
         }
 
@@ -138,6 +138,13 @@
         .see-all a:hover {
             text-decoration: underline;
         }
+        .btn-primary {
+                background-color: #ff9900;
+                border: none;
+            }
+            .btn-primary:hover {
+                background-color: #cc7a00;
+            }
     </style>
 </head>
 <body>
@@ -158,8 +165,7 @@
                         <h3>${product.productName}</h3>
                         <p class="price">Chỉ từ ${product.cost} VNĐ</p>
                         <div class="actions">
-                            <button>Tìm hiểu</button>
-<!--                            <a href="#">Tìm hiểu <i class="bi bi-chevron-right"></i></a>-->
+                            <a href="productDetail?ProductID=${product.productID}" class="btn btn-primary">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>
