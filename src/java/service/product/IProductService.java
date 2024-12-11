@@ -37,4 +37,6 @@ public interface IProductService {
     List<InsuranceProduct> getProductByNameWithAvatarAndSort(String searchName, String sortBy);
     
     List<InsuranceProduct> getProductsByCategoryWithSort(String category, String sortBy);
+    
+    InsuranceProduct getProductWithAvatarById(int productId);
 }
