@@ -25,11 +25,11 @@ import service.account.IAccountService;
  * @author TH Computer
  */
 @WebFilter("/*")
-public class AuthFilter implements Filter{
-    
+public class AuthFilter implements Filter {
+
     private static IAccountService accountService = new AccountService();
-    
-        @Override
+
+    @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         // Nếu cần thiết, bạn có thể khởi tạo ở đây
     }
@@ -43,12 +43,12 @@ public class AuthFilter implements Filter{
         // Lấy URI của request
         String uri = req.getRequestURI();
         String queryString = req.getQueryString();
-        
+
         // Các URL không yêu cầu đăng nhập
         if (uri.endsWith("login") || uri.endsWith("register") || uri.endsWith("homepage") || uri.endsWith("403")
-            || (uri.contains("ProductController") && (queryString != null && queryString.contains("showAllProduct")))
-            || uri.contains("productDetail") || uri.endsWith("logout")
-            || uri.endsWith("forgetPassword") || uri.endsWith("confirmChangePassword") || uri.endsWith("sendemail")) {
+                || (uri.contains("ProductController") && (queryString != null && queryString.contains("showAllProduct")))
+                || uri.contains("productDetail") || uri.endsWith("logout")
+                || uri.endsWith("forgetPassword") || uri.endsWith("confirmChangePassword") || uri.endsWith("sendemail")) {
             chain.doFilter(request, response); // Bỏ qua filter
             return;
         }
@@ -56,34 +56,33 @@ public class AuthFilter implements Filter{
         // Kiểm tra đăng nhập
         HttpSession session = req.getSession(false);
         boolean loggedIn = (session != null && session.getAttribute("user") != null);
-        
+
         if (loggedIn) {
             User user = (User) session.getAttribute("user");
             List<String> roles = accountService.getUserRoles(user.getUserID());
-            
+
             //Path của Admin
-            
             //Path của Staff
             if (uri.contains("ProductController") && queryString != null && queryString.contains("action=showEditPage")
-                || uri.contains("HomePageForStaffController") && queryString != null && queryString.contains("action=homepageForStaff")
-                    || uri.contains("CustomerForStaffController")&& queryString != null && queryString.contains("action=showFullCustomerInfo")
-                    || uri.contains("ProductController")&& queryString != null && queryString.contains("action=showViewPage")
-                    || uri.contains("ProductController")&& queryString != null && queryString.contains("action=showAddPage")
-                    || uri.contains("ProductController")&& queryString != null && queryString.contains("action=showFullProduct")
-                    || uri.contains("CustomerForStaffController")&& queryString != null && queryString.contains("action=showFullRequestCardInfo")
-                    || uri.contains("CustomerForStaffController")&& queryString != null && queryString.contains("action=updateInsuranceRequestStatus")
-                    || uri.contains("CustomerForStaffController")&& queryString != null && queryString.contains("action=showFullCustomerInfo")
-                    || uri.contains("CustomerForStaffController")&& queryString != null && queryString.contains("action=showAllCardRequest")) {
-                    if (roles.contains("Staff") || roles.contains("Admin")) {
-                        chain.doFilter(request, response); // Cho phép quyền truy cập
-                    }else{
-                        res.sendRedirect("403");
-                    }
+                    || uri.contains("HomePageForStaffController") && queryString != null && queryString.contains("action=homepageForStaff")
+                    || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showFullCustomerInfo")
+                    || uri.contains("ProductController") && queryString != null && queryString.contains("action=showViewPage")
+                    || uri.contains("ProductController") && queryString != null && queryString.contains("action=showAddPage")
+                    || uri.contains("ProductController") && queryString != null && queryString.contains("action=showFullProduct")
+                    || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showFullRequestCardInfo")
+                    || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=updateInsuranceRequestStatus")
+                    || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showFullCustomerInfo")
+                    || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showAllCardRequest")) {
+                if (roles.contains("Staff") || roles.contains("Admin")) {
+                    chain.doFilter(request, response); // Cho phép quyền truy cập
+                } else {
+                    res.sendRedirect("403");
+                }
             }
         } else {
             res.sendRedirect("account/login"); // Chuyển hướng đến trang đăng nhập
         }
-     }
+    }
 
     @Override
     public void destroy() {
