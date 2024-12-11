@@ -3,71 +3,68 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
-        <title>View Insurance Cards</title>
+        <title>Danh Sách Bồi Thường</title>
     </head>
     <body>
         <%@ include file="header.jsp" %>
         <div class="container mt-4">
             <a href="home.jsp" class="btn btn-success mb-3">
-                <i class="bi bi-arrow-left"></i> Quay lại
+                <i class="bi bi-arrow-left"></i> Quay Lại
             </a>
-            <h1>List of Insurance Cards</h1>
-            <!-- Search Bar -->
+            <h1>Danh Sách Bồi Thường</h1>
+            <!-- Thanh Tìm Kiếm -->
             <div class="mb-4">
-                <input type="text" id="searchInput" class="form-control" placeholder="Search by name, status, or dates..." onkeyup="filterTable()">
+                <input type="text" id="searchInput" class="form-control" placeholder="Tìm kiếm theo loại, trạng thái, hoặc lý do..." onkeyup="filterTable()">
             </div>
 
-            <!-- Table -->
+            <!-- Bảng -->
             <table class="table table-bordered table-striped text-center">
                 <thead class="table-dark">
                     <tr>
-                        <th>No.</th>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th>Activation Date</th>
-                        <th>Expiration Date</th>
-                        <th>Actions</th>
+                        <th>STT</th>
+                        <th>Mã Bồi Thường</th>
+                        <th>Loại Bồi Thường</th>
+                        <th>Trạng Thái</th>
+                        <th>Ngày Gửi</th>
+                        <th>Hành Động</th>
                     </tr>
                 </thead>
-                <tbody id="insuranceTableBody">
-                    <c:forEach var="card" items="${insuranceCards}" varStatus="status">
+                <tbody id="claimsTableBody">
+                    <c:forEach var="claim" items="${claims}" varStatus="status">
                         <tr>
                             <td>${status.index + 1}</td>
-                            <td>${card.insuranceProduct.productName}</td>
+                            <td>${claim.claimID}</td>
+                            <td>${claim.claimType}</td>
                             <td>
                                 <c:choose>
-                                    <c:when test="${card.status == 'Active'}">
-                                        <span class="text-success fw-bold">${card.status}</span>
+                                    <c:when test="${claim.status == 'Approved'}">
+                                        <span class="text-success fw-bold">Đã Duyệt</span>
                                     </c:when>
-                                    <c:when test="${card.status == 'Pending'}">
-                                        <span class="text-warning fw-bold">${card.status}</span>
+                                    <c:when test="${claim.status == 'Pending'}">
+                                        <span class="text-warning fw-bold">Đang Xử Lý</span>
+                                    </c:when>
+                                    <c:when test="${claim.status == 'Rejected'}">
+                                        <span class="text-danger fw-bold">Bị Từ Chối</span>
                                     </c:when>
                                     <c:otherwise>
-                                        <span class="text-danger fw-bold">${card.status}</span>
+                                        <span>${claim.status}</span>
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-                            <td><fmt:formatDate value="${card.startDate}" pattern="yyyy-MM-dd" /></td>
-                            <td><fmt:formatDate value="${card.endDate}" pattern="yyyy-MM-dd" /></td>
+                            <td><fmt:formatDate value="${claim.submittedAt}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                             <td>
-                                <div class="d-flex justify-content-between">
-                                    <a href="viewInsuranceInfo?cardID=${card.cardID}" class="btn btn-primary">View</a>
-                                    <a href="renewCard?cardID=${card.cardID}" class="btn btn-success">Renew</a>
-                                    <a href="cancelCard?cardID=${card.cardID}" class="btn btn-danger">Cancel</a>
-                                </div>
-
+                                <a href="claimsInfo?claimID=${claim.claimID}" class="btn btn-success">Xem</a>
                             </td>
-
                         </tr>
                     </c:forEach>
-                    <c:if test="${empty insuranceCards}">
+                    <c:if test="${empty claims}">
                         <tr>
-                            <td colspan="6" class="text-center text-warning">No insurance cards found.</td>
+                            <td colspan="10" class="text-center text-warning">Không tìm thấy bồi thường nào.</td>
                         </tr>
                     </c:if>
                 </tbody>
@@ -76,17 +73,14 @@
 
         <script>
             function filterTable() {
-                // Get the input value and convert to uppercase for case-insensitive matching
                 const searchValue = document.getElementById("searchInput").value.toUpperCase();
-                const table = document.getElementById("insuranceTableBody");
+                const table = document.getElementById("claimsTableBody");
                 const rows = table.getElementsByTagName("tr");
 
                 for (let i = 0; i < rows.length; i++) {
-                    // Get all the cells in the current row
                     const cells = rows[i].getElementsByTagName("td");
                     let rowContainsSearchValue = false;
 
-                    // Check each cell in the row
                     for (let j = 0; j < cells.length; j++) {
                         if (cells[j].innerText.toUpperCase().includes(searchValue)) {
                             rowContainsSearchValue = true;
@@ -94,7 +88,6 @@
                         }
                     }
 
-                    // Show or hide the row based on the search value
                     rows[i].style.display = rowContainsSearchValue ? "" : "none";
                 }
             }
