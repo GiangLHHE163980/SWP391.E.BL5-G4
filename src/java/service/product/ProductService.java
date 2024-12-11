@@ -158,10 +158,16 @@ public class ProductService implements IProductService {
         private static final String SORT_BY_DATE_NEWEST = " ORDER BY ip.CreatedAt DESC";
         private static final String SORT_BY_DATE_OLDEST = " ORDER BY ip.CreatedAt ASC";
         
-         private static final String GET_PRODUCT_WITH_AVATAR_BY_ID = "SELECT ip.ProductID, ip.ProductName, ip.InsuranceType, ip.Cost, ip.Description, ip.Conditions, ip.Avatar, ic.CompanyName " +
+        private static final String GET_PRODUCT_WITH_AVATAR_BY_ID = "SELECT ip.ProductID, ip.ProductName, ip.InsuranceType, ip.Cost, ip.Description, ip.Conditions, ip.Avatar, ic.CompanyName " +
             "FROM InsuranceProducts ip " +
             "JOIN InsuranceCompanies ic ON ip.CompanyID = ic.CompanyID " +
             "WHERE ip.ProductID = ?";
+        
+        private static final String GET_PRODUCTS_WITH_AVATAR_BY_TYPE = "SELECT TOP 3 ip.ProductID, ip.ProductName, ip.InsuranceType, ip.Cost, ip.Description, ip.Conditions, ip.Avatar, ic.CompanyName " +
+            "FROM InsuranceProducts ip " +
+            "JOIN InsuranceCompanies ic ON ip.CompanyID = ic.CompanyID " +
+            "WHERE ip.InsuranceType = ? AND ip.ProductID != ? " +
+            "ORDER BY RAND() ";
     //delete product and company
     @Override
     public void delete(int id) {
@@ -538,6 +544,12 @@ public class ProductService implements IProductService {
         String query = GET_PRODUCT_WITH_AVATAR_BY_ID;
         List<InsuranceProduct> result = find(query, productId);
         return result.get(0);
+    }
+    
+    @Override
+    public List<InsuranceProduct> getProductsByType(String insuranceType,int excludedProductId) {
+        String query = GET_PRODUCTS_WITH_AVATAR_BY_TYPE;
+        return find(query, insuranceType,excludedProductId); // Truy vấn các sản phẩm cùng loại
     }
 //    //Test delete product and company
 //    public static void main(String[] args) {

@@ -196,41 +196,17 @@ h2 {
             <h2>Sản phẩm liên quan</h2>
         <div class="related-products">
 
-    <div class="product-card">
-        <img src="https://via.placeholder.com/300" alt="Sản phẩm liên quan">
-        <div class="card-body">
-            <h5 class="card-title">Bảo hiểm sức khỏe</h5>
-            <p class="text-danger mb-2">Chỉ từ 500.000 VNĐ/năm</p>
-            <ul>
-                <li>Bảo hiểm toàn diện</li>
-                <li>Điều kiện linh hoạt</li>
-            </ul>
-            <a href="#" class="btn btn-primary">Tham gia</a>
-        </div>
-    </div>
-    <div class="product-card">
-        <img src="https://via.placeholder.com/300" alt="Sản phẩm liên quan">
-        <div class="card-body">
-            <h5 class="card-title">Bảo hiểm tai nạn</h5>
-            <p class="text-danger mb-2">Chỉ từ 400.000 VNĐ/năm</p>
-            <ul>
-                <li>Bảo vệ mọi lúc</li>
-                <li>Hỗ trợ chi phí y tế</li>
-            </ul>
-            <a href="#" class="btn btn-primary">Tham gia</a>
-        </div>
-    </div>
-    <div class="product-card">
-        <img src="https://via.placeholder.com/300" alt="Sản phẩm liên quan">
-        <div class="card-body">
-            <h5 class="card-title">Bảo hiểm tai nạn</h5>
-            <p class="text-danger mb-2">Chỉ từ 400.000 VNĐ/năm</p>
-            <ul>
-                <li>Bảo vệ mọi lúc</li>
-                <li>Hỗ trợ chi phí y tế</li>
-            </ul>
-            <a href="#" class="btn btn-primary">Tham gia</a>
-        </div>
+        <c:forEach var="relatedProduct" items="${relatedProducts}">
+            <div class="product-card">
+                <img src="${relatedProduct.avatar}" alt="${relatedProduct.productName}">
+                <div class="card-body">
+                <h5 class="card-title">${relatedProduct.productName}</h5>
+                <p class="text-danger mb-2">Giá: ${relatedProduct.cost} VNĐ</p>
+                <p>Đối tượng tham gia: ${relatedProduct.conditions}</p>
+                <a href="productDetail?ProductID=${relatedProduct.productID}" class="btn btn-primary">Xem chi tiết</a>
+                </div>
+            </div>
+        </c:forEach>
     </div>
 </div>
     </div>

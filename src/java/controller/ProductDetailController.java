@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.InsuranceProduct;
@@ -26,19 +27,25 @@ public class ProductDetailController extends HttpServlet{
     
     private IProductService productService = new ProductService();
     
-      @Override
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
         String productIdParam = request.getParameter("ProductID");
-         try {
+        
+        try {
                 int productId = Integer.parseInt(productIdParam);
                 
                 // Lấy thông tin sản phẩm từ cơ sở dữ liệu
                 InsuranceProduct product = productService.getProductWithAvatarById(productId);
                 
                 if (product != null) {
-                    // Đặt thông tin sản phẩm vào request để gửi tới JSP
+                    // Lấy các sản phẩm liên quan có cùng InsuranceType
+                    List<InsuranceProduct> relatedProducts = productService.getProductsByType(product.getInsuranceType(), productId);
+                
+                // Đặt thông tin sản phẩm và sản phẩm liên quan vào request
                     request.setAttribute("product", product);
-                    
+                    request.setAttribute("relatedProducts", relatedProducts);
+
                     // Chuyển hướng đến trang chi tiết sản phẩm
                     request.getRequestDispatcher("/productDetail.jsp").forward(request, response);
                 }
