@@ -40,20 +40,36 @@ public class ConfirmInsuranceController extends HttpServlet {
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String gender = request.getParameter("gender");
+        String address = request.getParameter("address");
+        java.sql.Date birthday = null;
         String dobStr = request.getParameter("dob");
+        if (dobStr != null && !dobStr.trim().isEmpty()) {
+            birthday = java.sql.Date.valueOf(dobStr); // Convert string to SQL date
+        }
         String idCard = request.getParameter("idCard");
         int userId = Integer.parseInt(request.getParameter("userID"));
         int productId = Integer.parseInt(request.getParameter("productID"));
         boolean isHandicapped = Boolean.parseBoolean(request.getParameter("isHandicapped"));
+        java.sql.Date startDate = null;
+        java.sql.Date endDate = null;
+
         String startDateStr = request.getParameter("startDate");
         String endDateStr = request.getParameter("endDate");
+
+        if (startDateStr != null && !startDateStr.trim().isEmpty()) {
+            startDate = java.sql.Date.valueOf(startDateStr); // Convert string to SQL date
+        }
+
+        if (endDateStr != null && !endDateStr.trim().isEmpty()) {
+            endDate = java.sql.Date.valueOf(endDateStr); // Convert string to SQL date
+        }
 
         try {
             // Establish a database connection
             Connection conn = DBContext.getConnection();
 
             // Generate a new CardNumber
-            String lastCardQuery = "SELECT CardNumber FROM InsuranceCards ORDER BY CardID DESC LIMIT 1";
+            String lastCardQuery = "SELECT TOP 1 CardNumber FROM InsuranceCards ORDER BY CardID DESC";
             PreparedStatement lastCardStmt = conn.prepareStatement(lastCardQuery);
             ResultSet lastCardRs = lastCardStmt.executeQuery();
 
@@ -78,12 +94,16 @@ public class ConfirmInsuranceController extends HttpServlet {
             int rowsAffectedCard = insertCardStmt.executeUpdate();
 
             // Update the user information in the Users table
-            String updateUserQuery = "UPDATE Users SET UserName = ?, Email = ?, Phone = ? WHERE UserID = ?";
+            String updateUserQuery = "UPDATE Users SET PhoneNumber = ?, "
+                    + "               Birthday = ?, Sex = ?, SocialSecurityNumber= ?, Address = ?, UpdatedAt = GETDATE() WHERE UserID = ?";
             PreparedStatement updateUserStmt = conn.prepareStatement(updateUserQuery);
-            updateUserStmt.setString(1, userName);
-            updateUserStmt.setString(2, email);
-            updateUserStmt.setString(3, phone);
-            updateUserStmt.setInt(4, userId);
+
+            updateUserStmt.setString(1, phone);
+            updateUserStmt.setDate(2, Date.valueOf(dobStr));
+            updateUserStmt.setString(3, gender);
+            updateUserStmt.setString(4, idCard);
+            updateUserStmt.setString(5, address);
+            updateUserStmt.setInt(6, userId);
 
             int rowsAffectedUser = updateUserStmt.executeUpdate();
 
