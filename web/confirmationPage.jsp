@@ -36,6 +36,7 @@
                             <li class="list-group-item"><strong>CMND/CCCD/Hộ chiếu:</strong> ${idCard}</li>
                             <li class="list-group-item"><strong>Số điện thoại:</strong> ${phone}</li>
                             <li class="list-group-item"><strong>Email:</strong> ${email}</li>
+                            <li class="list-group-item"><strong>Địa Chỉ:</strong> ${address}</li>
                         </ul>
 
                         <h5 class="fw-bold mt-4">Thời Hạn Bảo Hiểm</h5>
