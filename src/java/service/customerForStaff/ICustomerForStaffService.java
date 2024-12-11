@@ -13,13 +13,16 @@ import model.User;
  * @author Lenovo
  */
 public interface ICustomerForStaffService {
+
     public List<User> findAllCustomers();
-    
+
     public Object findCustomerInforById(int id);
-    
+
     public void updateInsuranceRequestStatusByUserId(String newStatus, int userID);
-    
+
     public void updateInsuranceCardStatusByUserId(String newStatus, int userID);
-    
-      public List<InsuranceCard> findAllCardRequest();
+
+    public List<InsuranceCard> findAllCardRequest();
+
+    public InsuranceCard findCardRequestbyId(int cardId);
 }

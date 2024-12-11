@@ -74,6 +74,20 @@ public class CustomerForStaffController extends HttpServlet {
         }
 
     }
+    
+        private void showFullRequestCardInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int rId = Integer.parseInt(request.getParameter("request_id"));
+        Object card = dao.findCardRequestbyId(rId);
+        if (card == null) {
+            System.out.println("Product not found for ID: " + rId);
+            response.sendRedirect("/CustomerForStaffController?action=showAllCardRequest");
+        } else {
+            System.out.println("Product found: " + card);
+            request.setAttribute("listRC", card);
+        }
+        getRequestDispatch(request, response, "/customerstaff/CardRequestDetail.jsp");
+
+    }
 
     private void showFullCustomerInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int uId = Integer.parseInt(request.getParameter("CustomerId"));
@@ -151,6 +165,9 @@ public class CustomerForStaffController extends HttpServlet {
                 break;
             case "showAllCardRequest":
                 showAllCardRequest(request, response);
+                break;
+            case "showFullRequestCardInfo":
+                showFullRequestCardInfo(request, response);
                 break;
             default:
                 // Chuyển đến trang lỗi nếu action không hợp lệ

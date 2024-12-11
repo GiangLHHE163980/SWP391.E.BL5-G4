@@ -31,9 +31,20 @@ public class User {
     }
 
 
-    public User(String fullName, Date birtday, String sex) {
+   
+
+    public User(String fullName, Date birthday, String sex, int socialSecurityNumber, String phoneNumber, String email) {
         this.fullName = fullName;
-        this.birthday = birtday;
+        this.birthday = birthday;
+        this.sex = sex;
+        this.socialSecurityNumber = socialSecurityNumber;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
+    public User(String fullName, Date birtday, String sex) {
+       this.fullName = fullName;
+       this.birthday = birtday;
         this.sex = sex;
     }
 
@@ -278,20 +289,15 @@ public class User {
 //        this.username = username;
 //    }
 
-    @Override
-    public String toString() {
-        return "User{"
-                + "userID=" + userID
-                + ", fullName='" + fullName + '\''
-                + ", email='" + email + '\''
-                + ", insuranceCard=" + insuranceCard + '\''
-                + "claims=" + claims + '\''
-                + "InsuranceProduct=" + insuranceProduct
-                + '}';
-    }
+ 
 
 //    public InsuranceCard setInsuranceCard(InsuranceCard card) {
 //        return this.insuranceCard;
 //    }
+
+    @Override
+    public String toString() {
+        return "User{" + "userID=" + userID + ", fullName=" + fullName + ", email=" + email + ", username=" + username + ", passwordHash=" + passwordHash + ", phoneNumber=" + phoneNumber + ", address=" + address + ", avatar=" + avatar + ", isActive=" + isActive + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", sex=" + sex + ", socialSecurityNumber=" + socialSecurityNumber + ", birthday=" + birthday + ", insuranceCard=" + insuranceCard + ", claims=" + claims + ", insuranceProduct=" + insuranceProduct + '}';
+    }
 
 }

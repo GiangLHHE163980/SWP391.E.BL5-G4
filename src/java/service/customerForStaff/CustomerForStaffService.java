@@ -37,7 +37,9 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "JOIN UserRoles ur ON u.UserID = ur.UserID\n"
             + "JOIN Roles r ON ur.RoleID = r.RoleID\n"
             + "LEFT JOIN InsuranceCards ic ON u.UserID = ic.UserID\n"
-            + "WHERE r.RoleName = 'Customer';";
+            + "WHERE r.RoleName = 'Customer'\n"
+            + "  AND (ic.Status IN ('Active', 'Expired', 'Revoked'));";
+
     private static final String GET_CUSTOMERS_BY_ID = "SELECT \n"
             + "    u.UserID, \n"
             + "    u.FullName, \n"
@@ -106,6 +108,89 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "WHERE \n"
             + "    ic.Status = 'Pending';\n"
             + "";
+
+    private static final String Get_Request_INSURANCE_CARD_BY_CARD_ID = "SELECT \n"
+            + "    ic.CardID,\n"
+            + "    u.FullName, \n"
+            + "    u.Birthday,\n"
+            + "    u.SocialSecurityNumber,\n"
+            + "    u.PhoneNumber,\n"
+            + "    u.Email,\n"
+            + "    u.Sex, \n"
+            + "    ip.ProductName, \n"
+            + "    ip.Cost, \n"
+            + "    ic.Status,\n"
+            + "    ic.isHandicapped,\n"
+            + "    icc.CompanyID,\n"
+            + "    icc.CompanyName,\n"
+            + "    icc.Address AS CompanyAddress,\n"
+            + "    icc.ContactInfo AS CompanyContactInfo\n"
+            + "FROM \n"
+            + "    InsuranceCards ic\n"
+            + "JOIN \n"
+            + "    Users u ON ic.UserID = u.UserID\n"
+            + "JOIN \n"
+            + "    InsuranceProducts ip ON ic.ProductID = ip.ProductID\n"
+            + "JOIN \n"
+            + "    InsuranceCompanies icc ON ip.CompanyID = icc.CompanyID\n"
+            + "WHERE \n"
+            + "    ic.Status = 'Pending'\n"
+            + "    AND ic.CardID = ?; ";
+
+    @Override
+    public InsuranceCard findCardRequestbyId(int cardId) {  // Thêm tham số cardId để truy vấn theo thẻ bảo hiểm
+        InsuranceCard card = null;  // Khởi tạo biến card
+
+        String query = Get_Request_INSURANCE_CARD_BY_CARD_ID;
+
+        try ( PreparedStatement pre = connection.prepareStatement(query)) {
+            pre.setInt(1, cardId);  // Đặt giá trị CardID vào câu lệnh chuẩn bị
+
+            // Thực thi truy vấn
+            try ( ResultSet rs = pre.executeQuery()) {
+                if (rs.next()) {
+                    // Lấy thông tin từ kết quả truy vấn
+
+                    // Lấy thông tin người dùng
+                    String fullName = rs.getString("FullName");
+                    Date birthday = rs.getDate("Birthday");
+                    String sex = rs.getString("Sex");
+                    int socialSecurityNumber = rs.getInt("socialSecurityNumber");
+                    String phoneNumber = rs.getString("phoneNumber");
+                    String email = rs.getString("email");
+                    User user = new User(fullName, birthday, sex, socialSecurityNumber, phoneNumber, email);
+
+                    // lấy thông tin company
+                    // Lấy thông tin công ty bảo hiểm
+                    int companyID = rs.getInt("CompanyID"); // Thêm dòng này để lấy CompanyID
+                    String companyName = rs.getString("CompanyName");
+                    String address = rs.getString("CompanyAddress");
+                    String contactInfo = rs.getString("CompanyContactInfo");
+
+                    // Tạo đối tượng InsuranceCompany
+                    InsuranceCompany insuranceCompany = new InsuranceCompany(companyID, companyName, address, contactInfo);
+
+                    // Lấy thông tin sản phẩm bảo hiểm
+                    String productName = rs.getString("ProductName");
+                    BigDecimal cost = rs.getBigDecimal("Cost");
+                    InsuranceProduct product = new InsuranceProduct(productName, cost, insuranceCompany);
+
+                    // Lấy thông tin thẻ bảo hiểm
+                    String cardStatus = rs.getString("Status");
+                    boolean isHandicapped = rs.getBoolean("isHandicapped");
+                    card = new InsuranceCard(cardId, user, product, cardStatus, isHandicapped);  // Tạo đối tượng InsuranceCard
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL Error while executing query: " + query);
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Unexpected Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return card;  // Trả về 1 đối tượng InsuranceCard (có thể null nếu không tìm thấy)
+    }
 
     @Override
     public void updateInsuranceRequestStatusByUserId(String newStatus, int userID) {
@@ -293,12 +378,12 @@ public class CustomerForStaffService implements ICustomerForStaffService {
         ICustomerForStaffService dao = new CustomerForStaffService();
 
         // Gọi phương thức delete để xóa sản phẩm với ProductID = 1
-//        dao.updateInsuranceCardStatusByUserId("Expired", 2);
+        System.out.println(dao.findCardRequestbyId(6));
         // Kiểm tra lại sản phẩm sau khi xóa
-        List<InsuranceCard> pList = (List<InsuranceCard>) dao.findAllCardRequest();
-        for (InsuranceCard o : pList) {
-            System.out.println(o);
-        }
+//        List<InsuranceCard> pList = (List<InsuranceCard>) dao.findAllCardRequest();
+//        for (InsuranceCard o : pList) {
+//            System.out.println(o);
+//        }
     }
 //    public static void main(String[] args) {
 //        // Khởi tạo ProductService (DAO)

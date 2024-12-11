@@ -146,14 +146,14 @@
                                         <td>${request.status}</td>
                                         <!--                                    
                                         -->                                        <td>
-                                            <a href="${pageContext.request.contextPath}/ProductController?action=showViewPage&product_id=${request.cardID}" 
+                                            <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=showFullRequestCardInfo&request_id=${request.cardID}" 
                                                class="btn btn-primary btn-sm" title="Xem chi tiết">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <a href="${pageContext.request.contextPath}/ProductController?action=showEditPage&product_id=${request.cardID}" class="btn btn-warning btn-sm" title="Đồng ý">
+                                            <a href="${pageContext.request.contextPath}/ProductController?action=showEditPage&request_id=${request.cardID}" class="btn btn-warning btn-sm" title="Đồng ý">
                                                 <i class="bi bi-check" style="color: green;"></i>
                                             </a>
-                                            <a href="${pageContext.request.contextPath}/ProductController?action=deleteProduct&product_id=${request.cardID}" class="btn btn-danger btn-sm" title="loại bỏ">
+                                            <a href="${pageContext.request.contextPath}/ProductController?action=deleteProduct&request_id=${request.cardID}" class="btn btn-danger btn-sm" title="loại bỏ">
                                                 <i class="bi bi-x-circle-fill"></i>
                                             </a>
                                         </td>
