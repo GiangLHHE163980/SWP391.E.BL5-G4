@@ -131,7 +131,7 @@
                                         <h5 class="card-title">${product.productName}</h5>
                                         <p class="text-danger mb-2">Chỉ từ ${product.cost} VNĐ/năm</p>
                                         <ul>
-                                            <li>${product.description}</li>
+<!--                                            <li>${product.description}</li>-->
                                             <li>${product.conditions}</li>
                                         </ul>
                                         <a href="#" class="btn btn-primary">Tham gia</a>
