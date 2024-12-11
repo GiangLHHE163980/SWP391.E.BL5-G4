@@ -77,6 +77,7 @@ public class RequestInsuranceController extends HttpServlet {
         String phone = request.getParameter("phone");
         String gender = request.getParameter("gender");
         String dob = request.getParameter("dob");
+        String address = request.getParameter("address");
         int idCard = Integer.parseInt(request.getParameter("idCard"));
         int userId = Integer.parseInt(request.getParameter("userID"));
         int productId = Integer.parseInt(request.getParameter("productID"));
@@ -108,6 +109,7 @@ public class RequestInsuranceController extends HttpServlet {
             request.setAttribute("phone", phone);
             request.setAttribute("gender",gender);
             request.setAttribute("dob", dob);
+            request.setAttribute("address",address);
             request.setAttribute("idCard", idCard);
             request.setAttribute("userID", userId);
             request.setAttribute("productID", productId);
