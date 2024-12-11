@@ -39,6 +39,9 @@ public class ConfirmInsuranceController extends HttpServlet {
         String userName = request.getParameter("userName");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
+        String gender = request.getParameter("gender");
+        String dobStr = request.getParameter("dob");
+        String idCard = request.getParameter("idCard");
         int userId = Integer.parseInt(request.getParameter("userID"));
         int productId = Integer.parseInt(request.getParameter("productID"));
         boolean isHandicapped = Boolean.parseBoolean(request.getParameter("isHandicapped"));
