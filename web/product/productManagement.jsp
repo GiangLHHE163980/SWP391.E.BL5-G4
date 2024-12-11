@@ -34,7 +34,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="RequestController?action=list" class="text-white d-block py-2 px-3">
+                        <a href="CustomerForStaffController?action=showAllCardRequest" class="text-white d-block py-2 px-3">
                             <i class="fas fa-tasks me-2"></i> Xử lý Yêu cầu
                         </a>
                     </li>
@@ -105,7 +105,7 @@
                         <h5>Bảng Thông tin</h5>
                     </div>
                     <div class="card-body">
-                        <table id="datatable" class="table table-bordered table-striped">
+                        <table id="datatable" class="table table-striped table-bordered table-sm text-center align-middle">
 
                             <thead>
                                 <tr>

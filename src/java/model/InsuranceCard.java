@@ -13,6 +13,7 @@ public class InsuranceCard {
     private String status;
     private Date createdAt;
     private Date updatedAt;
+    private Boolean isHandicapped;
     
 
     public InsuranceCard() {
@@ -45,6 +46,23 @@ public class InsuranceCard {
          this.status = status;
     }
 
+    public InsuranceCard(int CardId, User user, InsuranceProduct product, String cardStatus, boolean isHandicapped) {
+       this.cardID = CardId;
+       this.user = user;
+       this.insuranceProduct = product;
+       this.status = cardStatus;
+       this.isHandicapped = isHandicapped;
+    }
+
+    public Boolean getIsHandicapped() {
+        return isHandicapped;
+    }
+
+    public void setIsHandicapped(Boolean isHandicapped) {
+        this.isHandicapped = isHandicapped;
+    }
+    
+    
     public int getCardID() {
         return cardID;
     }
@@ -120,8 +138,11 @@ public class InsuranceCard {
   @Override
     public String toString() {
         return "InsuranceCard{" +
-            "cardNumber='" + cardNumber + '\'' +
+            "cardID='" + cardID + '\'' +
             ", status='" + status + '\'' +
+                ", insuranceProduct='" + insuranceProduct + '\'' +
+                ", user='" + user + '\'' +
+                ", isHandicapped='" + isHandicapped + '\'' +
             '}';
     }
 }

@@ -29,7 +29,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="RequestController?action=list" class="text-white d-block py-2 px-3">
+                    <a href="CustomerForStaffController?action=showAllCardRequest" class="text-white d-block py-2 px-3">
                         <i class="fas fa-tasks me-2"></i> Xử lý Yêu cầu
                     </a>
                 </li>
@@ -86,7 +86,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Yêu cầu bảo hiểm</h5>
                             <p class="card-text">Chờ xử lý: <strong>${RequestCount}</strong></p>
-                            <a href="RequestController?action=list" class="btn btn-light btn-sm">Xem chi tiết</a>
+                            <a href="CustomerForStaffController?action=showAllCardRequest" class="btn btn-light btn-sm">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>

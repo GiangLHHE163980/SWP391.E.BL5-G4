@@ -105,42 +105,55 @@
                         <h5>Bảng Thông tin</h5>
                     </div>
                     <div class="card-body">
-                        <table id="datatable" class="table table-bordered table-striped">
+                        <table id="datatable" class="table table-striped table-bordered table-sm text-center align-middle">
 
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Tên Khách hàng</th>
                                     <th>Ngày sinh</th>
-                                    <th>Giới tính</th>
-                                    <th>Thời hạn bảo hiểm</th>                                
+                                    <th>Giới tính</th>                                                             
                                     <th>Sản phẩm lựa chọn</th>
                                     <th>Giá trị</th>
+                                    <th>Thời hạn</th> 
                                     <th>Xác Nhận thương tật</th>
+                                    <th>Trạng thái</th>     
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <!-- Loop to display products dynamically -->
-                                <c:forEach var="product" items="${productList}">
+                                <c:forEach var="request" items="${listR}">
                                     <tr>
-                                        <td>${product.productID}</td>
-                                        <td>${product.productName}</td>
-                                        <td>${product.insuranceType}</td>
-                                        <td>${product.description}</td>
-                                        <td>${product.cost} VNĐ/năm</td>
-                                        <td>${product.conditions}</td>
-                                        <td>${product.conditions}</td>
-                                        <td>${product.insuranceCompany.companyName}</td>
+                                        <td>${request.cardID}</td>
+                                        <td>${request.user.fullName}</td>
+                                        <td>${request.user.birthday}</td>
+                                        <td>${request.user.sex}</td>
+                                        <td>${request.insuranceProduct.productName}</td>
+                                        <td>${request.insuranceProduct.cost}</td>
+                                        <td>1 năm</td>
                                         <td>
-                                            <a href="${pageContext.request.contextPath}/ProductController?action=showViewPage&product_id=${product.productID}" 
+                                            <c:choose>
+                                                <c:when test="${request.isHandicapped}">
+                                                    Có thương tật
+                                                </c:when>
+                                                <c:otherwise>
+                                                    Không có thương tật
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+
+                                        <td>${request.status}</td>
+                                        <!--                                    
+                                        -->                                        <td>
+                                            <a href="${pageContext.request.contextPath}/ProductController?action=showViewPage&product_id=${request.cardID}" 
                                                class="btn btn-primary btn-sm" title="Xem chi tiết">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <a href="${pageContext.request.contextPath}/ProductController?action=showEditPage&product_id=${product.productID}" class="btn btn-warning btn-sm" title="Đồng ý">
-                                                <i class="bi bi-check"></i>
+                                            <a href="${pageContext.request.contextPath}/ProductController?action=showEditPage&product_id=${request.cardID}" class="btn btn-warning btn-sm" title="Đồng ý">
+                                                <i class="bi bi-check" style="color: green;"></i>
                                             </a>
-                                            <a href="${pageContext.request.contextPath}/ProductController?action=deleteProduct&product_id=${product.productID}" class="btn btn-danger btn-sm" title="loại bỏ">
+                                            <a href="${pageContext.request.contextPath}/ProductController?action=deleteProduct&product_id=${request.cardID}" class="btn btn-danger btn-sm" title="loại bỏ">
                                                 <i class="bi bi-x-circle-fill"></i>
                                             </a>
                                         </td>

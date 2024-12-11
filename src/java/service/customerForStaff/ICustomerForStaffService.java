@@ -5,6 +5,7 @@
 package service.customerForStaff;
 
 import java.util.List;
+import model.InsuranceCard;
 import model.User;
 
 /**
@@ -19,4 +20,6 @@ public interface ICustomerForStaffService {
     public void updateInsuranceRequestStatusByUserId(String newStatus, int userID);
     
     public void updateInsuranceCardStatusByUserId(String newStatus, int userID);
+    
+      public List<InsuranceCard> findAllCardRequest();
 }

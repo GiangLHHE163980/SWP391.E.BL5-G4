@@ -30,6 +30,13 @@ public class User {
         this.username = username;
     }
 
+
+    public User(String fullName, Date birtday, String sex) {
+        this.fullName = fullName;
+        this.birthday = birtday;
+        this.sex = sex;
+    }
+
     // gianglh findByCustomerByIdV1
     public List<Claim> getClaims() {
         return this.claims;

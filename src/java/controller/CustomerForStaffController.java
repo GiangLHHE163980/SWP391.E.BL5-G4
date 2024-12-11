@@ -65,49 +65,58 @@ public class CustomerForStaffController extends HttpServlet {
 
     }
 
+    private void showAllCardRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (dao.findAllCardRequest() != null) {
+            request.setAttribute("listR", dao.findAllCardRequest());
+            getRequestDispatch(request, response, "/customerstaff/CardRequestList.jsp");
+        } else {
+            response.sendRedirect("/HomePageForStaffController?action=homepageForStaff");
+        }
+
+    }
 
     private void showFullCustomerInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int uId = Integer.parseInt(request.getParameter("CustomerId"));
         Object customer = dao.findCustomerInforById(uId);
-        if(customer == null){
+        if (customer == null) {
             System.out.println("Product not found for ID: " + uId);
-             response.sendRedirect("ProductController?action=showFullProduct");
-        }else {
-             System.out.println("Product found: " + customer);
-              request.setAttribute("listCI", customer);
+            response.sendRedirect("ProductController?action=showFullProduct");
+        } else {
+            System.out.println("Product found: " + customer);
+            request.setAttribute("listCI", customer);
         }
         getRequestDispatch(request, response, "/customerstaff/CustomerDetailForStaff.jsp");
 
     }
-    
-        private void updateCardStatus(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    private void updateCardStatus(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int uId = Integer.parseInt(request.getParameter("userID"));
-         String cardStatus = request.getParameter("cardStatus");
-         dao.updateInsuranceCardStatusByUserId(cardStatus, uId);
+        String cardStatus = request.getParameter("cardStatus");
+        dao.updateInsuranceCardStatusByUserId(cardStatus, uId);
         Object customer = dao.findCustomerInforById(uId);
-        if(customer == null){
+        if (customer == null) {
             System.out.println("Product not found for ID: " + uId);
-             response.sendRedirect("ProductController?action=showFullProduct");
-        }else {
-             System.out.println("Product found: " + customer);
-              request.setAttribute("listCI", customer);
+            response.sendRedirect("ProductController?action=showFullProduct");
+        } else {
+            System.out.println("Product found: " + customer);
+            request.setAttribute("listCI", customer);
         }
         getRequestDispatch(request, response, "/customerstaff/CustomerDetailForStaff.jsp");
 
     }
-        
-        private void updateInsuranceRequestStatus(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    private void updateInsuranceRequestStatus(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int uId = Integer.parseInt(request.getParameter("userID"));
         String claimStatus = request.getParameter("claimStatus");
-        
+
         dao.updateInsuranceRequestStatusByUserId(claimStatus, uId);
         Object customer = dao.findCustomerInforById(uId);
-        if(customer == null){
+        if (customer == null) {
             System.out.println("Product not found for ID: " + uId);
-             response.sendRedirect("ProductController?action=showFullProduct");
-        }else {
-             System.out.println("Product found: " + customer);
-              request.setAttribute("listCI", customer);
+            response.sendRedirect("ProductController?action=showFullProduct");
+        } else {
+            System.out.println("Product found: " + customer);
+            request.setAttribute("listCI", customer);
         }
         getRequestDispatch(request, response, "/customerstaff/CustomerDetailForStaff.jsp");
 
@@ -137,8 +146,11 @@ public class CustomerForStaffController extends HttpServlet {
             case "showFullCustomerInfo":
                 showFullCustomerInfo(request, response);
                 break;
-              case "updateInsuranceRequestStatus":
+            case "updateInsuranceRequestStatus":
                 updateInsuranceRequestStatus(request, response);
+                break;
+            case "showAllCardRequest":
+                showAllCardRequest(request, response);
                 break;
             default:
                 // Chuyển đến trang lỗi nếu action không hợp lệ
@@ -158,7 +170,7 @@ public class CustomerForStaffController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-             String action = request.getParameter("action");
+        String action = request.getParameter("action");
         if (action == null) {
             action = "default";
         }
@@ -169,7 +181,7 @@ public class CustomerForStaffController extends HttpServlet {
                 break;
             case "updateInsuranceRequestStatus":
                 updateInsuranceRequestStatus(request, response);
-                break; 
+                break;
             default:
                 getRequestDispatch(request, response, "error.jsp");
                 break;

@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import model.Claim;
 import model.InsuranceCard;
@@ -77,8 +78,8 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "JOIN Roles r ON ur.RoleID = r.RoleID "
             + "WHERE r.RoleName = 'Customer' "
             + "AND u.UserID = ? ";
-    
-     private static final String UPDATE_INSURANCE_CARD_STATUS_BY_ID = "UPDATE InsuranceCards "
+
+    private static final String UPDATE_INSURANCE_CARD_STATUS_BY_ID = "UPDATE InsuranceCards "
             + "SET Status = ? "
             + "FROM InsuranceCards ic "
             + "JOIN Users u ON ic.UserID = u.UserID "
@@ -87,13 +88,28 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "WHERE r.RoleName = 'Customer' "
             + "AND u.UserID = ? ";
 
-         
-     
-     
-     
-        @Override
-    public void updateInsuranceCardStatusByUserId(String newStatus, int userID) {
-        try ( PreparedStatement ps = connection.prepareStatement(UPDATE_INSURANCE_CARD_STATUS_BY_ID)) {
+    private static final String Get_ALL_REQUEST_INSURANCE_CARD = "SELECT \n"
+            + "	ic.CardID,\n"
+            + "    u.FullName, \n"
+            + "    u.Birthday, \n"
+            + "    u.Sex, \n"
+            + "    ip.ProductName, \n"
+            + "    ip.Cost, \n"
+            + "    ic.Status,\n"
+            + "	ic.isHandicapped\n"
+            + "FROM \n"
+            + "    InsuranceCards ic\n"
+            + "JOIN \n"
+            + "    Users u ON ic.UserID = u.UserID\n"
+            + "JOIN \n"
+            + "    InsuranceProducts ip ON ic.ProductID = ip.ProductID\n"
+            + "WHERE \n"
+            + "    ic.Status = 'Pending';\n"
+            + "";
+
+    @Override
+    public void updateInsuranceRequestStatusByUserId(String newStatus, int userID) {
+        try ( PreparedStatement ps = connection.prepareStatement(UPDATE_INSURANCE_REQUEST_STATUS_BY_ID)) {
             ps.setString(1, newStatus); // Cập nhật trạng thái mới (ví dụ 'Pending', 'Approved', ...)
             ps.setInt(2, userID); // Truyền vào userID
             int rowsUpdated = ps.executeUpdate();
@@ -105,11 +121,53 @@ public class CustomerForStaffService implements ICustomerForStaffService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    } 
-     
+    }
+
     @Override
-    public void updateInsuranceRequestStatusByUserId(String newStatus, int userID) {
-        try ( PreparedStatement ps = connection.prepareStatement(UPDATE_INSURANCE_REQUEST_STATUS_BY_ID)) {
+    public List<InsuranceCard> findAllCardRequest() {
+        List<InsuranceCard> cardList = new ArrayList<>();
+
+        try ( PreparedStatement pre = connection.prepareStatement(Get_ALL_REQUEST_INSURANCE_CARD)) {
+            // Thực thi truy vấn
+            try ( ResultSet rs = pre.executeQuery()) {
+                while (rs.next()) {
+                    // Lấy thông tin từ kết quả truy vấn
+                    // lấy thông tin user
+                    String fullName = rs.getString("FullName");
+                    Date birtday = rs.getDate("Birthday");
+                    String sex = rs.getString("Sex");
+
+                    User user = new User(fullName, birtday, sex);
+
+                    // Lay thông tin của product
+                    String productName = rs.getString("ProductName");
+                    BigDecimal cost = rs.getBigDecimal("Cost");
+
+                    InsuranceProduct product = new InsuranceProduct(productName, cost);
+
+                    //lay thong tin card
+                    int cardId = rs.getInt("CardID");
+                    String cardStatus = rs.getString("Status");
+                    boolean isHandicapped = rs.getBoolean("isHandicapped");
+                    InsuranceCard card = new InsuranceCard(cardId, user, product, cardStatus, isHandicapped);
+                    // Thêm khách hàng vào danh sách
+                    cardList.add(card);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL Error while executing query: " + GET_ALL_CUSTOMERS);
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Unexpected Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return cardList; // Trả về danh sách khách hàng
+    }
+
+    @Override
+    public void updateInsuranceCardStatusByUserId(String newStatus, int userID) {
+        try ( PreparedStatement ps = connection.prepareStatement(UPDATE_INSURANCE_CARD_STATUS_BY_ID)) {
             ps.setString(1, newStatus); // Cập nhật trạng thái mới (ví dụ 'Pending', 'Approved', ...)
             ps.setInt(2, userID); // Truyền vào userID
             int rowsUpdated = ps.executeUpdate();
@@ -230,19 +288,18 @@ public class CustomerForStaffService implements ICustomerForStaffService {
     }
 
     //    //Test find Customer Infor By use Id
-//    public static void main(String[] args) {
-//        // Khởi tạo ProductService (DAO)
-//        ICustomerForStaffService dao = new CustomerForStaffService();
-//
-//        // Gọi phương thức delete để xóa sản phẩm với ProductID = 1
-//        dao.updateInsuranceCardStatusByUserId("Expired", 2);
-//        // Kiểm tra lại sản phẩm sau khi xóa
-//        List<User> pList = (List<User>) dao.findCustomerInforById(2);
-//        for (User o : pList) {
-//            System.out.println(o);
-//        }
-//    }
+    public static void main(String[] args) {
+        // Khởi tạo ProductService (DAO)
+        ICustomerForStaffService dao = new CustomerForStaffService();
 
+        // Gọi phương thức delete để xóa sản phẩm với ProductID = 1
+//        dao.updateInsuranceCardStatusByUserId("Expired", 2);
+        // Kiểm tra lại sản phẩm sau khi xóa
+        List<InsuranceCard> pList = (List<InsuranceCard>) dao.findAllCardRequest();
+        for (InsuranceCard o : pList) {
+            System.out.println(o);
+        }
+    }
 //    public static void main(String[] args) {
 //        // Khởi tạo ProductService (DAO)
 //        ICustomerForStaffService dao = new CustomerForStaffService();
