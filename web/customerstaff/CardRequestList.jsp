@@ -21,7 +21,7 @@
     </head>
     <body>
         <div class="wrapper d-flex">
-               <!-- Sidebar -->
+            <!-- Sidebar -->
             <nav class="sidebar bg-dark">
                 <div class="sidebar-header text-center text-white py-4">
                     <h4><span style="color: #FF69B4;">Giang</span>Staff</h4>
@@ -34,11 +34,10 @@
                         </a>
                     </li>
                     <li>
-                        <a href="CustomerForStaffController?action=showAllCardRequest" class="text-white d-block py-2 px-3">
-                            <i class="fas fa-tasks me-2"></i> Xử lý Yêu cầu
+                        <a href="ProductController?action=showFullProduct" class="text-white d-block py-2 px-3">
+                            <i class="fas fa-box me-2"></i> Quản lý Sản phẩm
                         </a>
                     </li>
-                  
                 </ul>
             </nav>
 
@@ -53,7 +52,7 @@
                                 <div class="input-group">
                                     <!-- Tham số action cố định giá trị showFullProduct -->
                                     <input type="hidden" name="action" value="showFullProduct">
-                                    <input type="text" class="form-control rounded" name="search" placeholder="Tìm kiếm sản phẩm..." value="${search}">
+                                    <input type="text" class="form-control rounded" name="search" placeholder="Tìm kiếm ..." value="${search}">
                                     <button class="btn btn-outline-success rounded px-2 ms-2" type="submit">
                                         <i class="bi bi-search"></i> Tìm kiếm
                                     </button>
@@ -83,16 +82,16 @@
                 <div class="breadcrumb-container px-3 py-2">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#">Sản phẩm</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Danh sách sản phẩm</li>
+                            <li class="breadcrumb-item"><a href="#">Yêu cầu thẻ</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Danh sách yêu cầu thẻ</li>
                         </ol>
                     </nav>
                 </div>
                 <!-- Nút thêm mới sản phẩm -->
                 <div class="mb-1 mt-4 text-end">
-                    <a href="${pageContext.request.contextPath}/ProductController?action=showAddPage" class="btn btn-outline-success">
+                    <a href="#" class="btn btn-outline-success">
                         <i class="bi bi-plus"></i>
-                        Thêm mới Sản phẩm</a>
+                        Thêm mới Phản hồi</a>
                 </div>
 
                 <!-- Table Card -->
@@ -106,36 +105,51 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Loại bảo hiểm</th>
-                                    <th>Quyền lợi</th>
-                                    <th>Chi phí</th>                                
-                                    <th>Điều kiện</th>
-                                    <th>Nhà cung cấp</th>
+                                    <th>Tên Khách hàng</th>
+                                    <th>Ngày sinh</th>
+                                    <th>Giới tính</th>                                                             
+                                    <th>Sản phẩm lựa chọn</th>
+                                    <th>Giá trị</th>
+                                    <th>Thời hạn</th> 
+                                    <th>Xác Nhận thương tật</th>
+                                    <th>Trạng thái</th>     
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <!-- Loop to display products dynamically -->
-                                <c:forEach var="product" items="${productList}">
+                                <c:forEach var="request" items="${listR}">
                                     <tr>
-                                        <td>${product.productID}</td>
-                                        <td>${product.productName}</td>
-                                        <td>${product.insuranceType}</td>
-                                        <td>${product.description}</td>
-                                        <td>${product.cost} VNĐ/năm</td>
-                                        <td>${product.conditions}</td>
-                                        <td>${product.insuranceCompany.companyName}</td>
+                                        <td>${request.cardID}</td>
+                                        <td>${request.user.fullName}</td>
+                                        <td>${request.user.birthday}</td>
+                                        <td>${request.user.sex}</td>
+                                        <td>${request.insuranceProduct.productName}</td>
+                                        <td>${request.insuranceProduct.cost}</td>
+                                        <td>1 năm</td>
                                         <td>
-                                            <a href="${pageContext.request.contextPath}/ProductController?action=showViewPage&product_id=${product.productID}" 
+                                            <c:choose>
+                                                <c:when test="${request.isHandicapped}">
+                                                    Có thương tật
+                                                </c:when>
+                                                <c:otherwise>
+                                                    Không có thương tật
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </td>
+
+                                        <td>${request.status}</td>
+                                        <!--                                    
+                                        -->                                        <td>
+                                            <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=showFullRequestCardInfo&request_id=${request.cardID}" 
                                                class="btn btn-primary btn-sm" title="Xem chi tiết">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <a href="${pageContext.request.contextPath}/ProductController?action=showEditPage&product_id=${product.productID}" class="btn btn-warning btn-sm" title="Chỉnh sửa">
-                                                <i class="bi bi-pencil-square"></i>
+                                            <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=updateCardStatusByCardId&request_id=${request.cardID}&cardStatus=Active" class="btn btn-warning btn-sm" title="Đồng ý">
+                                                <i class="bi bi-check" style="color: green;"></i>
                                             </a>
-                                            <a href="${pageContext.request.contextPath}/ProductController?action=deleteProduct&product_id=${product.productID}" class="btn btn-danger btn-sm" title="Xóa">
-                                                <i class="bi bi-trash"></i>
+                                            <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=updateCardStatusByCardId&request_id=${request.cardID}&cardStatus=Rejected" class="btn btn-danger btn-sm" title="loại bỏ">
+                                                <i class="bi bi-x-circle-fill"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -163,6 +177,6 @@
                 });
             });
         </script>
-       
+
     </body>
 </html>

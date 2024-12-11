@@ -57,6 +57,17 @@ public class InsuranceProduct {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    public InsuranceProduct(String productName, BigDecimal cost, InsuranceCompany insuranceCompany) {
+       this.productName = productName;
+       this.cost = cost;
+       this.insuranceCompany = insuranceCompany;
+    }
+
+    public InsuranceProduct(String productName, BigDecimal cost) {
+      this.productName = productName;
+       this.cost = cost;
+    }
+
      public String getAvatar() {
         return avatar;
     }

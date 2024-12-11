@@ -84,51 +84,51 @@
                     <tbody>
                         <tr>
                             <th>ID</th>
-                            <td>${productList[0].productID}</td>
+                            <td>${listRC.cardID}</td>
                         </tr>
                         <tr>
                             <th>Tên</th>
-                            <td>${productList[0].productName}</td>
+                            <td>${listRC.user.fullName}</td>
                         </tr>
                         <tr>
                             <th>Ngày sinh</th>
-                            <td>${productList[0].insuranceType}</td>
+                            <td>${listRC.user.birthday}</td>
                         </tr>
                         <tr>
                             <th>Giới tính</th>
-                            <td>${productList[0].description}</td>
+                            <td>${listRC.user.sex}</td>
                         </tr>
                         <tr>
                             <th>CMND/CCCD</th>
-                            <td>${productList[0].cost} VNĐ/năm</td>
+                            <td>${listRC.user.socialSecurityNumber}</td>
                         </tr>
                         <tr>
                             <th>Số điện thoại</th>
-                            <td>${productList[0].conditions}</td>
+                            <td>${listRC.user.phoneNumber}</td>
                         </tr>
                         <tr>
                             <th>Thời hạn bảo hiểm</th>
-                            <td>${productList[0].conditions}</td>
+                            <td>1 năm</td>
                         </tr>
                         <tr>
                             <th>Email</th>
-                            <td>${productList[0].conditions}</td>
+                            <td>${listRC.user.email}</td>
                         </tr>
                         <tr>
                             <th>Sản phẩm lựa chọn</th>
-                            <td>${productList[0].conditions}</td>
+                            <td>${listRC.insuranceProduct.productName}</td>
                         </tr>
                         <tr>
                             <th>Giá trị</th>
-                            <td>${productList[0].conditions}</td>
+                            <td>${listRC.insuranceProduct.cost}  VNĐ/năm</td>
                         </tr>
                          <tr>
                             <th>Xác nhận thương tật</th>
-                            <td>${productList[0].conditions}</td>
+                            <td>${listRC.isHandicapped}</td>
                         </tr>
                          <tr>
                             <th>Trạng thái</th>
-                            <td>${productList[0].conditions}</td>
+                            <td>${listRC.status}</td>
                         </tr>
                         <tr>
                             <th>Hình ảnh sản phẩm</th>
@@ -147,26 +147,26 @@
                     <tbody>
                         <tr>
                             <th>ID nhà cung cấp</th>
-                            <td>${productList[0].insuranceCompany.companyID}</td>
+                            <td>${listRC.insuranceProduct.insuranceCompany.companyID}</td>
                         </tr>
                         <tr>
                             <th>Tên nhà cung cấp</th>
-                            <td>${productList[0].insuranceCompany.companyName}</td>
+                            <td>${listRC.insuranceProduct.insuranceCompany.companyName}</td>
                         </tr>
                         <tr>
                             <th>Địa chỉ</th>
-                            <td>${productList[0].insuranceCompany.address}</td>
+                            <td>${listRC.insuranceProduct.insuranceCompany.address}</td>
                         </tr>
                         <tr>
                             <th>Thông tin liên lạc</th>
-                            <td>${productList[0].insuranceCompany.contactInfo}</td>
+                            <td>${listRC.insuranceProduct.insuranceCompany.contactInfo}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
         <!-- Nút quay lại -->
-        <a href="${pageContext.request.contextPath}/ProductController?action=showFullProduct" 
+        <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=showAllCardRequest" 
            class="btn btn-secondary d-block mx-auto text-center">Quay lại</a>
     </div>
 

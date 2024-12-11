@@ -19,17 +19,17 @@
         <!-- Sidebar -->
         <nav class="sidebar bg-dark">
             <div class="sidebar-header text-center text-white py-4">
-                <h4><span style="color: #FF69B4;">Giang</span>Admin</h4>
+                <h4><span style="color: #FF69B4;">Giang</span>Staff</h4>
             </div>
             <ul class="list-unstyled px-2">
-                <li><a href="#" class="text-white d-block py-2 px-3"><i class="fas fa-home me-2"></i> Dashboard</a></li>
+                <li><a href="#" class="text-white d-block py-2 px-3"><i class="fas fa-home me-2"></i> Bảng điều khiển</a></li>
                 <li>
                     <a href="CustomerForStaffController?action=showAllCustomer" class="text-white d-block py-2 px-3">
                         <i class="fas fa-users me-2"></i> Quản lý Khách hàng
                     </a>
                 </li>
                 <li>
-                    <a href="RequestController?action=list" class="text-white d-block py-2 px-3">
+                    <a href="CustomerForStaffController?action=showAllCardRequest" class="text-white d-block py-2 px-3">
                         <i class="fas fa-tasks me-2"></i> Xử lý Yêu cầu
                     </a>
                 </li>
@@ -45,7 +45,7 @@
         <div class="main-content flex-grow-1 bg-light">
             <!-- Header -->
             <div class="header bg-white d-flex justify-content-between align-items-center p-3 border-bottom">
-                <h4 class="mb-0">Dashboard</h4>
+                <h4 class="mb-0">Bảng điều khiển</h4>
                 <div class="dropdown profile-dropdown">
                     <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="https://via.placeholder.com/40" alt="Profile Picture">
@@ -64,8 +64,8 @@
             <div class="breadcrumb-container px-3 py-2">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                        <li class="breadcrumb-item"><a href="#">Bảng Điều khiển</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Trang chủ</li>
                     </ol>
                 </nav>
             </div>
@@ -86,7 +86,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Yêu cầu bảo hiểm</h5>
                             <p class="card-text">Chờ xử lý: <strong>${RequestCount}</strong></p>
-                            <a href="RequestController?action=list" class="btn btn-light btn-sm">Xem chi tiết</a>
+                            <a href="CustomerForStaffController?action=showAllCardRequest" class="btn btn-light btn-sm">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>
