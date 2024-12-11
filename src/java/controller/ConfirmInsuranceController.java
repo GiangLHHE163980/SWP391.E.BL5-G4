@@ -72,10 +72,20 @@ public class ConfirmInsuranceController extends HttpServlet {
             insertCardStmt.setString(6, "Pending"); // Default status
             insertCardStmt.setBoolean(7, isHandicapped);
 
-            int rowsAffected = insertCardStmt.executeUpdate();
+            int rowsAffectedCard = insertCardStmt.executeUpdate();
+
+            // Update the user information in the Users table
+            String updateUserQuery = "UPDATE Users SET UserName = ?, Email = ?, Phone = ? WHERE UserID = ?";
+            PreparedStatement updateUserStmt = conn.prepareStatement(updateUserQuery);
+            updateUserStmt.setString(1, userName);
+            updateUserStmt.setString(2, email);
+            updateUserStmt.setString(3, phone);
+            updateUserStmt.setInt(4, userId);
+
+            int rowsAffectedUser = updateUserStmt.executeUpdate();
 
             // Provide feedback to the user
-            if (rowsAffected > 0) {
+            if (rowsAffectedCard > 0 && rowsAffectedUser > 0) {
                 out.println("<h2>Insurance Card Created Successfully!</h2>");
                 out.println("<p>Card Number: " + newCardNumber + "</p>");
                 out.println("<p>User: " + userName + "</p>");
@@ -86,9 +96,9 @@ public class ConfirmInsuranceController extends HttpServlet {
                 out.println("<p>End Date: " + endDateStr + "</p>");
                 out.println("<p>Handicapped: " + (isHandicapped ? "Yes" : "No") + "</p>");
                 out.println("<p>Status: Pending</p>");
-                out.println("<a href=\"index.jsp\">Go back to Home</a>");
+                out.println("<h2>User updated successfully!</h2>");
             } else {
-                out.println("<h2>Error: Unable to create Insurance Card.</h2>");
+                out.println("<h2>Error: Unable to process the request.</h2>");
             }
 
         } catch (SQLException e) {
@@ -99,6 +109,6 @@ public class ConfirmInsuranceController extends HttpServlet {
 
     @Override
     public String getServletInfo() {
-        return "Handles the confirmation and creation of an Insurance Card.";
+        return "Handles the confirmation and creation of an Insurance Card, and updates user information.";
     }
 }
