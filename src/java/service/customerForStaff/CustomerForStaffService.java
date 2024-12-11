@@ -81,7 +81,7 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "WHERE r.RoleName = 'Customer' "
             + "AND u.UserID = ? ";
 
-    private static final String UPDATE_INSURANCE_CARD_STATUS_BY_ID = "UPDATE InsuranceCards "
+    private static final String UPDATE_INSURANCE_CARD_STATUS_BY_USER_ID = "UPDATE InsuranceCards "
             + "SET Status = ? "
             + "FROM InsuranceCards ic "
             + "JOIN Users u ON ic.UserID = u.UserID "
@@ -91,23 +91,27 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "AND u.UserID = ? ";
 
     private static final String Get_ALL_REQUEST_INSURANCE_CARD = "SELECT \n"
-            + "	ic.CardID,\n"
+            + "    ic.CardID,\n"
             + "    u.FullName, \n"
             + "    u.Birthday, \n"
             + "    u.Sex, \n"
             + "    ip.ProductName, \n"
             + "    ip.Cost, \n"
             + "    ic.Status,\n"
-            + "	ic.isHandicapped\n"
+            + "    ic.isHandicapped\n"
             + "FROM \n"
             + "    InsuranceCards ic\n"
             + "JOIN \n"
             + "    Users u ON ic.UserID = u.UserID\n"
             + "JOIN \n"
+            + "    UserRoles ur ON u.UserID = ur.UserID\n"
+            + "JOIN \n"
+            + "    Roles r ON ur.RoleID = r.RoleID\n"
+            + "JOIN \n"
             + "    InsuranceProducts ip ON ic.ProductID = ip.ProductID\n"
             + "WHERE \n"
-            + "    ic.Status = 'Pending';\n"
-            + "";
+            + "    ic.Status = 'Pending'\n"
+            + "    AND r.RoleName = 'Customer';";
 
     private static final String Get_Request_INSURANCE_CARD_BY_CARD_ID = "SELECT \n"
             + "    ic.CardID,\n"
@@ -136,6 +140,33 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "WHERE \n"
             + "    ic.Status = 'Pending'\n"
             + "    AND ic.CardID = ?; ";
+
+    private static final String UPDATE_INSURANCE_CARD_STATUS_BY_CARD_ID = "UPDATE ic\n"
+            + "SET ic.Status = ?, -- Thay trạng thái mong muốn\n"
+            + "    ic.UpdatedAt = GETDATE() -- Cập nhật thời gian\n"
+            + "FROM InsuranceCards ic\n"
+            + "JOIN Users u ON ic.UserID = u.UserID\n"
+            + "JOIN UserRoles ur ON u.UserID = ur.UserID\n"
+            + "JOIN Roles r ON ur.RoleID = r.RoleID\n"
+            + "WHERE r.RoleName = 'Customer' \n"
+            + "  AND u.IsActive = 1         \n"
+            + "  AND ic.CardID = ?;          ";
+
+    @Override
+    public void updateInsuranceCardStatusByCardId(String newStatus, int cardID) {
+        try ( PreparedStatement ps = connection.prepareStatement(UPDATE_INSURANCE_CARD_STATUS_BY_CARD_ID)) {
+            ps.setString(1, newStatus); // Cập nhật trạng thái mới (ví dụ 'Pending', 'Approved', ...)
+            ps.setInt(2, cardID); // Truyền vào userID
+            int rowsUpdated = ps.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Request status updated successfully.");
+            } else {
+                System.out.println("No records found for update.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public InsuranceCard findCardRequestbyId(int cardId) {  // Thêm tham số cardId để truy vấn theo thẻ bảo hiểm
@@ -252,7 +283,7 @@ public class CustomerForStaffService implements ICustomerForStaffService {
 
     @Override
     public void updateInsuranceCardStatusByUserId(String newStatus, int userID) {
-        try ( PreparedStatement ps = connection.prepareStatement(UPDATE_INSURANCE_CARD_STATUS_BY_ID)) {
+        try ( PreparedStatement ps = connection.prepareStatement(UPDATE_INSURANCE_CARD_STATUS_BY_USER_ID)) {
             ps.setString(1, newStatus); // Cập nhật trạng thái mới (ví dụ 'Pending', 'Approved', ...)
             ps.setInt(2, userID); // Truyền vào userID
             int rowsUpdated = ps.executeUpdate();

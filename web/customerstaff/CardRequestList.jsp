@@ -34,11 +34,6 @@
                         </a>
                     </li>
                     <li>
-                        <a href="RequestController?action=list" class="text-white d-block py-2 px-3">
-                            <i class="fas fa-tasks me-2"></i> Xử lý Yêu cầu
-                        </a>
-                    </li>
-                    <li>
                         <a href="ProductController?action=showFullProduct" class="text-white d-block py-2 px-3">
                             <i class="fas fa-box me-2"></i> Quản lý Sản phẩm
                         </a>
@@ -87,7 +82,7 @@
                 <div class="breadcrumb-container px-3 py-2">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#">yêu cầu thẻ</a></li>
+                            <li class="breadcrumb-item"><a href="#">Yêu cầu thẻ</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Danh sách yêu cầu thẻ</li>
                         </ol>
                     </nav>
@@ -150,10 +145,10 @@
                                                class="btn btn-primary btn-sm" title="Xem chi tiết">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <a href="${pageContext.request.contextPath}/ProductController?action=showEditPage&request_id=${request.cardID}" class="btn btn-warning btn-sm" title="Đồng ý">
+                                            <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=updateCardStatusByCardId&request_id=${request.cardID}&cardStatus=Active" class="btn btn-warning btn-sm" title="Đồng ý">
                                                 <i class="bi bi-check" style="color: green;"></i>
                                             </a>
-                                            <a href="${pageContext.request.contextPath}/ProductController?action=deleteProduct&request_id=${request.cardID}" class="btn btn-danger btn-sm" title="loại bỏ">
+                                            <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=updateCardStatusByCardId&request_id=${request.cardID}&cardStatus=Rejected" class="btn btn-danger btn-sm" title="loại bỏ">
                                                 <i class="bi bi-x-circle-fill"></i>
                                             </a>
                                         </td>

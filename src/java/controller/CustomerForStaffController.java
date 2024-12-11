@@ -74,8 +74,8 @@ public class CustomerForStaffController extends HttpServlet {
         }
 
     }
-    
-        private void showFullRequestCardInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    private void showFullRequestCardInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int rId = Integer.parseInt(request.getParameter("request_id"));
         Object card = dao.findCardRequestbyId(rId);
         if (card == null) {
@@ -100,6 +100,15 @@ public class CustomerForStaffController extends HttpServlet {
             request.setAttribute("listCI", customer);
         }
         getRequestDispatch(request, response, "/customerstaff/CustomerDetailForStaff.jsp");
+
+    }
+
+    private void updateCardStatusByCardId(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int rId = Integer.parseInt(request.getParameter("request_id"));
+        String cardStatus = request.getParameter("cardStatus");
+        dao.updateInsuranceCardStatusByCardId(cardStatus, rId);
+       
+        response.sendRedirect("/SWP391_E_BL5_G4/CustomerForStaffController?action=showAllCardRequest");
 
     }
 
@@ -168,6 +177,9 @@ public class CustomerForStaffController extends HttpServlet {
                 break;
             case "showFullRequestCardInfo":
                 showFullRequestCardInfo(request, response);
+                break;
+            case "updateCardStatusByCardId":
+                updateCardStatusByCardId(request, response);
                 break;
             default:
                 // Chuyển đến trang lỗi nếu action không hợp lệ

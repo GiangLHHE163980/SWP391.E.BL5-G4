@@ -25,4 +25,6 @@ public interface ICustomerForStaffService {
     public List<InsuranceCard> findAllCardRequest();
 
     public InsuranceCard findCardRequestbyId(int cardId);
+    
+    public void updateInsuranceCardStatusByCardId(String newStatus, int userID);
 }
