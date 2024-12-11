@@ -63,6 +63,10 @@
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email" value="${email}">
                                 </div>
+                                <div>
+                                    <label for="address" class="form-label">Địa Chỉ</label>
+                                    <input type="text" class="form-control" id="address" name="address" placeholder="Nhập địa chỉ" value="${address}">
+                                </div>
                             </div>
 
                             <h5 class="fw-bold mt-4">Thời hạn bảo hiểm</h5>
