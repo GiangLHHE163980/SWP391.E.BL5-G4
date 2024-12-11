@@ -65,7 +65,7 @@
             <c:if test="${users.size() != 0}">
                 <table class="table table-bordered table-striped">
                     <thead>
-                        <tr>
+                        <tr class="text-center">
                             <th>ID</th>
                             <th>Họ và tên</th>
                             <th>Email</th>

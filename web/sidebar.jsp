@@ -32,6 +32,18 @@
                         <span>Quản lý nhân viên</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center" href="SliderController">
+                        <i class="me-3 bi bi-briefcase"></i>
+                        <span>Slider</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center" href="BlogManageController">
+                        <i class="me-3 bi bi-briefcase"></i>
+                        <span>Blog</span>
+                    </a>
+                </li>
                 <li class="nav-item mt-auto">
                     <a class="nav-link d-flex align-items-center" href="account/logout">
                         <i class="me-3 bi bi-box-arrow-right"></i>
