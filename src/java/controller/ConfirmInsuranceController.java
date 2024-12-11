@@ -109,17 +109,8 @@ public class ConfirmInsuranceController extends HttpServlet {
 
             // Provide feedback to the user
             if (rowsAffectedCard > 0 && rowsAffectedUser > 0) {
-                out.println("<h2>Insurance Card Created Successfully!</h2>");
-                out.println("<p>Card Number: " + newCardNumber + "</p>");
-                out.println("<p>User: " + userName + "</p>");
-                out.println("<p>Email: " + email + "</p>");
-                out.println("<p>Phone: " + phone + "</p>");
-                out.println("<p>Product ID: " + productId + "</p>");
-                out.println("<p>Start Date: " + startDateStr + "</p>");
-                out.println("<p>End Date: " + endDateStr + "</p>");
-                out.println("<p>Handicapped: " + (isHandicapped ? "Yes" : "No") + "</p>");
-                out.println("<p>Status: Pending</p>");
-                out.println("<h2>User updated successfully!</h2>");
+                
+                response.sendRedirect("insuranceCards?userID=" + userId);
             } else {
                 out.println("<h2>Error: Unable to process the request.</h2>");
             }
