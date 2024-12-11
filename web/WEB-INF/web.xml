@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <servlet>
-        <servlet-name>ProductController</servlet-name>
-        <servlet-class>controller.ProductController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ProductController</servlet-name>
-        <url-pattern>/ProductController</url-pattern>
-    </servlet-mapping>
-     <!-- AccountController Servlet -->
+    <!-- AccountController Servlet -->
     <servlet>
         <servlet-name>AccountController</servlet-name>
         <servlet-class>controller.AccountController</servlet-class>
@@ -22,8 +14,8 @@
         <url-pattern>/account/register</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-    <servlet-name>AccountController</servlet-name>
-    <url-pattern>/account/logout</url-pattern>
+        <servlet-name>AccountController</servlet-name>
+        <url-pattern>/account/logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AccountController</servlet-name>
@@ -50,7 +42,7 @@
             30
         </session-timeout>
     </session-config>
-      <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/assets/*</url-pattern>
     </servlet-mapping>
@@ -74,5 +66,4 @@
         <servlet-name>default</servlet-name>
         <url-pattern>*.jpeg</url-pattern>
     </servlet-mapping>
-
 </web-app>

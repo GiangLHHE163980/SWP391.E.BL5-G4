@@ -2,6 +2,7 @@ package controller;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import service.product.ProductService;
 /**
  * ProductController Servlet
  */
+@WebServlet(name="ProductController", urlPatterns={"/ProductController"})
 public class ProductController extends HttpServlet {
 
     private final IProductService productService = new ProductService();
