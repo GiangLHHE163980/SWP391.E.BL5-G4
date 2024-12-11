@@ -44,6 +44,9 @@
                                     <c:when test="${card.status == 'Active'}">
                                         <span class="text-success fw-bold">${card.status}</span>
                                     </c:when>
+                                    <c:when test="${card.status == 'Pending'}">
+                                        <span class="text-warning fw-bold">${card.status}</span>
+                                    </c:when>
                                     <c:otherwise>
                                         <span class="text-danger fw-bold">${card.status}</span>
                                     </c:otherwise>
@@ -57,7 +60,7 @@
                                     <a href="renewCard?cardID=${card.cardID}" class="btn btn-success">Renew</a>
                                     <a href="cancelCard?cardID=${card.cardID}" class="btn btn-danger">Cancel</a>
                                 </div>
-                                
+
                             </td>
 
                         </tr>
