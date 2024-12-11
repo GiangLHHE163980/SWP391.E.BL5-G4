@@ -24,11 +24,6 @@
                 <ul class="list-unstyled px-2">
                     <li><a href="${pageContext.request.contextPath}/HomePageForStaffController?action=homepageForStaff" class="text-white d-block py-2 px-3"><i class="fas fa-home me-2"></i> Bảng điều khiển</a></li>
                     <li>
-                        <a href="CustomerForStaffController?action=showAllCustomer" class="text-white d-block py-2 px-3">
-                            <i class="fas fa-users me-2"></i> Quản lý Khách hàng
-                        </a>
-                    </li>
-                    <li>
                         <a href="CustomerForStaffController?action=showAllCardRequest" class="text-white d-block py-2 px-3">
                             <i class="fas fa-tasks me-2"></i> Xử lý Yêu cầu
                         </a>

@@ -38,11 +38,7 @@
                             <i class="fas fa-tasks me-2"></i> Xử lý Yêu cầu
                         </a>
                     </li>
-                    <li>
-                        <a href="ProductController?action=showFullProduct" class="text-white d-block py-2 px-3">
-                            <i class="fas fa-box me-2"></i> Quản lý Sản phẩm
-                        </a>
-                    </li>
+                  
                 </ul>
             </nav>
 
