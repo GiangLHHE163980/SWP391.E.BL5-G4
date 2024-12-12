@@ -190,7 +190,14 @@
                         <h1><c:out value='${product.productName}' /></h1>
                         <!-- Hiển thị mô tả sản phẩm -->
                         <p><c:out value='${product.description}' /></p>
-                        <button class="join-btn">Tham gia</button>
+                        <c:choose>
+                            <c:when test="${canJoin}">
+                                <a href="requestInsuranceController?userID=${user.userID}&productID=${product.productID}" class="join-btn">Tham gia</a>
+                            </c:when>
+                            <c:otherwise>
+                                <button class="join-btn" disabled>Đã tham gia</button>
+                            </c:otherwise>
+        </c:choose>
                     </div>
                     <!-- Related Products -->
                     <h2>Sản phẩm liên quan</h2>

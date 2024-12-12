@@ -168,6 +168,8 @@ public class ProductService implements IProductService {
             "JOIN InsuranceCompanies ic ON ip.CompanyID = ic.CompanyID " +
             "WHERE ip.InsuranceType = ? AND ip.ProductID != ? " +
             "ORDER BY RAND() ";
+        
+        private static final String SELECT_STATUS_CARD_BY_USERID_AND_PRODUCTID = "SELECT TOP 1 Status FROM InsuranceCards WHERE UserID = ? AND ProductID = ? ORDER BY StartDate DESC";
     //delete product and company
     @Override
     public void delete(int id) {
@@ -551,6 +553,27 @@ public class ProductService implements IProductService {
         String query = GET_PRODUCTS_WITH_AVATAR_BY_TYPE;
         return find(query, insuranceType,excludedProductId); // Truy vấn các sản phẩm cùng loại
     }
+
+    @Override
+    public boolean hasInsuranceCard(int userId, int productId) {
+        try {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_STATUS_CARD_BY_USERID_AND_PRODUCTID);
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, productId);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                String status = rs.getString("Status");
+                // Kiểm tra nếu trạng thái là Expired hoặc Revoked
+                return "Expired".equalsIgnoreCase(status) || "Revoked".equalsIgnoreCase(status);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // Nếu không có bản ghi, trả về true để hiển thị nút "Tham gia"
+        return true;
+    }
 //    //Test delete product and company
 //    public static void main(String[] args) {
 //        // Khởi tạo ProductService (DAO)
@@ -635,4 +658,7 @@ public class ProductService implements IProductService {
 //            System.out.println(o);
 //        }
 //    }
+
+    public ProductService() {
+    }
 }

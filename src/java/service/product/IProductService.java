@@ -41,4 +41,6 @@ public interface IProductService {
     InsuranceProduct getProductWithAvatarById(int productId);
     
     List<InsuranceProduct> getProductsByType(String insuranceType,int excludedProductId);
+    
+    boolean hasInsuranceCard(int userId, int productId);
 }

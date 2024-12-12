@@ -10,11 +10,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.InsuranceProduct;
+import model.User;
 import service.product.IProductService;
 import service.product.ProductService;
 
@@ -31,6 +33,8 @@ public class ProductDetailController extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         String productIdParam = request.getParameter("ProductID");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
         
         try {
                 int productId = Integer.parseInt(productIdParam);
@@ -42,8 +46,18 @@ public class ProductDetailController extends HttpServlet{
                     // Lấy các sản phẩm liên quan có cùng InsuranceType
                     List<InsuranceProduct> relatedProducts = productService.getProductsByType(product.getInsuranceType(), productId);
                 
+                     // Kiểm tra trạng thái của thẻ bảo hiểm
+                boolean canJoin = false;
+                if (user != null) {
+                    // Nếu người dùng đã đăng nhập, kiểm tra trạng thái thẻ bảo hiểm
+                    canJoin = productService.hasInsuranceCard(user.getUserID(), productId);
+                } else {
+                    // Nếu người dùng chưa đăng nhập, hiển thị nút "Tham gia"
+                    canJoin = true;
+                }
                 // Đặt thông tin sản phẩm và sản phẩm liên quan vào request
                     request.setAttribute("product", product);
+                    request.setAttribute("canJoin", canJoin);
                     request.setAttribute("relatedProducts", relatedProducts);
 
                     // Chuyển hướng đến trang chi tiết sản phẩm
