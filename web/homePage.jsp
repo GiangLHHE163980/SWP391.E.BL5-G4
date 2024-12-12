@@ -160,7 +160,7 @@
             <!-- Loop through the list of products -->
             <c:forEach var="product" items="${topProducts}">
                 <div class="insurance-item">
-                    <img src="${product.avatar}" alt="${product.productName}">
+                    <img src="${pageContext.request.contextPath}${product.avatar}" alt="${product.productName}">
                     <div class="content">
                         <h3>${product.productName}</h3>
                         <p class="price">Chỉ từ ${product.cost} VNĐ</p>
