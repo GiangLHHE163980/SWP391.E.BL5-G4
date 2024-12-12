@@ -27,9 +27,24 @@ public class HomepageForStaffService implements IHomepageForStaffService {
             + "FROM Users u\n"
             + "JOIN UserRoles ur ON u.UserID = ur.UserID\n"
             + "JOIN Roles r ON ur.RoleID = r.RoleID\n"
-            + "WHERE r.RoleName = 'Customer'";
+            + "LEFT JOIN InsuranceCards ic ON u.UserID = ic.UserID\n"
+            + "WHERE r.RoleName = 'Customer'\n"
+            + "  AND ic.Status IN ('Active', 'Expired', 'Revoked');";
     private static final String GET_NUMBER_OF_INSURANCECARD = "SELECT COUNT(*) FROM InsuranceProducts";
-     private static final String GET_NUMBER_OF_REQUEST = "SELECT COUNT(*) FROM Claims";
+    private static final String GET_NUMBER_OF_REQUEST = "SELECT COUNT(*) AS PendingCustomerCount\n"
+            + "FROM \n"
+            + "    InsuranceCards ic\n"
+            + "JOIN \n"
+            + "    Users u ON ic.UserID = u.UserID\n"
+            + "JOIN \n"
+            + "    UserRoles ur ON u.UserID = ur.UserID\n"
+            + "JOIN \n"
+            + "    Roles r ON ur.RoleID = r.RoleID\n"
+            + "JOIN \n"
+            + "    InsuranceProducts ip ON ic.ProductID = ip.ProductID\n"
+            + "WHERE \n"
+            + "    ic.Status = 'Pending'\n"
+            + "    AND r.RoleName = 'Customer';";
 
     @Override
     public int getCountOfCustomer() {
@@ -55,8 +70,8 @@ public class HomepageForStaffService implements IHomepageForStaffService {
 
         return count;
     }
-    
-        @Override
+
+    @Override
     public int getCountOfInsuranceCard() {
         String query = GET_NUMBER_OF_INSURANCECARD;
         int count = 0;
@@ -80,8 +95,8 @@ public class HomepageForStaffService implements IHomepageForStaffService {
 
         return count;
     }
-    
-            @Override
+
+    @Override
     public int getCountOfRequest() {
         String query = GET_NUMBER_OF_REQUEST;
         int count = 0;
