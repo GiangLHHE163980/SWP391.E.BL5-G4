@@ -31,6 +31,20 @@ public class RequestInsuranceController extends HttpServlet {
         Connection conn = null;
         try {
             conn = DBContext.getConnection();
+            
+            // Validation: Check if the user already has a card for the specified ProductID
+            String validationQuery = "SELECT * FROM InsuranceCards WHERE UserID = ? AND ProductID = ?";
+            PreparedStatement validationStmt = conn.prepareStatement(validationQuery);
+            validationStmt.setInt(1, userId);
+            validationStmt.setInt(2, productId);
+            ResultSet validationRs = validationStmt.executeQuery();
+
+            if (validationRs.next()) {
+                // If a record is found, the user already has a card for this ProductID
+                out.println("<p style='color:red;'>You already have an insurance card for this product. You cannot request another one.</p>");
+                
+                return; // Stop further processing
+            }
             // Fetch user info using UserService
             User user = userService.getUserById(userId);
 
@@ -93,7 +107,7 @@ public class RequestInsuranceController extends HttpServlet {
             productStmt.setInt(1, productId);
             ResultSet productRs = productStmt.executeQuery();
 
-            String productName = "", insuranceType = "", description = "", conditions="";
+            String productName = "", insuranceType = "", description = "", conditions = "";
             double cost = 0;
             if (productRs.next()) {
                 productName = productRs.getString("ProductName");
@@ -107,9 +121,9 @@ public class RequestInsuranceController extends HttpServlet {
             request.setAttribute("userName", userName);
             request.setAttribute("email", email);
             request.setAttribute("phone", phone);
-            request.setAttribute("gender",gender);
+            request.setAttribute("gender", gender);
             request.setAttribute("dob", dob);
-            request.setAttribute("address",address);
+            request.setAttribute("address", address);
             request.setAttribute("idCard", idCard);
             request.setAttribute("userID", userId);
             request.setAttribute("productID", productId);
