@@ -24,21 +24,29 @@ public class ClaimsListController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false); // Get the session without creating a new one
 
-        String userIdParam = request.getParameter("userID");
-        int userID = Integer.parseInt(userIdParam); // Parse the userId from the URL parameter
-        request.setAttribute("userID", userID);
+        if (session != null) {
+            Integer userID = (Integer) session.getAttribute("userID"); // Fetch userID from the session
 
-        // Fetch claims using the separate method
-        List<Claim> claims = fetchClaimsFromUser(userID);
+            if (userID != null) {
+                // Fetch claims using the separate method
+                List<Claim> claims = fetchClaimsFromUser(userID);
 
-        // Set the claims list as a request attribute
-        session.setAttribute("claims", claims);
+                // Set the claims list as a session attribute
+                session.setAttribute("claims", claims);
 
-        // Forward to the JSP
-        RequestDispatcher dispatcher = request.getRequestDispatcher("listClaims.jsp");
-        dispatcher.forward(request, response);
+                // Forward to the JSP
+                RequestDispatcher dispatcher = request.getRequestDispatcher("listClaims.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                // Redirect to login page if userID is missing in the session
+                response.sendRedirect("account/login");
+            }
+        } else {
+            // Redirect to login page if no session exists
+            response.sendRedirect("account/login");
+        }
     }
 
     /**
@@ -63,29 +71,27 @@ public class ClaimsListController extends HttpServlet {
             pstmt = con.prepareStatement(query);
             pstmt.setInt(1, userID); // Set the userId parameter in the query
             rs = pstmt.executeQuery();
-                    while (rs.next()) {
-                        // Map InsuranceCard
-                        InsuranceCard insuranceCard = new InsuranceCard();
-                        insuranceCard.setCardID(rs.getInt("CardID"));
-                        insuranceCard.setCardNumber(rs.getString("CardNumber"));
+            while (rs.next()) {
+                // Map InsuranceCard
+                InsuranceCard insuranceCard = new InsuranceCard();
+                insuranceCard.setCardID(rs.getInt("CardID"));
+                insuranceCard.setCardNumber(rs.getString("CardNumber"));
 
-                        // Map Claim
-                        Claim claim = new Claim(
-                                rs.getInt("ClaimID"),
-                                insuranceCard,
-                                null, // User object is not fetched here
-                                rs.getString("ClaimType"),
-                                rs.getString("Status"),
-                                rs.getString("Reason"),
-                                rs.getTimestamp("SubmittedAt"),
-                                rs.getTimestamp("ProcessedAt")
-                        );
+                // Map Claim
+                Claim claim = new Claim(
+                        rs.getInt("ClaimID"),
+                        insuranceCard,
+                        null, // User object is not fetched here
+                        rs.getString("ClaimType"),
+                        rs.getString("Status"),
+                        rs.getString("Reason"),
+                        rs.getTimestamp("SubmittedAt"),
+                        rs.getTimestamp("ProcessedAt")
+                );
 
-                        claims.add(claim);
-                    }
-                }
-            
-         catch (SQLException e) {
+                claims.add(claim);
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 

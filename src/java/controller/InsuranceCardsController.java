@@ -17,25 +17,29 @@ import service.insurance.InsuranceCardsService;
 
 @WebServlet(name = "InsuranceCardServlet", urlPatterns = {"/insuranceCards"})
 public class InsuranceCardsController extends HttpServlet {
-private static IInsuranceCardsService insuranceService = new InsuranceCardsService();
+
+    private static IInsuranceCardsService insuranceService = new InsuranceCardsService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-         
+        HttpSession session = request.getSession(false); // Get the session without creating a new one
 
-        String userIdParam = request.getParameter("userID");
+        if (session != null) {
+            Integer userId = (Integer) session.getAttribute("userID"); // Get userID from session
 
-        int userId = Integer.parseInt(userIdParam); // Parse the userId from the URL parameter
+            if (userId != null) {
+                List<InsuranceCard> insuranceCards = insuranceService.getInsuranceCardsByUser(userId); // Fetch insurance cards using userID
 
-        request.setAttribute("userID", userId); // Store userId in session
-
-        List<InsuranceCard> insuranceCards = insuranceService.getInsuranceCardsByUser(userId);
-
-        session.setAttribute("insuranceCards", insuranceCards);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("listInsuranceCards.jsp");
-        dispatcher.forward(request, response);
-
+                request.setAttribute("insuranceCards", insuranceCards); // Pass insurance cards to the request
+                RequestDispatcher dispatcher = request.getRequestDispatcher("listInsuranceCards.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                // Redirect to login page if userID is not found in session
+                response.sendRedirect("account/login");
+            }
+        } else {
+            // Redirect to login page if session does not exist
+            response.sendRedirect("account/login");
+        }
     }
-
-    
 }

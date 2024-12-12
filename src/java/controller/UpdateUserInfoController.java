@@ -74,22 +74,13 @@ public class UpdateUserInfoController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userIdParam = request.getParameter("userID");
-
-        // If userID is provided in the URL, update session
-        if (userIdParam != null) {
-            try {
-                int userID = Integer.parseInt(userIdParam); // Parse the userID
-                HttpSession session = request.getSession();
-                session.setAttribute("userID", userID); // Store userID in session
-            } catch (NumberFormatException e) {
-                // Redirect to error if userID is invalid
-                return;
-            }
+        // Retrieve userID from session
+        HttpSession session = request.getSession(false); // Fetch existing session without creating a new one
+        if (session == null) {
+            response.sendRedirect("account/login"); // Redirect to login page if session is null
+            return;
         }
 
-        // Retrieve userID from session
-        HttpSession session = request.getSession();
         Integer userID = (Integer) session.getAttribute("userID"); // Get userID from session
 
         if (userID != null) {
@@ -103,7 +94,7 @@ public class UpdateUserInfoController extends HttpServlet {
                 response.sendRedirect("error.jsp"); // Redirect if user is not found
             }
         } else {
-            response.sendRedirect("error.jsp"); // Redirect to error page if no userID in session
+            response.sendRedirect("account/login"); // Redirect to login if userID is missing
         }
     }
 
@@ -124,21 +115,20 @@ public class UpdateUserInfoController extends HttpServlet {
         HttpSession session = request.getSession();
         Integer userID = (Integer) session.getAttribute("userID");
 
-        
-            // Fetch input from form
-            String fullName = request.getParameter("fullName");
-            String phoneNumber = request.getParameter("phoneNumber");
-            String address = request.getParameter("address");
-            String sex = request.getParameter("sex");
-            java.sql.Date birthday = null;
+        // Fetch input from form
+        String fullName = request.getParameter("fullName");
+        String phoneNumber = request.getParameter("phoneNumber");
+        String address = request.getParameter("address");
+        String sex = request.getParameter("sex");
+        java.sql.Date birthday = null;
 
-            // Handle birthday parsing
-            String birthdayParam = request.getParameter("birthday");
-            if (birthdayParam != null && !birthdayParam.trim().isEmpty()) {
-                birthday = java.sql.Date.valueOf(birthdayParam); // Convert string to SQL date
-            }
+        // Handle birthday parsing
+        String birthdayParam = request.getParameter("birthday");
+        if (birthdayParam != null && !birthdayParam.trim().isEmpty()) {
+            birthday = java.sql.Date.valueOf(birthdayParam); // Convert string to SQL date
+        }
 
-            // Handle avatar file upload (if any)
+        // Handle avatar file upload (if any)
 //            Part avatarPart = request.getPart("avatar");
 //            String avatarFileName = null;
 //            if (avatarPart != null && avatarPart.getSize() > 0) {
@@ -151,32 +141,31 @@ public class UpdateUserInfoController extends HttpServlet {
 //                avatarFileName = Paths.get(avatarPart.getSubmittedFileName()).getFileName().toString();
 //                avatarPart.write(uploadPath + avatarFileName);
 //            }
+        // Fetch the existing user data to preserve the avatar if not updated
+        User existingUser = userService.getUserById(userID); // Fetch current user data
+        //String avatarToUpdate = avatarFileName != null ? "uploads/" + avatarFileName : existingUser.getAvatar();
 
-            // Fetch the existing user data to preserve the avatar if not updated
-            User existingUser = userService.getUserById(userID); // Fetch current user data
-            //String avatarToUpdate = avatarFileName != null ? "uploads/" + avatarFileName : existingUser.getAvatar();
+        // Populate User object
+        User user = new User();
+        user.setUserID(userID);
+        user.setFullName(fullName);
+        user.setPhoneNumber(phoneNumber);
+        user.setAddress(address);
+        user.setBirthday(birthday);
+        user.setSex(sex);
+        //user.setAvatar(avatarToUpdate); // Keep the existing avatar if no new file uploaded
 
-            // Populate User object
-            User user = new User();
-            user.setUserID(userID);
-            user.setFullName(fullName);
-            user.setPhoneNumber(phoneNumber);
-            user.setAddress(address);
-            user.setBirthday(birthday);
-            user.setSex(sex);
-            //user.setAvatar(avatarToUpdate); // Keep the existing avatar if no new file uploaded
+        // Call updateUser method to update database
+        boolean isUpdated = updateUser(user);
 
-            // Call updateUser method to update database
-            boolean isUpdated = updateUser(user);
+        if (isUpdated) {
+            // Redirect to the user info page
+            response.sendRedirect("userInfo?userID=" + userID);
+        } else {
+            // Redirect to error page if update fails
 
-            if (isUpdated) {
-                // Redirect to the user info page
-                response.sendRedirect("userInfo?userID=" + userID);
-            } else {
-                // Redirect to error page if update fails
+        }
 
-            }
-        
     }
 
     public boolean updateUser(User user) {
@@ -187,11 +176,10 @@ public class UpdateUserInfoController extends HttpServlet {
             stmt.setString(1, user.getFullName());
             stmt.setString(2, user.getPhoneNumber());
             stmt.setString(3, user.getAddress());
-           // stmt.setString(4, user.getAvatar());
+            // stmt.setString(4, user.getAvatar());
             stmt.setDate(4, user.getBirthday() != null ? new java.sql.Date(user.getBirthday().getTime()) : null);
             stmt.setString(5, user.getSex());
             stmt.setInt(6, user.getUserID());
-            
 
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
