@@ -13,7 +13,7 @@
     <body>
         <%@ include file="header.jsp" %>
         <div class="container mt-4">
-            <a href="home.jsp" class="btn btn-success mb-3">
+            <a href="CustomerDashboardController" class="btn btn-success mb-3">
                 <i class="bi bi-arrow-left"></i> Quay Lại
             </a>
             <h1>Danh Sách Bồi Thường</h1>

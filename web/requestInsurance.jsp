@@ -14,7 +14,7 @@
         <%@ include file="header.jsp" %>
         <div class="container mt-4">
             <!-- Header -->
-            <a href="   " class="btn btn-success mb-3 text-decoration-none">
+            <a href="homepage" class="btn btn-success mb-3 text-decoration-none">
                 <i class="bi bi-arrow-left"></i> Trở Về
             </a>
 

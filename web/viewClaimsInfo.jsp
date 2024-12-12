@@ -15,7 +15,7 @@
         <!-- Main Container -->
         <div class="container mt-4">
             <!-- Nút Quay Lại -->
-            <a href="home.jsp" class="btn btn-success mb-3">
+            <a href="claimList" class="btn btn-success mb-3">
                 <i class="bi bi-arrow-left"></i> Quay Lại
             </a>
 
