@@ -14,7 +14,7 @@ import service.user.IUserService;
 import service.user.UserService;
 
 // URL mapping for this servlet
-@WebServlet(name = "RequestInsuranceController", urlPatterns = "/requestInsuranceController")
+@WebServlet(name = "RequestInsuranceController", urlPatterns = "/RequestInsuranceController")
 public class RequestInsuranceController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
