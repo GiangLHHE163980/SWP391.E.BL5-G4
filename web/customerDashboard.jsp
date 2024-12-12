@@ -46,28 +46,28 @@
             <div class="row g-4 mt-5">
                 <!-- First Card -->
                 <div class="col-md-3">
-                    <a href="function1.jsp" class="link-card">
+                    <a href="userInfo" class="link-card">
                         <h3>Xem Thông Tin Khách Hàng</h3>
                     </a>
                 </div>
 
                 <!-- Second Card -->
                 <div class="col-md-3">
-                    <a href="function2.jsp" class="link-card">
+                    <a href="UpdateUserInfoController" class="link-card">
                         <h3>Chỉnh Sửa Thông Tin </h3>
                     </a>
                 </div>
 
                 <!-- Third Card -->
                 <div class="col-md-3">
-                    <a href="function3.jsp" class="link-card">
+                    <a href="insuranceCards" class="link-card">
                         <h3>Danh Sách Gói Bảo Hiểm</h3>
                     </a>
                 </div>
 
                 <!-- Fourth Card -->
                 <div class="col-md-3">
-                    <a href="function4.jsp" class="link-card">
+                    <a href="claimList" class="link-card">
                         <h3>Danh Sách Yêu Cầu Bồi Thường</h3>
                     </a>
                 </div>
