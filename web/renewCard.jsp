@@ -14,7 +14,7 @@
         <%@ include file="header.jsp" %>
 
         <div class="container mt-4">
-            <a href="   " class="btn btn-success mb-4 text-decoration-none">
+            <a href="insuranceCards?userID=${userID}" class="btn btn-success mb-4 text-decoration-none">
                 <i class="bi bi-arrow-left"></i> Trở Về
             </a>
 
@@ -76,7 +76,7 @@
                         <button type="submit" class="btn btn-success me-2">Gửi yêu cầu</button>
 
                         <!-- Cancel Button -->
-                        <button type="button" class="btn btn-secondary" >Hủy</button>
+                        <a href="insuranceCards?userID=${userID}" class="btn btn-secondary">Hủy</a>
                     </div>
                 </form>
             </div>
