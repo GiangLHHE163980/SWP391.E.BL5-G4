@@ -122,7 +122,7 @@
 </nav>
  
 
- <%@ include file="sidebar.jsp" %> 
+<!-- <%@ include file="sidebar.jsp" %> -->
                   
 <%
  if (session != null && session.getAttribute("user") != null) {  
