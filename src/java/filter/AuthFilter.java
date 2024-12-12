@@ -70,6 +70,8 @@ public class AuthFilter implements Filter {
                     || uri.contains("ProductController") && queryString != null && queryString.contains("action=showAddPage")
                     || uri.contains("ProductController") && queryString != null && queryString.contains("action=showFullProduct")
                     || uri.contains("ProductController") && queryString != null && queryString.contains("action=deleteProduct")
+                    || uri.contains("ProductController") && queryString != null && queryString.contains("action=editProduct")
+                    || uri.contains("ProductController") && queryString != null && queryString.contains("action=addProduct")
                     || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showFullRequestCardInfo")
                     || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=updateInsuranceRequestStatus")
                     || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=updateCardStatus")
