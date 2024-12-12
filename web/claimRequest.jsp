@@ -18,7 +18,7 @@
                 <i class="bi bi-arrow-left"></i> Trở Về
             </a>
 
-            <h1 class="h4 fw-bold mt-3">YÊU CẦU KHIẾU NẠI BẢO HIỂM</h1>
+            <h1 class="h4 fw-bold mt-3 mb-4">YÊU CẦU KHIẾU NẠI BẢO HIỂM</h1>
 
             <!-- Form Section -->
             <form action="ClaimsRequestController" method="post">
@@ -28,12 +28,12 @@
 
                         <!-- Form Fields -->
                         <!-- Card Details (Always Visible) -->
-                        <div class="card p-4 mb-4">
-                            <h5 class="fw-bold">Chi Tiết Gói Bảo Hiểm Đã Chọn</h5>
+                        <div class="mb-4">
+                            <h5 class="fw-bold mb-4">Chi Tiết Gói Bảo Hiểm Đã Chọn</h5>
                             <!-- Tên Gói -->
                             <div class="row">
                                 <!-- Tên Gói -->
-                                <div class="col-md-6">
+                                <div class="col-md-6 mb-3">
                                     <div class="card p-3">
                                         <h6 class="fw-bold">Tên Gói</h6>
                                         <p class="text-muted mb-0">${productName}</p>
@@ -41,7 +41,7 @@
                                 </div>
 
                                 <!-- Trạng Thái Gói -->
-                                <div class="col-md-6">
+                                <div class="col-md-6 mb-3">
                                     <div class="card p-3">
                                         <h6 class="fw-bold">Trạng Thái Gói</h6>
                                         <c:choose>
@@ -58,7 +58,7 @@
 
 
                             <!-- Điều Kiện Gói -->
-                            <div class="col-md-12">
+                            <div class="col-md-12 mb-3">
                                 <div class="card p-3">
                                     <h6 class="fw-bold">Điều Kiện</h6>
                                     <p class="text-muted mb-0">${productConditions}</p>
@@ -66,7 +66,7 @@
                             </div>
 
                             <!-- Mô Tả Gói -->
-                            <div class="col-md-12">
+                            <div class="col-md-12 mb-3">
                                 <div class="card p-3">
                                     <h6 class="fw-bold">Mô Tả</h6>
                                     <p class="text-muted mb-0">${productDescription}</p>
@@ -77,15 +77,15 @@
                         <div class="row">
                             <!-- Claim Type -->
                             <div class="col-md-6 mb-3">
-                                <label for="claimType" class="fw-bold form-label">Loại khiếu nại <span class="text-danger">*</span></label>
+                                <label for="claimType" class="fw-bold form-label">Loại khiếu nại <span class="text-danger"></span></label>
                                 <input 
                                     type="text" 
-                                    class="form-control fw-bold" 
+                                    class="form-control" 
                                     id="claimType" 
                                     name="claimType" 
-                                    value="${insuranceType}" 
+                                    value="${productType}" 
                                     readonly 
-                                    style="height: 110px;" 
+                                    style="height: 110px; font-size: 1.1rem;" 
                                 />
                             </div>
 
