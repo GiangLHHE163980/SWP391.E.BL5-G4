@@ -19,7 +19,7 @@
             </a>
             <h1>List of Insurance Cards</h1>
             <!-- Search Bar -->
-            <div class="mb-4">
+            <div class="mt-4 mb-5">
                 <input type="text" id="searchInput" class="form-control" placeholder="Search by name, status, or dates..." onkeyup="filterTable()">
             </div>
 
