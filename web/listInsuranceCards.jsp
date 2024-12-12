@@ -47,6 +47,9 @@
                                     <c:when test="${card.status == 'Pending'}">
                                         <span class="text-warning fw-bold">${card.status}</span>
                                     </c:when>
+                                    <c:when test="${card.status == 'Pending Renew'}">
+                                        <span class="text-warning fw-bold">${card.status}</span>
+                                    </c:when>
                                     <c:otherwise>
                                         <span class="text-danger fw-bold">${card.status}</span>
                                     </c:otherwise>
@@ -56,9 +59,9 @@
                             <td><fmt:formatDate value="${card.endDate}" pattern="yyyy-MM-dd" /></td>
                             <td>
                                 <div class="d-flex justify-content-between">
-                                    <a href="viewInsuranceInfo?cardID=${card.cardID}" class="btn btn-primary">View</a>
-                                    <a href="renewCard?cardID=${card.cardID}" class="btn btn-success">Renew</a>
-                                    <a href="cancelCard?cardID=${card.cardID}" class="btn btn-danger">Cancel</a>
+                                    <a href="viewInsuranceInfo?cardID=${card.cardID}" class="btn btn-secondary">View</a>                                  
+                                    <a href="ClaimsRequestController?cardID=${card.cardID}" class="btn btn-primary"> Make a Claim</a>
+                                    <a href="RenewCardController?cardID=${card.cardID}" class="btn btn-success">Renew</a>
                                 </div>
 
                             </td>
