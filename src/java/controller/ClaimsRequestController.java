@@ -41,9 +41,11 @@ public class ClaimsRequestController extends HttpServlet {
             
             int productID = 0;
             String cardStatus = "";
+            int userID = 0;
             if (cardRS.next()) {
                 productID = cardRS.getInt("ProductID");
                 cardStatus = cardRS.getString("Status");
+                userID = cardRS.getInt("UserID");
             }
             
             String productName = "";
@@ -65,6 +67,7 @@ public class ClaimsRequestController extends HttpServlet {
             }
             
             // Set attributes for JSP
+            request.setAttribute("userID",userID);
             request.setAttribute("productType",productType);
             request.setAttribute("cardStatus", cardStatus);
             request.setAttribute("productName", productName);
