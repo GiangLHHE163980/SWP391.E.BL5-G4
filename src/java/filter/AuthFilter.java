@@ -62,6 +62,27 @@ public class AuthFilter implements Filter {
             List<String> roles = accountService.getUserRoles(user.getUserID());
 
             //Path của Admin
+            if (uri.contains("manage-customer")
+                    || uri.contains("manage-customer") && queryString != null && queryString.contains("action=add")
+                    || uri.contains("manage-customer") && queryString != null && queryString.contains("action=edit")
+                    || uri.contains("profileAdmin")
+                    || uri.contains("profileAdmin") && queryString != null && queryString.contains("action=edit")                    
+                    || uri.contains("manage-staff")
+                    || uri.contains("manage-staff") && queryString != null && queryString.contains("action=add")
+                    || uri.contains("manage-staff") && queryString != null && queryString.contains("action=edit")
+                    || uri.contains("BlogManageController")
+                    || uri.contains("BlogManageController") && queryString != null && queryString.contains("action=add")
+                    || uri.contains("BlogManageController") && queryString != null && queryString.contains("action=edit")
+                    || uri.contains("BlogManageController") && queryString != null && queryString.contains("action=viewDetail")
+                    || uri.contains("SliderController")
+                    || uri.contains("slider-form.jsp")
+                    || uri.contains("SliderController") && queryString != null && queryString.contains("action=edit")) {
+                if (roles.contains("Admin")) {
+                    chain.doFilter(request, response); // Cho phép quyền truy cập
+                } else {
+                    res.sendRedirect("403");
+                }
+            }
             //Path của Staff
             if (uri.contains("ProductController") && queryString != null && queryString.contains("action=showEditPage")
                     || uri.contains("HomePageForStaffController") && queryString != null && queryString.contains("action=homepageForStaff")
@@ -70,6 +91,8 @@ public class AuthFilter implements Filter {
                     || uri.contains("ProductController") && queryString != null && queryString.contains("action=showAddPage")
                     || uri.contains("ProductController") && queryString != null && queryString.contains("action=showFullProduct")
                     || uri.contains("ProductController") && queryString != null && queryString.contains("action=deleteProduct")
+                    || uri.contains("ProductController") && queryString != null && queryString.contains("action=editProduct")
+                    || uri.contains("ProductController") && queryString != null && queryString.contains("action=addProduct")
                     || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showFullRequestCardInfo")
                     || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=updateInsuranceRequestStatus")
                     || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=updateCardStatus")
