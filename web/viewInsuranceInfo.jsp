@@ -15,7 +15,7 @@
         <!-- Main Container -->
         <div class="container mt-4">
             <!-- Return Button -->
-            <a href="insuranceCards?userID=${userID}" class="btn btn-success mb-3">
+            <a href="insuranceCards" class="btn btn-success mb-3">
                 <i class="bi bi-arrow-left"></i> Quay Lại
             </a>
 
