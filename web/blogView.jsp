@@ -36,27 +36,32 @@
         <%@ include file="header.jsp" %>
         <div class="container content">
             <h1>Blog Details</h1>
+
+            <!-- Hiển thị chi tiết blog nếu tồn tại -->
             <c:if test="${not empty blog}">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">${blog.title}</h5>
-                        <p class="card-text">${blog.content}</p>
-                        <p><strong>Status:</strong> ${blog.status}</p>
-                        <p><strong>Updated At:</strong> ${blog.updatedAt}</p>
-                        <p><strong>Created At:</strong> ${blog.createdAt}</p>
-                        <a href="BlogManageController?action=edit&id=${blog.blogId}" class="btn btn-primary">Edit</a>
+                        <p><strong>Tiêu đề:</strong>${blog.title}</p>
+                        <p><strong>Nội dung:</strong>${blog.content}</p>
+                        <p><strong>Trạng thái:</strong> ${blog.status}</p>
+                        <p><strong>Ngày cập nhật:</strong> ${blog.updatedAt}</p>
+                        <p><strong>Ngày tạo:</strong> ${blog.createdAt}</p>
+                        <a href="BlogManageController?action=edit&id=${blog.blogId}" class="btn btn-primary">Chỉnh sửa Blog</a>
                     </div>
                 </div>
             </c:if>
 
+            <!-- Hiển thị thông báo nếu có -->
             <c:if test="${not empty message}">
                 <div class="alert alert-info mt-3">
                     ${message}
                 </div>
             </c:if>
 
-            <a href="BlogManageController" class="btn btn-secondary mt-3">Back to Home</a>
+            <!-- Nút quay về trang chủ -->
+            <a href="BlogManageController" class="btn btn-secondary mt-3">Quay lại</a>
         </div>
+
         <%@ include file="footer.jsp" %>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

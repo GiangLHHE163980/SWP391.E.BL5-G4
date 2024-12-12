@@ -41,13 +41,13 @@
         <!-- Header -->
         <%@ include file="header.jsp" %>
         <div class="container content">
-            <h1>Edit Blog</h1>
+            <h1>Chỉnh sửa Blog</h1>
             <form action="BlogManageController" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="${blog.blogId}">
                 <input type="hidden" name="action" value="update">
 
                 <div class="form-group">
-                    <label for="category">Category</label>
+                    <label for="category">Thể loại</label>
                     <select class="form-control" id="category" name="categoryId" required>
                         <c:forEach var="category" items="${categoryBlogs}">
                             <option value="${category.categoryId}" 
@@ -58,17 +58,17 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="title">Title</label>
+                    <label for="title">Tiêu đề</label>
                     <input type="text" class="form-control" id="title" name="title" value="${blog.title}" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="content">Content</label>
+                    <label for="content">Nội dung</label>
                     <textarea class="form-control tinymce" id="content" name="content" rows="10"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="status">Status</label>
+                    <label for="status">Trạng thái</label>
                     <select class="form-control" id="status" name="status">
                         <option value="Draft" ${blog.status == 'Draft' ? 'selected' : ''}>Draft</option>
                         <option value="Published" ${blog.status == 'Published' ? 'selected' : ''}>Published</option>
@@ -76,7 +76,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="featuredImage">Featured Image</label>
+                    <label for="featuredImage">Blog Media</label>
                     <div>
                         <img id="currentImage" src="${blog.featuredImage}" alt="Current Image" style="max-width: 200px; display: block;">
                     </div>
@@ -87,10 +87,10 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Update Blog</button>
+                <button type="submit" class="btn btn-primary">Cập nhật Blog</button>
             </form>
 
-            <a href="BlogManageController?action=viewDetail&id=${blog.blogId}" class="btn btn-secondary mt-3">Cancel</a>
+            <a href="BlogManageController?action=viewDetail&id=${blog.blogId}" class="btn btn-secondary mt-3">Hủy bỏ</a>
         </div>
          <%@ include file="footer.jsp" %>
         <script>

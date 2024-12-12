@@ -41,12 +41,12 @@
         <!-- Header -->
         <%@ include file="header.jsp" %>
         <div class="container content">
-        <h1>Add New Blog</h1>
+        <h1>Thêm mới Blog</h1>
         <form action="BlogManageController" method="post" enctype="multipart/form-data">
             <input type="hidden" name="action" value="add">
 
             <div class="form-group">
-                <label for="category">Category</label>
+                <label for="category">Thể loại</label>
                 <select class="form-control" id="category" name="categoryId" required>
                     <c:forEach var="category" items="${categoryBlogs}">
                         <option value="${category.categoryId}">
@@ -57,17 +57,17 @@
             </div>
 
             <div class="form-group">
-                <label for="title">Title</label>
+                <label for="title">Tiêu đề</label>
                 <input type="text" class="form-control" id="title" name="title" required>
             </div>
 
             <div class="form-group">
-                <label for="content">Content</label>
+                <label for="content">Nội dung</label>
                 <textarea class="form-control tinymce" id="content" name="content" rows="10"></textarea>
             </div>
 
             <div class="form-group">
-                <label for="status">Status</label>
+                <label for="status">Trạng thái</label>
                 <select class="form-control" id="status" name="status">
                     <option value="Draft">Draft</option>
                     <option value="Published">Published</option>
@@ -75,17 +75,17 @@
             </div>
 
             <div class="form-group">
-                <label for="featuredImage">Featured Image</label>
+                <label for="featuredImage">Blog Media</label>
                 <input type="file" class="form-control" id="featuredImage" name="featuredImage" onchange="previewImage(event)">
                 <div>
                     <img id="preview" class="preview-img" alt="Image Preview">
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Add Blog</button>
+            <button type="submit" class="btn btn-primary">Thêm mới Blog</button>
         </form>
 
-        <a href="BlogManageController" class="btn btn-secondary mt-3">Cancel</a>
+        <a href="BlogManageController" class="btn btn-secondary mt-3">Hủy bỏ</a>
     </div>
      <%@ include file="footer.jsp" %>
     <script>
