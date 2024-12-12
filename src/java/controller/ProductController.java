@@ -2,6 +2,7 @@ package controller;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import service.product.ProductService;
 /**
  * ProductController Servlet
  */
+@WebServlet(name="ProductController", urlPatterns={"/ProductController"})
 public class ProductController extends HttpServlet {
 
     private final IProductService productService = new ProductService();
@@ -36,12 +38,25 @@ public class ProductController extends HttpServlet {
                 request.setAttribute("productList", productService.findAll());
             }
             // Điều hướng đến view
-            getRequestDispatch(request, response, "productManagement.jsp");
+            getRequestDispatch(request, response, "/product/productManagement.jsp");
         } catch (Exception e) {
             // Log lỗi và chuyển đến trang lỗi
             Logger.getLogger(ProductController.class.getName()).log(Level.SEVERE, null, e);
             getRequestDispatch(request, response, "error.jsp");
         }
+    }
+
+    private void showViewPage(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("product_id"));
+//        System.out.println("ahihihihiihihi" + productService.findById(id));
+        Object product = productService.findById(id);
+        if (product == null) {
+            System.out.println("Product not found for ID: " + id);
+        } else {
+            System.out.println("Product found: " + product);
+        }
+        request.setAttribute("productList", product);
+        getRequestDispatch(request, response, "product/viewProduct.jsp");
     }
 
     private void deleteProduct(HttpServletRequest request, HttpServletResponse response) {
@@ -66,7 +81,7 @@ public class ProductController extends HttpServlet {
             System.out.println("Product found: " + product);
         }
         request.setAttribute("productList", product);
-        getRequestDispatch(request, response, "editProduct.jsp");
+        getRequestDispatch(request, response, "/product/editProduct.jsp");
     }
 
     private void editProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -126,7 +141,7 @@ public class ProductController extends HttpServlet {
     }
 
     private void showAddPage(HttpServletRequest request, HttpServletResponse response) {
-        getRequestDispatch(request, response, "addOrEditProduct.jsp");
+        getRequestDispatch(request, response, "product/addProduct.jsp");
     }
 
     // add new product with company
@@ -184,7 +199,7 @@ public class ProductController extends HttpServlet {
         // Lấy danh sách các loại bảo hiểm
         List<InsuranceProduct> insuranceTypes = productService.getDistinctInsuranceTypes();
         request.setAttribute("insuranceTypes", insuranceTypes);
-        
+
         // Tìm kiếm và lọc category
         if (searchQuery != null && !searchQuery.trim().isEmpty() && category != null && !category.trim().isEmpty()) {
             if (sortBy != null && !sortBy.trim().isEmpty()) {
@@ -193,14 +208,14 @@ public class ProductController extends HttpServlet {
                 products = productService.getProductByNameAndCategory(searchQuery, category);
             }
             request.setAttribute("selectedCategory", category);
-         // Tìm kiếm không phân loại và sắp xếp 
+            // Tìm kiếm không phân loại và sắp xếp 
         } else if (searchQuery != null && !searchQuery.trim().isEmpty()) {
             if (sortBy != null && !sortBy.trim().isEmpty()) {
                 products = productService.getProductByNameWithAvatarAndSort(searchQuery, sortBy);
             } else {
                 products = productService.getProductByNameWithAvatar(searchQuery);
             }
-         // Lọc category và sắp xếp
+            // Lọc category và sắp xếp
         } else if (category != null && !category.trim().isEmpty()) {
             if (sortBy != null && !sortBy.trim().isEmpty()) {
                 products = productService.getProductsByCategoryWithSort(category, sortBy);
@@ -248,6 +263,9 @@ public class ProductController extends HttpServlet {
                 break;
             case "showAllProduct":
                 showAllProduct(request, response);
+                break;
+            case "showViewPage":
+                showViewPage(request, response);
                 break;
             default:
                 // Chuyển đến trang lỗi nếu action không hợp lệ

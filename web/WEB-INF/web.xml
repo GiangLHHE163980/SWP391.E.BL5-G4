@@ -41,6 +41,14 @@
         <servlet-name>AccountController</servlet-name>
         <url-pattern>/account/confirmChangePassword</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>UpdateUserInfoController</servlet-name>
+        <servlet-class>controller.UpdateUserInfoController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateUserInfoController</servlet-name>
+        <url-pattern>/UpdateUserInfoController</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AccessDeny</servlet-name>
         <url-pattern>/403</url-pattern>
@@ -50,8 +58,29 @@
             30
         </session-timeout>
     </session-config>
-    <servlet-mapping>
+      <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/assets/*</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.css</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.js</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.jpg</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.png</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.jpeg</url-pattern>
+    </servlet-mapping>
+
 </web-app>

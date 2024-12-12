@@ -13,11 +13,13 @@ public class InsuranceCard {
     private String status;
     private Date createdAt;
     private Date updatedAt;
+    private Boolean isHandicapped;
+    
 
     public InsuranceCard() {
     }
 
-    public InsuranceCard(int cardID, String cardNumber, User user, InsuranceProduct insuranceProduct, Date startDate, Date endDate, String status, Date createdAt, Date updatedAt) {
+    public InsuranceCard(int cardID, String cardNumber, User user, InsuranceProduct insuranceProduct, Date startDate, Date endDate, String status, boolean isHandicapped, Date createdAt, Date updatedAt) {
         this.cardID = cardID;
         this.cardNumber = cardNumber;
         this.user = user;
@@ -25,20 +27,50 @@ public class InsuranceCard {
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
+        this.isHandicapped = isHandicapped; // Initialize new field
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public InsuranceCard(String cardNumber, User user, InsuranceProduct insuranceProduct, Date startDate, Date endDate, String status, Date createdAt) {
+    public InsuranceCard(String cardNumber, User user, InsuranceProduct insuranceProduct, Date startDate, Date endDate, String status, boolean isHandicapped, Date createdAt) {
         this.cardNumber = cardNumber;
         this.user = user;
         this.insuranceProduct = insuranceProduct;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
+        this.isHandicapped = isHandicapped; // Initialize new field
         this.createdAt = createdAt;
     }
 
+    public InsuranceCard(String cardNumber, String status, boolean isHandicapped) {
+        this.cardNumber = cardNumber;
+        this.status = status;
+        this.isHandicapped = isHandicapped; // Initialize new field
+    }
+    
+    public InsuranceCard(String cardNumber, String status) {
+         this.cardNumber = cardNumber;
+         this.status = status;
+    }
+
+    public InsuranceCard(int CardId, User user, InsuranceProduct product, String cardStatus, boolean isHandicapped) {
+       this.cardID = CardId;
+       this.user = user;
+       this.insuranceProduct = product;
+       this.status = cardStatus;
+       this.isHandicapped = isHandicapped;
+    }
+
+    public Boolean getIsHandicapped() {
+        return isHandicapped;
+    }
+
+    public void setIsHandicapped(Boolean isHandicapped) {
+        this.isHandicapped = isHandicapped;
+    }
+    
+    
     public int getCardID() {
         return cardID;
     }
@@ -95,6 +127,14 @@ public class InsuranceCard {
         this.status = status;
     }
 
+    public boolean isHandicapped() {
+        return isHandicapped;
+    }
+
+    public void setHandicapped(boolean isHandicapped) {
+        this.isHandicapped = isHandicapped;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -114,15 +154,11 @@ public class InsuranceCard {
     @Override
     public String toString() {
         return "InsuranceCard{" +
-                "cardID=" + cardID +
-                ", cardNumber='" + cardNumber + '\'' +
-                ", user=" + user +
-                ", insuranceProduct=" + insuranceProduct +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", status='" + status + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+            "cardID='" + cardID + '\'' +
+            ", status='" + status + '\'' +
+                ", insuranceProduct='" + insuranceProduct + '\'' +
+                ", user='" + user + '\'' +
+                ", isHandicapped='" + isHandicapped + '\'' +
+            '}';
     }
 }
