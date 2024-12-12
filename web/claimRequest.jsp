@@ -116,7 +116,7 @@
                     <button type="submit" class="btn btn-success me-2">Gửi yêu cầu</button>
 
                     <!-- Cancel Button -->
-                    <button type="button" class="btn btn-secondary" onclick="">Hủy</button>
+                    <button type="button" class="btn btn-secondary">Hủy</button>
                 </div>
             </form>
         </div>
