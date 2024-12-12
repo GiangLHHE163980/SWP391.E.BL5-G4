@@ -41,6 +41,7 @@
             <c:if test="${not empty blog}">
                 <div class="card">
                     <div class="card-body">
+                        <img src="${blog.featuredImage}" width="100" alt="alt"/>
                         <p><strong>Tiêu đề:</strong>${blog.title}</p>
                         <p><strong>Nội dung:</strong>${blog.content}</p>
                         <p><strong>Trạng thái:</strong> ${blog.status}</p>
