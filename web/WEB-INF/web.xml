@@ -49,6 +49,10 @@
         <servlet-name>UpdateUserInfoController</servlet-name>
         <url-pattern>/UpdateUserInfoController</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccessDeny</servlet-name>
+        <url-pattern>/403</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
