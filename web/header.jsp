@@ -122,11 +122,7 @@
             </ul>
         </div>
     </div>
-</nav>
- 
-
-
-                  
+</nav>     
 <%
     if (session != null && session.getAttribute("user") != null) {  
         User user = (User) session.getAttribute("user");

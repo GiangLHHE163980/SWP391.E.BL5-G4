@@ -76,7 +76,9 @@ public class AuthFilter implements Filter {
                     || uri.contains("BlogManageController") && queryString != null && queryString.contains("action=viewDetail")
                     || uri.contains("SliderController")
                     || uri.contains("slider-form.jsp")
-                    || uri.contains("SliderController") && queryString != null && queryString.contains("action=edit")) {
+                    || uri.contains("SliderController") && queryString != null && queryString.contains("action=edit")
+                    || uri.contains("/uploads/")
+                    || uri.contains("/image/")){
                 if (roles.contains("Admin")) {
                     chain.doFilter(request, response); // Cho phép quyền truy cập
                 } else {
