@@ -11,7 +11,6 @@ public class InsuranceCard {
     private Date startDate;
     private Date endDate;
     private String status;
-    private boolean isHandicapped; // New field
     private Date createdAt;
     private Date updatedAt;
     private Boolean isHandicapped;
