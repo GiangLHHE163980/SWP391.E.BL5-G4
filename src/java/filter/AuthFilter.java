@@ -72,7 +72,8 @@ public class AuthFilter implements Filter {
                     || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showFullRequestCardInfo")
                     || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=updateInsuranceRequestStatus")
                     || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showFullCustomerInfo")
-                    || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showAllCardRequest")) {
+                    || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showAllCardRequest")
+                    || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showAllCustomer")) {
                 if (roles.contains("Staff") || roles.contains("Admin")) {
                     chain.doFilter(request, response); // Cho phép quyền truy cập
                 } else {
