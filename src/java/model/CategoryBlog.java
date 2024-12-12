@@ -6,10 +6,7 @@ package model;
 
 import java.sql.Timestamp;
 
-/**
- *
- * @author ADMIN
- */
+
 public class CategoryBlog {
     private int categoryId;
     private String categoryName;

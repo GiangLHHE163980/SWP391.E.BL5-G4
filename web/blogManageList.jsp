@@ -46,7 +46,9 @@
                         <th>Trạng thái</th>
                         <th>Ngày tạo</th>
                         <th>Ngày cập nhật</th>
+                        <th>Media Blog</th>
                         <th>Hành động</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -57,6 +59,9 @@
                             <td>${blog.status}</td>
                             <td>${blog.createdAt}</td>
                             <td>${blog.updatedAt}</td>
+                            <td>
+                                <img src="${blog.featuredImage}" width="100" alt="alt"/>
+                            </td>
                             <td>
                                 <a href="BlogManageController?action=viewDetail&id=${blog.blogId}" class="btn btn-info btn-sm">Xem</a>
                                 <a href="BlogManageController?action=edit&id=${blog.blogId}" class="btn btn-warning btn-sm">Sửa</a>

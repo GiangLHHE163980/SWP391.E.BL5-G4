@@ -16,10 +16,7 @@ import java.util.List;
 import model.Blog;
 import model.CategoryBlog;
 
-/**
- *
- * @author ADMIN
- */
+
 public class BlogDAO {
 
     private Connection connection;

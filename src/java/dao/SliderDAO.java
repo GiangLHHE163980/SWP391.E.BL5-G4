@@ -4,10 +4,7 @@
  */
 package dao;
 
-/**
- *
- * @author ADMIN
- */
+
 import connection.DBContext;
 import java.sql.*;
 import java.util.ArrayList;
