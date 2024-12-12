@@ -74,11 +74,35 @@
                             </div>
                         </div>
 
-                        <!-- Claim Reason -->
-                        <div class="mb-3">
-                            <label for="claimReason" class=" fw-bold form-label">Lý do khiếu nại <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="claimReason" name="claimReason" rows="4" placeholder="Nhập lý do khiếu nại" required></textarea>
+                        <div class="row">
+                            <!-- Claim Type -->
+                            <div class="col-md-6 mb-3">
+                                <label for="claimType" class="fw-bold form-label">Loại khiếu nại <span class="text-danger">*</span></label>
+                                <input 
+                                    type="text" 
+                                    class="form-control fw-bold" 
+                                    id="claimType" 
+                                    name="claimType" 
+                                    value="${insuranceType}" 
+                                    readonly 
+                                    style="height: 110px;" 
+                                />
+                            </div>
+
+                            <!-- Claim Reason -->
+                            <div class="col-md-6 mb-3">
+                                <label for="claimReason" class="fw-bold form-label">Lý do khiếu nại <span class="text-danger">*</span></label>
+                                <textarea 
+                                    class="form-control" 
+                                    id="claimReason" 
+                                    name="claimReason" 
+                                    rows="4" 
+                                    placeholder="Nhập lý do khiếu nại" 
+                                    required
+                                    ></textarea>
+                            </div>
                         </div>
+
 
                     </div>
 
@@ -93,7 +117,7 @@
                 </div>
             </form>
         </div>
-        
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
