@@ -48,7 +48,8 @@ public class AuthFilter implements Filter {
         if (uri.endsWith("login") || uri.endsWith("register") || uri.endsWith("homepage") || uri.endsWith("403")
                 || (uri.contains("ProductController") && (queryString != null && queryString.contains("showAllProduct")))
                 || uri.contains("productDetail") || uri.endsWith("logout")
-                || uri.endsWith("forgetPassword") || uri.endsWith("confirmChangePassword") || uri.endsWith("sendemail")) {
+                || uri.endsWith("forgetPassword") || uri.endsWith("confirmChangePassword") || uri.endsWith("sendemail")
+                || uri.contains("/image/")) {
             chain.doFilter(request, response); // Bỏ qua filter
             return;
         }
@@ -104,6 +105,19 @@ public class AuthFilter implements Filter {
                 } else {
                     res.sendRedirect("403");
                 }
+            }
+            
+            // Path của Customer
+            if (uri.contains("userInfo")
+                    || uri.contains("claimList")
+                    || uri.contains("claimsInfo")
+                    || uri.contains("ClaimsRequestController")
+                    || uri.contains("viewInsuranceInfo")
+                    || uri.contains("RenewCardController")
+                    || uri.contains("requestInsuranceController")
+                    || uri.contains("insuranceCards")
+                    || uri.contains("UpdateUserInfoController")) {
+                chain.doFilter(request, response);
             }
         } else {
             res.sendRedirect("account/login"); // Chuyển hướng đến trang đăng nhập
