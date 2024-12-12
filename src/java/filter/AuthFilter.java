@@ -69,11 +69,15 @@ public class AuthFilter implements Filter {
                     || uri.contains("ProductController") && queryString != null && queryString.contains("action=showViewPage")
                     || uri.contains("ProductController") && queryString != null && queryString.contains("action=showAddPage")
                     || uri.contains("ProductController") && queryString != null && queryString.contains("action=showFullProduct")
+                    || uri.contains("ProductController") && queryString != null && queryString.contains("action=deleteProduct")
+                    || uri.contains("ProductController") && queryString != null && queryString.contains("action=editProduct")
+                    || uri.contains("ProductController") && queryString != null && queryString.contains("action=addProduct")
                     || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showFullRequestCardInfo")
                     || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=updateInsuranceRequestStatus")
-                    || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showFullCustomerInfo")
+                    || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=updateCardStatus")
                     || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showAllCardRequest")
-                    || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showAllCustomer")) {
+                    || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showAllCustomer")
+                    || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=updateCardStatusByCardId")) {
                 if (roles.contains("Staff") || roles.contains("Admin")) {
                     chain.doFilter(request, response); // Cho phép quyền truy cập
                 } else {
