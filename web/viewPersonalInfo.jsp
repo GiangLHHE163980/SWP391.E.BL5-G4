@@ -1,4 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -38,11 +42,16 @@
                                 <h6 class="fw-bold">Ngày sinh</h6>
                                 <!-- Check if birthDate is not null and format it -->
                                 <p class="text-muted mb-0">
-                                    ${user.birthday != null ? user.birthday : "Chưa có thông tin"}
+                                    <c:choose>
+                                        <c:when test="${user.birthday != null}">
+                                        <fmt:formatDate value="${user.birthday}" pattern="dd/MM/yyyy"/>
+                                    </c:when>
+                                    <c:otherwise>Chưa có thông tin</c:otherwise>
+                                </c:choose>
                                 </p>
-
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="card p-3">
                                 <h6 class="fw-bold">Email</h6>
@@ -64,9 +73,12 @@
                         <div class="col-md-6">
                             <div class="card p-3">
                                 <h6 class="fw-bold">Giới tính</h6>
-                                <p class="text-muted mb-0">${user.sex}</p>
+                                <p class="text-muted mb-0">
+                                    ${user.sex == "male" ? "Nam" : user.sex == "female" ? "Nữ" : user.sex}
+                                </p>
                             </div>
                         </div>
+
                         <div class="col-12">
                             <div class="card p-3">
                                 <h6 class="fw-bold">Địa chỉ</h6>

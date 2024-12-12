@@ -86,7 +86,7 @@
                     <button type="submit" class="btn btn-success me-3">
                         <i></i> Nhập
                     </button>
-                    <a href="userInfo?userID=${user.userID}" class="btn btn-secondary">
+                    <a href="CustomerDashboardController" class="btn btn-secondary">
                         <i></i> Huỷ
                     </a>
                 </div>
