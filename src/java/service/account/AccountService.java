@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import model.User;
 
@@ -32,6 +33,10 @@ public class AccountService implements IAccountService{
     private final String SELECT_COUNT_Username_Exit="SELECT COUNT(*) FROM Users WHERE Username = ?";
     
     private final String SELECT_COUNT_Email_Exit="SELECT COUNT(*) FROM Users WHERE Email = ?";
+    
+    private final String GET_USER_ROLES_BY_USERID = "SELECT r.RoleName FROM Roles r " +
+                   "JOIN UserRoles ur ON r.RoleID = ur.RoleID " +
+                   "WHERE ur.UserID = ?";
     
     @Override
     public void add(User user) {
@@ -143,5 +148,23 @@ public class AccountService implements IAccountService{
             e.printStackTrace();
         }
         return false;
+    }
+    
+    @Override
+    public List<String> getUserRoles(int userId) {
+        List<String> roles = new ArrayList<>();
+        
+        try (PreparedStatement ps = connection.prepareStatement(GET_USER_ROLES_BY_USERID)) {
+        ps.setInt(1, userId); // Đặt UserID vào PreparedStatement
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                String roleName = rs.getString("RoleName");
+                roles.add(roleName); // Thêm tên vai trò vào danh sách
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return roles;
     }
 }

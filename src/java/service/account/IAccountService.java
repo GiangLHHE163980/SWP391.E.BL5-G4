@@ -4,6 +4,7 @@
  */
 package service.account;
 
+import java.util.List;
 import model.User;
 import service.IGeneralService;
 import service.IGeneralService;
@@ -20,4 +21,6 @@ public interface IAccountService extends IGeneralService<User> {
     boolean isUsernameExists(String username);
     
     boolean isEmailExists(String email);
+    
+    List<String> getUserRoles(int userId);
 }

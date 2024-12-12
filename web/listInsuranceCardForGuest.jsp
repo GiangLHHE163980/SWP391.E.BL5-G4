@@ -130,11 +130,12 @@
                                     <div class="card-body">
                                         <h5 class="card-title">${product.productName}</h5>
                                         <p class="text-danger mb-2">Chỉ từ ${product.cost} VNĐ/năm</p>
+                                        <p>Điều kiện tham gia: ${product.conditions}</p>
                                         <ul>
-                                            <li>${product.description}</li>
-                                            <li>${product.conditions}</li>
+<!--                                            <li>${product.description}</li>-->
+                                            
                                         </ul>
-                                        <a href="#" class="btn btn-primary">Tham gia</a>
+                                        <a href="productDetail?ProductID=${product.productID}" class="btn btn-primary">Xem chi tiết</a>
                                     </div>
                                 </div>
                             </div>

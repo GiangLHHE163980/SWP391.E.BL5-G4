@@ -4,11 +4,15 @@
         <servlet-name>ProductController</servlet-name>
         <servlet-class>controller.ProductController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AccessDeny</servlet-name>
+        <jsp-file>/403.jsp</jsp-file>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ProductController</servlet-name>
         <url-pattern>/ProductController</url-pattern>
     </servlet-mapping>
-     <!-- AccountController Servlet -->
+    <!-- AccountController Servlet -->
     <servlet>
         <servlet-name>AccountController</servlet-name>
         <servlet-class>controller.AccountController</servlet-class>
@@ -22,8 +26,8 @@
         <url-pattern>/account/register</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-    <servlet-name>AccountController</servlet-name>
-    <url-pattern>/account/logout</url-pattern>
+        <servlet-name>AccountController</servlet-name>
+        <url-pattern>/account/logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AccountController</servlet-name>
