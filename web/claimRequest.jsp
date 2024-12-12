@@ -39,7 +39,7 @@
                                         <p class="text-muted mb-0">${productName}</p>
                                     </div>
                                 </div>
-
+                                <input type="hidden" name="userID" value="${userID}">
                                 <!-- Trạng Thái Gói -->
                                 <div class="col-md-6 mb-3">
                                     <div class="card p-3">
