@@ -12,10 +12,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.InsuranceCard;
 import model.User;
 import service.customerForStaff.CustomerForStaffService;
 import service.customerForStaff.ICustomerForStaffService;
@@ -65,7 +68,36 @@ public class CustomerForStaffController extends HttpServlet {
 
     }
 
+    // Hàm định dạng ngày
+    private String formatDate(Date date) {
+        if (date == null) {
+            return null;
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        return formatter.format(date);
+    }
+
     private void showAllCardRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//       List<InsuranceCard> cardRequests = dao.findAllCardRequest(); // Giả sử dao đã được khởi tạo
+//        if (cardRequests == null || cardRequests.isEmpty()) {
+//            // Nếu danh sách null hoặc rỗng, gửi trực tiếp về JSP
+//            request.setAttribute("listR", cardRequests);
+//            getRequestDispatch(request, response, "/customerstaff/CardRequestList.jsp");
+//        } else {
+//            // Format ngày trong danh sách
+//            for (InsuranceCard cardRequest : cardRequests) {
+//                if (cardRequest.getStartDate() != null) {
+//                    // Định dạng ngày startDate
+//                    String formattedStartDate = formatDate((Date) cardRequest.getDate());
+//                    cardRequest.setFormattedDate(formattedStartDate);
+//                }
+//            }
+//
+//            // Gửi danh sách sau khi format về JSP
+//            request.setAttribute("listR", cardRequests);
+//            getRequestDispatch(request, response, "/customerstaff/CardRequestList.jsp");
+//        }
+
         if (dao.findAllCardRequest() != null) {
             request.setAttribute("listR", dao.findAllCardRequest());
             getRequestDispatch(request, response, "/customerstaff/CardRequestList.jsp");
@@ -107,7 +139,7 @@ public class CustomerForStaffController extends HttpServlet {
         int rId = Integer.parseInt(request.getParameter("request_id"));
         String cardStatus = request.getParameter("cardStatus");
         dao.updateInsuranceCardStatusByCardId(cardStatus, rId);
-       
+
         response.sendRedirect("/SWP391_E_BL5_G4/CustomerForStaffController?action=showAllCardRequest");
 
     }

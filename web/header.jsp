@@ -77,7 +77,7 @@
 
 <!-- <%@ include file="sidebar.jsp" %> -->
                   
-<%
+<% 
  if (session != null && session.getAttribute("user") != null) {  
  String role = (String) session.getAttribute("role");
      User user = (User) session.getAttribute("user");

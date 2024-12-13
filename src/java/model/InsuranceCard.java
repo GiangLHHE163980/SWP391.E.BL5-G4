@@ -14,6 +14,7 @@ public class InsuranceCard {
     private Date createdAt;
     private Date updatedAt;
     private Boolean isHandicapped;
+    private String formattedDate;
     
 
     public InsuranceCard() {
@@ -161,4 +162,18 @@ public class InsuranceCard {
                 ", isHandicapped='" + isHandicapped + '\'' +
             '}';
     }
+
+    public Date getDate() {
+        return user.getBirthday();
+    }
+
+    public String getFormattedDate() {
+        return formattedDate;
+    }
+
+    public void setFormattedDate(String formattedDate) {
+        this.formattedDate = formattedDate;
+    }
+
+   
 }
