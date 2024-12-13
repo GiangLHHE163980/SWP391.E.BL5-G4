@@ -128,7 +128,7 @@
 
                 <!-- Submit Buttons -->
                 <div class="text-center">
-                    <button type="submit" class="btn btn-success">Cập nhật</button>
+                    <button type="submit" class="btn btn-primary">Cập nhật</button>
                     <a href="manage-staff" class="btn btn-secondary">Hủy</a>
                 </div>
             </form>
