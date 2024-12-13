@@ -126,7 +126,7 @@
                         <c:forEach var="product" items="${products}">
                             <div class="col-md-4 mb-4">
                                 <div class="card product-card">
-                                    <img src="${product.avatar}" class="card-img-top" alt="${product.productName}">
+                                    <img src="${pageContext.request.contextPath}${product.avatar}" class="card-img-top" alt="${product.productName}">
                                     <div class="card-body">
                                         <h5 class="card-title">${product.productName}</h5>
                                         <p class="text-danger mb-2">Chỉ từ ${product.cost} VNĐ/năm</p>

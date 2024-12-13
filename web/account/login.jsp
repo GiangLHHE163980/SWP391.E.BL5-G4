@@ -20,7 +20,7 @@
             }
             /* Centering form */
             .login-container {
-                transform: scale(1.2);
+                transform: scale(1.9);
                 display: flex;
                 justify-content: center;
                 align-items: center;
