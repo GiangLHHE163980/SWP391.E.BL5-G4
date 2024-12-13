@@ -51,7 +51,7 @@
 
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="align-middle text-center">
                     <c:forEach var="blog" items="${blogs}">
                         <tr>
                             <td>${blog.title}</td>
