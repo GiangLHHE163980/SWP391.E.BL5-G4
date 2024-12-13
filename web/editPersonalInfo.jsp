@@ -12,7 +12,7 @@
         <!-- Main Container -->
         <div class="container mt-4">
             <!-- Return Button -->
-            <a href="userInfo?userID=${user.userID}" class="btn btn-success mb-3">
+            <a href="CustomerDashboardController" class="btn btn-success mb-3">
                 <i class="bi bi-arrow-left"></i> Quay Lại
             </a>
 
@@ -86,7 +86,7 @@
                     <button type="submit" class="btn btn-success me-3">
                         <i></i> Nhập
                     </button>
-                    <a href="userInfo?userID=${user.userID}" class="btn btn-secondary">
+                    <a href="CustomerDashboardController" class="btn btn-secondary">
                         <i></i> Huỷ
                     </a>
                 </div>

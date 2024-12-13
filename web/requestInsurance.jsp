@@ -14,7 +14,7 @@
         <%@ include file="header.jsp" %>
         <div class="container mt-4">
             <!-- Header -->
-            <a href="   " class="btn btn-success mb-3 text-decoration-none">
+            <a href="homepage" class="btn btn-success mb-3 text-decoration-none">
                 <i class="bi bi-arrow-left"></i> Trở Về
             </a>
 
@@ -103,7 +103,7 @@
                     <!-- Right Summary -->
                     <div class="col-lg-4">
                         <div class="card p-3">
-                            <h6 class="fw-bold" style="font-size: 1.25rem;">Sản phẩm lựa chọn</h6>
+                            <h6 class="fw-bold" style="font-size: 1.25rem;">Sản Phẩm Đã Lựa Chọn</h6>
                             <div class="card border-0">
                                 <div class="card-body">
                                     <!-- Display Product Details Dynamically -->

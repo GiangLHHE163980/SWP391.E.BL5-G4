@@ -17,17 +17,27 @@ public class UsersController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String userIdParam = request.getParameter("userID");
-        int userID = Integer.parseInt(userIdParam); // Assume user ID is passed as a parameter or retrieved from session
-        HttpSession session = request.getSession();
-        session.setAttribute("userID", userID);
+        HttpSession session = request.getSession(false); // Fetch the existing session, do not create a new one
+
+        if (session == null || session.getAttribute("userID") == null) {
+            // Redirect to login if the session or userID does not exist
+            response.sendRedirect("account/login");
+            return;
+        }
+
+        // Fetch the userID from the session
+        int userID = (int) session.getAttribute("userID");
+
+        // Retrieve the user object from the service
         User user = userService.getUserById(userID);
 
         if (user != null) {
+            // Pass the user object to the JSP
             request.setAttribute("user", user);
             RequestDispatcher dispatcher = request.getRequestDispatcher("viewPersonalInfo.jsp");
             dispatcher.forward(request, response);
         } else {
+            // Redirect to an error page if the user is not found
             response.sendRedirect("error.jsp");
         }
     }
