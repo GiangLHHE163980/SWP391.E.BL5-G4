@@ -103,7 +103,7 @@ public class RequestInsuranceController extends HttpServlet {
         String dob = request.getParameter("dob");
         String address = request.getParameter("address");
         int idCard = Integer.parseInt(request.getParameter("idCard"));
-        int userId = Integer.parseInt(request.getParameter("userID"));
+//        int userId = Integer.parseInt(request.getParameter("userID"));
         int productId = Integer.parseInt(request.getParameter("productID"));
         boolean isHandicapped = "yes".equalsIgnoreCase(request.getParameter("isHandicapped"));
         String startDate = request.getParameter("startDate");
@@ -135,7 +135,7 @@ public class RequestInsuranceController extends HttpServlet {
             request.setAttribute("dob", dob);
             request.setAttribute("address", address);
             request.setAttribute("idCard", idCard);
-            request.setAttribute("userID", userId);
+//            request.setAttribute("userID", userId);
             request.setAttribute("productID", productId);
             request.setAttribute("productName", productName);
             request.setAttribute("insuranceType", insuranceType);
