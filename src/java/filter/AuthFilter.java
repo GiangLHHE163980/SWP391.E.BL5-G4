@@ -49,7 +49,8 @@ public class AuthFilter implements Filter {
                 || (uri.contains("ProductController") && (queryString != null && queryString.contains("showAllProduct")))
                 || uri.contains("productDetail") || uri.endsWith("logout")
                 || uri.endsWith("forgetPassword") || uri.endsWith("confirmChangePassword") || uri.endsWith("sendemail")
-                || uri.contains("/image/")) {
+                || uri.contains("/image/")
+                || uri.contains("blog")) {
             chain.doFilter(request, response); // Bỏ qua filter
             return;
         }

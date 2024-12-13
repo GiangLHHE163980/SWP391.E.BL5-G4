@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -114,19 +115,15 @@
         <!-- Slider -->
         <div class="swiper-container slider">
             <div class="swiper-wrapper">
-                <!-- Các Slide -->
-                <div class="swiper-slide">
-                    <img src="https://via.placeholder.com/1920x400" alt="Slider 1">
-                    <div class="caption">Tin tức nổi bật hôm nay</div>
-                </div>
-                <div class="swiper-slide">
-                    <img src="https://via.placeholder.com/1920x400" alt="Slider 2">
-                    <div class="caption">Bài viết mới nhất</div>
-                </div>
-                <div class="swiper-slide">
-                    <img src="https://via.placeholder.com/1920x400" alt="Slider 3">
-                    <div class="caption">Khám phá các tin tức hấp dẫn</div>
-                </div>
+                <!-- Các Slide được load từ controller -->
+                <c:forEach var="blog" items="${sliderBlogs}">
+                    <div class="swiper-slide">
+                        <a href="blogdetail?blogId=${blog.blogId}">
+                            <img src="<c:out value='${blog.featuredImage}' />" alt="Slider Image">
+                        </a>
+                        <div class="caption"><c:out value="${blog.title}" /></div>
+                    </div>
+                </c:forEach>
             </div>
             <!-- Nút điều khiển -->
             <div class="swiper-button-next"></div>
@@ -137,42 +134,17 @@
         <div class="news-section">
             <h2 class="news-title">Tin Tức</h2>
             <div class="news-grid">
-                <!-- News Card 1 -->
-                <div class="news-card">
-                    <img src="https://via.placeholder.com/250x150" alt="News 1">
-                    <div class="news-body">
-                        <h3 class="news-title">
-                            <a href="#">Bài viết 1: Tiêu đề thú vị</a>
-                        </h3>
+                <!-- News Cards -->
+                <c:forEach var="blog" items="${allBlogs}">
+                    <div class="news-card">
+                        <img src="<c:out value='${blog.featuredImage}' />" alt="<c:out value='${blog.title}' />">
+                        <div class="news-body">
+                            <h3 class="news-title">
+                                <a href="<c:out value='blogdetail?blogId=${blog.blogId}' />"><c:out value="${blog.title}" /></a>
+                            </h3>
+                        </div>
                     </div>
-                </div>
-                <!-- News Card 2 -->
-                <div class="news-card">
-                    <img src="https://via.placeholder.com/250x150" alt="News 2">
-                    <div class="news-body">
-                        <h3 class="news-title">
-                            <a href="#">Bài viết 2: Tiêu đề hấp dẫn</a>
-                        </h3>
-                    </div>
-                </div>
-                <!-- News Card 3 -->
-                <div class="news-card">
-                    <img src="https://via.placeholder.com/250x150" alt="News 3">
-                    <div class="news-body">
-                        <h3 class="news-title">
-                            <a href="#">Bài viết 3: Những điều cần biết</a>
-                        </h3>
-                    </div>
-                </div>
-                <!-- News Card 4 -->
-                <div class="news-card">
-                    <img src="https://via.placeholder.com/250x150" alt="News 4">
-                    <div class="news-body">
-                        <h3 class="news-title">
-                            <a href="#">Bài viết 4: Tin tức nóng hổi</a>
-                        </h3>
-                    </div>
-                </div>
+                </c:forEach>
             </div>
         </div>
 
