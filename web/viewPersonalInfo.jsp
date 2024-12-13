@@ -74,7 +74,7 @@
                             <div class="card p-3">
                                 <h6 class="fw-bold">Giới tính</h6>
                                 <p class="text-muted mb-0">
-                                    ${user.sex == "male" ? "Nam" : user.sex == "female" ? "Nữ" : user.sex}
+                                    ${user.sex == "Male" ? "Nam" : user.sex == "Female" ? "Nữ" : user.sex}
                                 </p>
                             </div>
                         </div>
