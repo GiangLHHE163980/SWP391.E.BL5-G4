@@ -48,7 +48,8 @@ public class AuthFilter implements Filter {
         if (uri.endsWith("login") || uri.endsWith("register") || uri.endsWith("homepage") || uri.endsWith("403")
                 || (uri.contains("ProductController") && (queryString != null && queryString.contains("showAllProduct")))
                 || uri.contains("productDetail") || uri.endsWith("logout")
-                || uri.endsWith("forgetPassword") || uri.endsWith("confirmChangePassword") || uri.endsWith("sendemail")) {
+                || uri.endsWith("forgetPassword") || uri.endsWith("confirmChangePassword") || uri.endsWith("sendemail")
+                || uri.contains("image")) {
             chain.doFilter(request, response); // Bỏ qua filter
             return;
         }
@@ -66,7 +67,7 @@ public class AuthFilter implements Filter {
                     || uri.contains("manage-customer") && queryString != null && queryString.contains("action=add")
                     || uri.contains("manage-customer") && queryString != null && queryString.contains("action=edit")
                     || uri.contains("profileAdmin")
-                    || uri.contains("profileAdmin") && queryString != null && queryString.contains("action=edit")                    
+                    || uri.contains("profileAdmin") && queryString != null && queryString.contains("action=edit")
                     || uri.contains("manage-staff")
                     || uri.contains("manage-staff") && queryString != null && queryString.contains("action=add")
                     || uri.contains("manage-staff") && queryString != null && queryString.contains("action=edit")
@@ -78,7 +79,7 @@ public class AuthFilter implements Filter {
                     || uri.contains("slider-form.jsp")
                     || uri.contains("SliderController") && queryString != null && queryString.contains("action=edit")
                     || uri.contains("/uploads/")
-                    || uri.contains("/image/")){
+                    || uri.contains("/image/")) {
                 if (roles.contains("Admin")) {
                     chain.doFilter(request, response); // Cho phép quyền truy cập
                 } else {

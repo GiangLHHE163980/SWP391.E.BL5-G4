@@ -19,7 +19,7 @@
         top: 0;
         left: 0;
         width: 250px;
-        background-color: #308652;
+        background-color: #343a40;
         color: #fff;
         box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
         display: flex;
@@ -94,7 +94,7 @@
 </style>
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img src="/image/logo-removebg-preview1.png" alt="alt"/></a>
+        <a class="navbar-brand" href="#"><img src="../image/logo-removebg-preview1.png" alt="alt"/></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
