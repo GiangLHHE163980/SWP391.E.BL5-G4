@@ -3,7 +3,7 @@
 <div class="sidebar">
     <div class="sidebar-content">
         <div class="logo mb-4">
-            <img src="./assets/images/logo.png" class="logo-image">
+            <img src="./images/logo-removebg-preview1.png" class="logo-image">
             <h5 class="logo-text mt-3">Admin Dashboard</h5>
         </div>
         <nav class="sidebar-nav">

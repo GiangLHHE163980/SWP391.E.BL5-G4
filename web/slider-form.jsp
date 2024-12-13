@@ -57,35 +57,35 @@
             <input type="hidden" name="sliderID" value="${slider.sliderID}">
 
             <div class="form-group">
-                <label for="imageUrl">Media Upload:</label>
+                <label for="imageUrl">Slider Media</label>
                 <input type="hidden" name="old-media" value="${slider.imageUrl}">
                 <input type="file" class="form-control" id="imageUrl" name="imageUrl" accept="image/*,video/*" onchange="previewMedia(event)">
             </div>
 
             <div class="form-group">
-                <label for="title">Title:</label>
+                <label for="title">Tiêu đề</label>
                 <input type="text" class="form-control" id="title" name="title" value="${slider.title}">
             </div>
 
             <div class="form-group">
-                <label for="backLink">BackLink:</label>
+                <label for="backLink">Link đính kèm</label>
                 <input type="text" class="form-control" id="backLink" name="backLink" value="${slider.backLink}">
             </div>
 
             <div class="form-group">
-                <label for="description">Description:</label>
+                <label for="description">Mô tả chi tiết</label>
                 <input type="text" class="form-control" id="description" name="description" value="${slider.description}">
             </div>
 
             <div class="form-group">
-                <label for="publish">Publish:</label>
+                <label for="publish">Xuất bản</label>
                 <select class="form-control" id="publish" name="publish">
-                    <option value="true" ${slider.publish ? "selected" : ""}>Yes</option>
-                    <option value="false" ${!slider.publish ? "selected" : ""}>No</option>
+                    <option value="true" ${slider.publish ? "selected" : ""}>Có</option>
+                    <option value="false" ${!slider.publish ? "selected" : ""}>Không</option>
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="submit" class="btn btn-success">Cập nhật</button>
         </form>
     </div>
     <%@ include file="footer.jsp" %>

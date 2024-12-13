@@ -75,7 +75,7 @@
                             <th>Hành động</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="align-middle text-center">
                         <c:forEach var="user" items="${users}">
                             <tr>
                                 <td>${user.userID}</td>
