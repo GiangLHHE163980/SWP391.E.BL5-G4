@@ -1,6 +1,7 @@
 package controller;
 
 import connection.DBContext;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
@@ -9,6 +10,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.User;
 import service.user.IUserService;
 import service.user.UserService;
@@ -25,28 +27,36 @@ public class RequestInsuranceController extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
-        // Fetch UserID and ProductID from URL parameters
-        int userId = Integer.parseInt(request.getParameter("userID"));
+        HttpSession session = request.getSession(false);
+        int userID;
+        User user = (User) session.getAttribute("user");// Get the current session without creating a new one
+        if (session == null || user == null) {
+            response.sendRedirect("account/login"); // Redirect to login if not authenticated
+            return;
+        } else {
+            userID = user.getUserID();
+            session.setAttribute("userID", userID);
+        }
         int productId = Integer.parseInt(request.getParameter("productID"));
         Connection conn = null;
         try {
             conn = DBContext.getConnection();
-            
+
             // Validation: Check if the user already has a card for the specified ProductID
             String validationQuery = "SELECT * FROM InsuranceCards WHERE UserID = ? AND ProductID = ?";
             PreparedStatement validationStmt = conn.prepareStatement(validationQuery);
-            validationStmt.setInt(1, userId);
+            validationStmt.setInt(1, userID);
             validationStmt.setInt(2, productId);
             ResultSet validationRs = validationStmt.executeQuery();
 
             if (validationRs.next()) {
                 // If a record is found, the user already has a card for this ProductID
                 out.println("<p style='color:red;'>You already have an insurance card for this product. You cannot request another one.</p>");
-                
+
                 return; // Stop further processing
             }
             // Fetch user info using UserService
-            User user = userService.getUserById(userId);
+            user = userService.getUserById(userID);
 
             // Fetch product info from the database
             String productQuery = "SELECT * FROM InsuranceProducts WHERE ProductID = ?";
