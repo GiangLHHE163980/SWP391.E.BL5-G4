@@ -111,10 +111,11 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "JOIN \n"
             + "    InsuranceProducts ip ON ic.ProductID = ip.ProductID\n"
             + "WHERE \n"
-            + "    ic.Status = 'Pending'\n"
+            + "    ic.Status LIKE '%Pending%'\n"
             + "    AND r.RoleName = 'Customer';";
 
-    private static final String Get_Request_INSURANCE_CARD_BY_CARD_ID = "SELECT \n"
+
+   private static final String Get_Request_INSURANCE_CARD_BY_CARD_ID = "SELECT \n"
             + "    ic.CardID,\n"
             + "    u.FullName, \n"
             + "    u.Birthday,\n"
@@ -139,8 +140,9 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "JOIN \n"
             + "    InsuranceCompanies icc ON ip.CompanyID = icc.CompanyID\n"
             + "WHERE \n"
-            + "    ic.Status = 'Pending'\n"
+            + "    ic.Status LIKE '%Pending%'\n"
             + "    AND ic.CardID = ?; ";
+
 
     private static final String UPDATE_INSURANCE_CARD_STATUS_BY_CARD_ID = "UPDATE ic\n"
             + "SET ic.Status = ?, -- Thay trạng thái mong muốn\n"
@@ -410,7 +412,7 @@ public class CustomerForStaffService implements ICustomerForStaffService {
         ICustomerForStaffService dao = new CustomerForStaffService();
 
         // Gọi phương thức delete để xóa sản phẩm với ProductID = 1
-        System.out.println(dao.findCardRequestbyId(6));
+        System.out.println(dao.findCustomerInforById(2));
         // Kiểm tra lại sản phẩm sau khi xóa
 //        List<InsuranceCard> pList = (List<InsuranceCard>) dao.findAllCardRequest();
 //        for (InsuranceCard o : pList) {
