@@ -114,8 +114,7 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "    ic.Status LIKE '%Pending%'\n"
             + "    AND r.RoleName = 'Customer';";
 
-
-   private static final String Get_Request_INSURANCE_CARD_BY_CARD_ID = "SELECT \n"
+    private static final String Get_Request_INSURANCE_CARD_BY_CARD_ID = "SELECT \n"
             + "    ic.CardID,\n"
             + "    u.FullName, \n"
             + "    u.Birthday,\n"
@@ -142,7 +141,6 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "WHERE \n"
             + "    ic.Status LIKE '%Pending%'\n"
             + "    AND ic.CardID = ?; ";
-
 
     private static final String UPDATE_INSURANCE_CARD_STATUS_BY_CARD_ID = "UPDATE ic\n"
             + "SET ic.Status = ?, -- Thay trạng thái mong muốn\n"
@@ -340,8 +338,8 @@ public class CustomerForStaffService implements ICustomerForStaffService {
         return customers; // Trả về danh sách khách hàng
     }
 
-    public List<User> findByCustomerById(String query, Object... args) {
-        List<User> list = new ArrayList<>();
+    public User findByCustomerById(String query, Object... args) {
+        User customer = null;
         try ( PreparedStatement pre = connection.prepareStatement(query)) {
             // Gán tham số truy vấn
             for (int i = 0; i < args.length; i++) {
@@ -350,14 +348,14 @@ public class CustomerForStaffService implements ICustomerForStaffService {
 
             // Thực thi truy vấn
             try ( ResultSet rs = pre.executeQuery()) {
-                while (rs.next()) {
+                if (rs.next()) { // Chỉ lấy kết quả đầu tiên
                     // Lấy thông tin từ kết quả truy vấn
                     int userId = rs.getInt("UserID");
                     String fullName = rs.getString("FullName");
                     String email = rs.getString("Email");
 
                     // Tạo đối tượng User
-                    User customer = new User(userId, fullName, email);
+                    customer = new User(userId, fullName, email);
 
                     // Kiểm tra và thêm InsuranceCard
                     String cardNumber = rs.getString("CardNumber");
@@ -382,11 +380,8 @@ public class CustomerForStaffService implements ICustomerForStaffService {
                     String productName = rs.getString("ProductName");
                     if (productName != null) {
                         InsuranceProduct product = new InsuranceProduct(productName);
-                        customer.setInsuranceProduct(product);  // Gắn thông tin sản phẩm bảo hiểm vào User
+                        customer.setInsuranceProduct(product); // Gắn thông tin sản phẩm bảo hiểm vào User
                     }
-
-                    // Thêm khách hàng vào danh sách
-                    list.add(customer);
                 }
             }
         } catch (SQLException e) {
@@ -397,7 +392,7 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             e.printStackTrace();
         }
 
-        return list;
+        return customer;
     }
 
     @Override

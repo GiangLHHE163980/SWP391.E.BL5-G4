@@ -77,28 +77,28 @@
                         <div class="card-header">Thông tin Khách hàng</div>
                         <div class="card-body">
                             <form action="${pageContext.request.contextPath}/CustomerForStaffController?action=updateCardStatus" method="post">
-                                <input type="hidden" name="userID" value="${listCI[0].userID}">
+                                <input type="hidden" name="userID" value="${listCI.userID}">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="customerName" class="form-label">Tên đầy đủ:</label>
-                                        <input type="text" class="form-control" id="customerName" value="${listCI[0].fullName}" readonly>
+                                        <input type="text" class="form-control" id="customerName" value="${listCI.fullName}" readonly>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="customerEmail" class="form-label">Email:</label>
-                                        <input type="text" class="form-control" id="customerEmail" value="${listCI[0].email}" readonly>
+                                        <input type="text" class="form-control" id="customerEmail" value="${listCI.email}" readonly>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="insuranceCard" class="form-label">Số thẻ bảo hiểm:</label>
-                                        <input type="text" class="form-control" id="insuranceCard" value="${listCI[0].insuranceCard.cardNumber}" readonly>
+                                        <input type="text" class="form-control" id="insuranceCard" value="${listCI.insuranceCard.cardNumber}" readonly>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="cardStatus" class="form-label">Trạng thái thẻ:</label>
                                         <select class="form-select" id="cardStatus" name="cardStatus">
-                                            <option value="Active" ${listCI[0].insuranceCard.status == 'Active' ? 'selected' : ''}>Active</option>
-                                            <option value="Expired" ${listCI[0].insuranceCard.status == 'Expired' ? 'selected' : ''}>Expired</option>
-                                            <option value="Revoked" ${listCI[0].insuranceCard.status == 'Revoked' ? 'selected' : ''}>Revoked</option>
+                                            <option value="Active" ${listCI.insuranceCard.status == 'Active' ? 'selected' : ''}>Active</option>
+                                            <option value="Expired" ${listCI.insuranceCard.status == 'Expired' ? 'selected' : ''}>Expired</option>
+                                            <option value="Revoked" ${listCI.insuranceCard.status == 'Revoked' ? 'selected' : ''}>Revoked</option>
                                         </select>
 
 
@@ -124,18 +124,18 @@
                                         <th>Hành Động</th>
                                     </tr>
                                 </thead>
-                                <c:if test="${not empty listCI[0].claims}">
+                                <c:if test="${not empty listCI.claims}">
                                     <tbody>
-                                        <c:forEach var="claim" items="${listCI[0].claims}">
+                                        <c:forEach var="claim" items="${listCI.claims}">
                                             <tr>
                                                 <td>${claim.claimID}</td>
-                                                <td>${listCI[0].insuranceProduct.productName}</td>
+                                                <td>${listCI.insuranceProduct.productName}</td>
                                                 <td>${claim.reason}</td>
                                                 <td>${claim.status}</td>
                                                 <td>
-                                                    <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=updateInsuranceRequestStatus&userID=${listCI[0].userID}&claimStatus=Approve" class="btn btn-success btn-sm">Approve</a>
+                                                    <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=updateInsuranceRequestStatus&userID=${listCI.userID}&claimStatus=Approve" class="btn btn-success btn-sm">Approve</a>
 
-                                                    <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=updateInsuranceRequestStatus&userID=${listCI[0].userID}&claimStatus=Reject" class="btn btn-danger btn-sm">Reject</a>
+                                                    <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=updateInsuranceRequestStatus&userID=${listCI.userID}&claimStatus=Reject" class="btn btn-danger btn-sm">Reject</a>
 
                                                 </td>
                                             </tr>
