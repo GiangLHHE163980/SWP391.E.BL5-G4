@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
 </head>
 <body>
+    
     <div class="wrapper d-flex">
         <!-- Sidebar -->
         <nav class="sidebar bg-dark">
@@ -44,21 +45,7 @@
         <!-- Main Content -->
         <div class="main-content flex-grow-1 bg-light">
             <!-- Header -->
-            <div class="header bg-white d-flex justify-content-between align-items-center p-3 border-bottom">
-                <h4 class="mb-0">Bảng điều khiển</h4>
-                <div class="dropdown profile-dropdown">
-                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://via.placeholder.com/40" alt="Profile Picture">
-                        <span class="ms-2">Hi, Admin</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">My Profile</a></li>
-                        <li><a class="dropdown-item" href="#">Account Settings</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
+            <%@ include file="headerForStaff.jsp" %>
 
             <!-- Breadcrumb -->
             <div class="breadcrumb-container px-3 py-2">
