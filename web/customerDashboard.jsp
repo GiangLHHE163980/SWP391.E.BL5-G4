@@ -47,7 +47,7 @@
                 <!-- First Card -->
                 <div class="col-md-3">
                     <a href="userInfo" class="link-card">
-                        <h3>Xem Thông Tin Khách Hàng</h3>
+                        <h3>Thông Tin Của Tôi</h3>
                     </a>
                 </div>
 

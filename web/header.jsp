@@ -9,9 +9,9 @@ import="java.util.List" %> <%@ page import="service.account.AccountService" %>
 />
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"
-      ><img src="../image/logo-removebg-preview1.png" alt="alt"
-    /></a>
+    <a class="navbar-brand" href="homepage"
+      ><img src="image/logo-removebg-preview1.png" alt="alt" style="width: 80px; height: auto;" />
+</a>
     <button
       class="navbar-toggler"
       type="button"

@@ -68,7 +68,7 @@ public class AuthFilter implements Filter {
                     || uri.contains("manage-customer") && queryString != null && queryString.contains("action=add")
                     || uri.contains("manage-customer") && queryString != null && queryString.contains("action=edit")
                     || uri.contains("profileAdmin")
-                    || uri.contains("profileAdmin") && queryString != null && queryString.contains("action=edit")                    
+                    || uri.contains("profileAdmin") && queryString != null && queryString.contains("action=edit")
                     || uri.contains("manage-staff")
                     || uri.contains("manage-staff") && queryString != null && queryString.contains("action=add")
                     || uri.contains("manage-staff") && queryString != null && queryString.contains("action=edit")
@@ -80,7 +80,7 @@ public class AuthFilter implements Filter {
                     || uri.contains("slider-form.jsp")
                     || uri.contains("SliderController") && queryString != null && queryString.contains("action=edit")
                     || uri.contains("/uploads/")
-                    || uri.contains("/image/")){
+                    || uri.contains("/image/")) {
                 if (roles.contains("Admin")) {
                     chain.doFilter(request, response); // Cho phép quyền truy cập
                 } else {
@@ -109,7 +109,7 @@ public class AuthFilter implements Filter {
                     res.sendRedirect("403");
                 }
             }
-            
+
             // Path của Customer
             if (uri.contains("userInfo")
                     || uri.contains("claimList")
@@ -120,7 +120,8 @@ public class AuthFilter implements Filter {
                     || uri.contains("requestInsuranceController")
                     || uri.contains("insuranceCards")
                     || uri.contains("UpdateUserInfoController")
-                    || uri.contains("CustomerDashboardController")) {
+                    || uri.contains("CustomerDashboardController")
+                    || uri.contains("ConfirmInsuranceController")) {
                 chain.doFilter(request, response);
             }
         } else {
