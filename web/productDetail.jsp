@@ -47,12 +47,13 @@
                 font-size: 16px;
                 line-height: 1.6;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                max-width: 400px;
+                max-width: 500px;
             }
 
             .main .product-details {
                 flex: 1;
                 width: 100%;
+                margin-bottom: 150px;
             }
 
             .main .product-details h1 {
@@ -165,6 +166,7 @@
                 flex-grow: 1; /* Phần bên phải sẽ chiếm hết không gian còn lại */
                 padding-right: 50px; /* Tùy chỉnh lề bên trái của phần bên phải */
             }
+            
         </style>
     </head>
     <body>
@@ -176,7 +178,7 @@
             <!-- Product Information -->
             <div class="product-info">
                 <div class="left-section">
-                    <img src="<c:out value='${product.avatar}' />" alt="${product.productName}">
+                    <img src="${pageContext.request.contextPath}${product.avatar}" alt="${product.productName}">
                     <div class="price-info">
                         <p><strong>Giá cả:</strong> <span class="text-danger mb-2"><c:out value='${product.cost}' /> VNĐ/Năm</span></p>
                         <p><strong>Đối tượng tham gia:</strong> <c:out value='${product.conditions}' /></p>
@@ -200,12 +202,14 @@
         </c:choose>
                     </div>
                     <!-- Related Products -->
-                    <h2>Sản phẩm liên quan</h2>
-                    <div class="related-products">
 
+                        <h2>Sản phẩm liên quan</h2>
+
+                    <div class="related-products">
+                    
                         <c:forEach var="relatedProduct" items="${relatedProducts}">
                             <div class="product-card">
-                                <img src="${relatedProduct.avatar}" alt="${relatedProduct.productName}">
+                                <img src="${pageContext.request.contextPath}${relatedProduct.avatar}" alt="${relatedProduct.productName}">
                                 <div class="card-body">
                                     <h5 class="card-title">${relatedProduct.productName}</h5>
                                     <p class="text-danger mb-2">Giá: ${relatedProduct.cost} VNĐ</p>

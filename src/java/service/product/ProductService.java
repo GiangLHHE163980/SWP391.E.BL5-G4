@@ -170,6 +170,14 @@ public class ProductService implements IProductService {
             "ORDER BY RAND() ";
         
         private static final String SELECT_STATUS_CARD_BY_USERID_AND_PRODUCTID = "SELECT TOP 1 Status FROM InsuranceCards WHERE UserID = ? AND ProductID = ? ORDER BY StartDate DESC";
+        
+        private static final String PAGINATION_SUFFIX = " ORDER BY ip.ProductID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        private static final String GET_ALL_PRODUCTS_WITH_PAGING = GET_ALL_PRODUCTS_WITH_AVATAR + PAGINATION_SUFFIX;
+        private static final String GET_PRODUCT_BY_NAME_WITH_PAGING = GET_PRODUCT_BY_NAME_WITH_AVATAR + PAGINATION_SUFFIX;
+        private static final String GET_PRODUCTS_BY_CATEGORY_WITH_PAGING = GET_PRODUCTS_BY_CATEGORY + PAGINATION_SUFFIX;
+        private static final String GET_PRODUCT_BY_NAME_AND_CATEGORY_WITH_PAGING = GET_PRODUCT_BY_NAME_AND_CATEGORY + PAGINATION_SUFFIX;
+        
     //delete product and company
     @Override
     public void delete(int id) {
@@ -544,14 +552,69 @@ public class ProductService implements IProductService {
     public InsuranceProduct getProductWithAvatarById(int productId) {
         // Giả sử bạn có phương thức `find` để thực hiện truy vấn và trả về kết quả
         String query = GET_PRODUCT_WITH_AVATAR_BY_ID;
-        List<InsuranceProduct> result = find(query, productId);
-        return result.get(0);
+        InsuranceProduct product = null;
+
+    try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        // Thiết lập tham số cho câu lệnh truy vấn
+        preparedStatement.setInt(1, productId);
+
+        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                // Nếu có kết quả, xây dựng đối tượng InsuranceProduct từ resultSet
+                product = new InsuranceProduct();
+                product.setProductID(resultSet.getInt("ProductID"));
+                //product.setCompanyID(resultSet.getInt("CompanyID"));
+                product.setProductName(resultSet.getString("ProductName"));
+                product.setInsuranceType(resultSet.getString("InsuranceType"));
+                product.setDescription(resultSet.getString("Description"));
+                product.setCost(resultSet.getBigDecimal("Cost"));
+                product.setConditions(resultSet.getString("Conditions"));
+//                product.setCreatedAt(resultSet.getDate("CreatedAt"));
+//                product.setUpdatedAt(resultSet.getDate("UpdatedAt"));
+                product.setAvatar(resultSet.getString("Avatar"));
+                // Bạn có thể tiếp tục ánh xạ các trường khác nếu cần
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();  // Hoặc ghi log nếu cần thiết
+    }
+    
+    return product;
     }
     
     @Override
     public List<InsuranceProduct> getProductsByType(String insuranceType,int excludedProductId) {
         String query = GET_PRODUCTS_WITH_AVATAR_BY_TYPE;
-        return find(query, insuranceType,excludedProductId); // Truy vấn các sản phẩm cùng loại
+        List<InsuranceProduct> products = new ArrayList<>();
+
+    try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        // Thiết lập tham số cho câu lệnh truy vấn
+        preparedStatement.setString(1, insuranceType);
+        preparedStatement.setInt(2, excludedProductId);
+
+        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                // Nếu có kết quả, xây dựng đối tượng InsuranceProduct từ resultSet
+                InsuranceProduct product = new InsuranceProduct();
+                product.setProductID(resultSet.getInt("ProductID"));
+                product.setProductName(resultSet.getString("ProductName"));
+                product.setInsuranceType(resultSet.getString("InsuranceType"));
+                product.setDescription(resultSet.getString("Description"));
+                //product.setCost(resultSet.getBigDecimal("Cost"));
+                product.setConditions(resultSet.getString("Conditions"));
+                //product.setCreatedAt(resultSet.getDate("CreatedAt"));
+                //product.setUpdatedAt(resultSet.getDate("UpdatedAt"));
+                product.setAvatar(resultSet.getString("Avatar"));
+
+                // Thêm sản phẩm vào danh sách
+                products.add(product);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();  // Hoặc ghi log nếu cần thiết
+    }
+
+    return products;
     }
 
     @Override
@@ -574,6 +637,143 @@ public class ProductService implements IProductService {
         // Nếu không có bản ghi, trả về true để hiển thị nút "Tham gia"
         return true;
     }
+    public List<InsuranceProduct> findWithPaging(String query, int page, int pageSize, Object... args) {
+        List<InsuranceProduct> list = new ArrayList<>();
+        try ( PreparedStatement pre = connection.prepareStatement(query)) {
+            // Gán tham số truy vấn
+            for (int i = 0; i < args.length; i++) {
+                pre.setObject(i + 1, args[i]);
+            }
+            // Thêm tham số phân trang
+            pre.setInt(args.length + 1, (page - 1) * pageSize); // OFFSET
+            pre.setInt(args.length + 2, pageSize); // FETCH NEXT
+
+            // Thực thi truy vấn
+            try ( ResultSet rs = pre.executeQuery()) {
+                while (rs.next()) {
+                    // Lấy thông tin công ty bảo hiểm
+                    String companyName = rs.getString("CompanyName");
+
+                    // Tạo đối tượng InsuranceCompany (với chỉ CompanyName)
+                    InsuranceCompany insuranceCompany = new InsuranceCompany(companyName);
+
+                    // Lấy thông tin sản phẩm bảo hiểm
+                    int productID = rs.getInt("ProductID");
+                    String productName = rs.getString("ProductName");
+                    String insuranceType = rs.getString("InsuranceType");
+                    String description = rs.getString("Description");
+                    BigDecimal cost = rs.getBigDecimal("Cost");
+                    String conditions = rs.getString("Conditions");
+
+                    // Tạo đối tượng InsuranceProduct
+                    InsuranceProduct product = new InsuranceProduct(
+                            productID,
+                            insuranceCompany,
+                            productName,
+                            insuranceType,
+                            description,
+                            cost,
+                            conditions
+                    );
+
+                    // Thêm sản phẩm vào danh sách
+                    list.add(product);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error while executing query with paging: " + query);
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<InsuranceProduct> getAllProductsWithPaging(int page, int pageSize) {
+        String query = GET_ALL_PRODUCTS_WITH_PAGING;
+    return find(query, page, pageSize);
+    }
+
+    @Override
+    public List<InsuranceProduct> getProductsByCategoryWithPaging(String category, int page, int pageSize) {
+        String query = GET_PRODUCTS_BY_CATEGORY + PAGINATION_SUFFIX;
+        return findWithPaging(query, page, pageSize, category);
+    }
+
+    @Override
+    public List<InsuranceProduct> getProductByNameAndCategoryWithPaging(String searchQuery, String category, int offset, int pageSize) {
+        String query = GET_PRODUCT_BY_NAME_AND_CATEGORY_WITH_PAGING;
+        return find(query, "%" + searchQuery + "%", category, offset, pageSize);
+    }
+
+    @Override
+    public List<InsuranceProduct> getProductByNameWithPaging(String searchName, int page, int pageSize) {
+        String query = GET_PRODUCT_BY_NAME_WITH_AVATAR + PAGINATION_SUFFIX;
+        return findWithPaging(query, page, pageSize, "%" + searchName + "%");
+    }
+    
+    @Override
+    public List<InsuranceProduct> getProductByNameAndCategoryWithSortAndPaging(String searchQuery, String category, String sortBy, int offset, int pageSize) {
+    StringBuilder query = new StringBuilder(GET_PRODUCT_BY_NAME_AND_CATEGORY_WITH_PAGING);
+    if ("costAsc".equals(sortBy)) {
+        query.append(SORT_BY_COST_ASC);
+    } else if ("costDesc".equals(sortBy)) {
+        query.append(SORT_BY_COST_DESC);
+    } else if ("dateNewest".equals(sortBy)) {
+        query.append(SORT_BY_DATE_NEWEST);
+    } else if ("dateOldest".equals(sortBy)) {
+        query.append(SORT_BY_DATE_OLDEST);
+    }
+    return find(query.toString(), "%" + searchQuery + "%", category, offset, pageSize);
+}
+    @Override
+    public List<InsuranceProduct> getProductByNameWithAvatarAndSortAndPaging(String searchQuery, String sortBy, int offset, int pageSize) {
+    StringBuilder query = new StringBuilder(GET_PRODUCT_BY_NAME_WITH_AVATAR + PAGINATION_SUFFIX);
+    if ("costAsc".equals(sortBy)) {
+        query.append(SORT_BY_COST_ASC);
+    } else if ("costDesc".equals(sortBy)) {
+        query.append(SORT_BY_COST_DESC);
+    } else if ("dateNewest".equals(sortBy)) {
+        query.append(SORT_BY_DATE_NEWEST);
+    } else if ("dateOldest".equals(sortBy)) {
+        query.append(SORT_BY_DATE_OLDEST);
+    }
+    return find(query.toString(), "%" + searchQuery + "%", offset, pageSize);
+}
+    
+    @Override
+    public List<InsuranceProduct> getAllProductsWithSortAndPaging(String sortBy, int offset, int pageSize) {
+    StringBuilder query = new StringBuilder(GET_ALL_PRODUCTS_WITH_AVATAR + PAGINATION_SUFFIX);
+    if ("costAsc".equals(sortBy)) {
+        query.append(SORT_BY_COST_ASC);
+    } else if ("costDesc".equals(sortBy)) {
+        query.append(SORT_BY_COST_DESC);
+    } else if ("dateNewest".equals(sortBy)) {
+        query.append(SORT_BY_DATE_NEWEST);
+    } else if ("dateOldest".equals(sortBy)) {
+        query.append(SORT_BY_DATE_OLDEST);
+    }
+    return find(query.toString(), offset, pageSize);
+}
+    
+    @Override
+    public List<InsuranceProduct> getProductsByCategoryWithSortAndPaging(String category, String sortBy, int offset, int pageSize) {
+    StringBuilder query = new StringBuilder(GET_PRODUCTS_BY_CATEGORY_WITH_PAGING);
+    
+    // Thêm điều kiện sắp xếp dựa trên sortBy
+    if ("costAsc".equals(sortBy)) {
+        query.append(SORT_BY_COST_ASC);
+    } else if ("costDesc".equals(sortBy)) {
+        query.append(SORT_BY_COST_DESC);
+    } else if ("dateNewest".equals(sortBy)) {
+        query.append(SORT_BY_DATE_NEWEST);
+    } else if ("dateOldest".equals(sortBy)) {
+        query.append(SORT_BY_DATE_OLDEST);
+    }
+    
+    // Thực hiện truy vấn
+    return find(query.toString(), category, offset, pageSize);
+}
 //    //Test delete product and company
 //    public static void main(String[] args) {
 //        // Khởi tạo ProductService (DAO)

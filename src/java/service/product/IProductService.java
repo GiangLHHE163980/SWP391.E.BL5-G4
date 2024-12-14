@@ -43,4 +43,20 @@ public interface IProductService {
     List<InsuranceProduct> getProductsByType(String insuranceType,int excludedProductId);
     
     boolean hasInsuranceCard(int userId, int productId);
+
+    List<InsuranceProduct> getAllProductsWithPaging(int page, int pageSize);
+    
+    List<InsuranceProduct> getProductsByCategoryWithPaging(String category, int page, int pageSize);
+    
+    List<InsuranceProduct> getProductByNameAndCategoryWithPaging(String searchName, String category, int page, int pageSize);
+    
+    List<InsuranceProduct> getProductByNameWithPaging(String searchName, int page, int pageSize);
+    
+    List<InsuranceProduct> getProductByNameAndCategoryWithSortAndPaging(String searchQuery, String category, String sortBy, int offset, int pageSize);
+    
+    List<InsuranceProduct> getProductByNameWithAvatarAndSortAndPaging(String searchQuery, String sortBy, int offset, int pageSize);
+    
+    List<InsuranceProduct> getAllProductsWithSortAndPaging(String sortBy, int offset, int pageSize);
+    
+    List<InsuranceProduct> getProductsByCategoryWithSortAndPaging(String category, String sortBy, int offset, int pageSize);
 }
