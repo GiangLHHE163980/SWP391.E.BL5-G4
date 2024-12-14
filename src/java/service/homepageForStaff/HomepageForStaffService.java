@@ -43,7 +43,7 @@ public class HomepageForStaffService implements IHomepageForStaffService {
             + "JOIN \n"
             + "    InsuranceProducts ip ON ic.ProductID = ip.ProductID\n"
             + "WHERE \n"
-            + "    ic.Status = 'Pending'\n"
+            + "    ic.Status LIKE '%Pending%'\n"
             + "    AND r.RoleName = 'Customer';";
 
     @Override
