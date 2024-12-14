@@ -40,7 +40,9 @@
     <body>
         <%@ include file="header.jsp" %>
         <div class="container mt-4">
-            
+            <a href="homepage" class="btn btn-success mb-3 text-decoration-none">
+                <i class="bi bi-arrow-left"></i> Trang Chủ
+            </a>
             <h1 class="mt-5 mb-4">Trang Tổng Quan Khách Hàng</h1>
 
             <div class="row g-4 mt-5">
