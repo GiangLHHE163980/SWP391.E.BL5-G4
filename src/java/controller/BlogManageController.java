@@ -20,10 +20,7 @@ import model.Blog;
 import model.CategoryBlog;
 import ultil.Upload;
 
-/**
- *
- * @author HP
- */
+
 @WebServlet(name = "BlogManageController", urlPatterns = {"/BlogManageController"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2 MB
         maxFileSize = 1024 * 1024 * 10, // 10 MB
@@ -45,6 +42,7 @@ public class BlogManageController extends HttpServlet {
             CategoryBlogDAO categoryDao = new CategoryBlogDAO();
             List<CategoryBlog> categoryBlog = categoryDao.getAllCategories();
             req.setAttribute("categoryBlogs", categoryBlog);
+            //Lấy thông tin blog hiện tại
             int blogId = Integer.parseInt(req.getParameter("id"));
             Blog blog = blogDAO.viewBlogDetail(blogId);
             req.setAttribute("blog", blog);
@@ -79,17 +77,17 @@ public class BlogManageController extends HttpServlet {
             Upload upload = new Upload();
             String uploadPath = getServletContext().getRealPath(pathBlog);
             String nameImgBanner = upload.uploadFile(imageUrl, uploadPath);
-
+            //Add thêm đường dẫn mới
             if (nameImgBanner != null) {
                 nameImgBanner = pathBlog + nameImgBanner;
             }
-
+            
             Blog blog = new Blog();
             blog.setTitle(title);
             blog.setContent(content);
             blog.setStatus(status);
             blog.setFeaturedImage(nameImgBanner);
-
+            
             boolean isAdded = blogDAO.addBlog(blog);
 
             if (isAdded) {
@@ -129,7 +127,7 @@ public class BlogManageController extends HttpServlet {
             } else {
                 req.setAttribute("message", "Failed to update blog.");
             }
-
+            //Hiện thị blog được cập nhật
             Blog updatedBlog = blogDAO.viewBlogDetail(blogId);
             req.setAttribute("blog", updatedBlog);
             resp.sendRedirect("BlogManageController");

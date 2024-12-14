@@ -74,8 +74,8 @@ public class SliderController extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //Kiểm tra validate
         List<String> errors = validateSlider(request);
-
         if (!errors.isEmpty()) {
             request.setAttribute("errors", errors);
             RequestDispatcher dispatcher = request.getRequestDispatcher("slider-form.jsp");
@@ -89,11 +89,13 @@ public class SliderController extends HttpServlet {
         String backLink = request.getParameter("backLink");
         String description = request.getParameter("description");
         boolean publish = Boolean.parseBoolean(request.getParameter("publish"));
-
+        
+        //Xử lý ảnh
         String pathBanner = "./uploads/banner/";
         Upload upload = new Upload();
         String uploadPath = getServletContext().getRealPath(pathBanner);
-
+        
+        //Thêm slider
         String nameImgBanner = upload.uploadFile(imageUrl, uploadPath);
         if((id == null || id.isEmpty()) && nameImgBanner == null) {
             request.setAttribute("errors", "Please choose image");
@@ -101,7 +103,9 @@ public class SliderController extends HttpServlet {
             dispatcher.forward(request, response);
             return;
         }
+        //Anh cũ
         String fileNameSaveDb = request.getParameter("old-media");
+        //Anh mới
         if (nameImgBanner != null && !nameImgBanner.isEmpty()) {
             fileNameSaveDb = pathBanner + nameImgBanner;
         }

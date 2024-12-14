@@ -72,17 +72,20 @@ public class ManagerStaffController extends HttpServlet {
                     break;
 
                 default:
+                    
                     String name = request.getParameter("name");
                     name = name != null ? name : "";
                     String status = request.getParameter("status");
                     String roleName = "Staff";
+                    
                     String pageParam = request.getParameter("page");
+                    //Để mặc định page 1
                     int page = (pageParam != null && !pageParam.isEmpty()) ? Integer.parseInt(pageParam) : 1;
-                    int pageSize = 10;
+                    int pageSize = 1;
                     List<User> users = userService.getUsersByNameAndStatusRole(name, status, page, pageSize, roleName);
                     int totalUsers = userService.countUsersByNameAndStatusAndRole(name, status, roleName);
+                    //Tổng số người dùng / số lượng người dùng mỗi trang
                     int totalPages = (int) Math.ceil((double) totalUsers / pageSize);
-
                     request.setAttribute("users", users);
                     request.setAttribute("totalPages", totalPages);
                     request.setAttribute("currentPage", page);
@@ -116,8 +119,11 @@ public class ManagerStaffController extends HttpServlet {
 
             // Handle Avatar
             Part filePart = request.getPart("avatar");
+            //Đường dẫn tương đối
             String filePath = "./uploads/";
+            //Chuyển thành đường dẫn tuyệt đối
             String uploadPath = getServletContext().getRealPath(filePath);
+            //Xử lý đường dẫn file
             Upload upload = new Upload();
             String nameOfAvatar = upload.uploadFile(filePart, uploadPath);
 
@@ -128,6 +134,8 @@ public class ManagerStaffController extends HttpServlet {
                 user.setBirthday(java.sql.Date.valueOf(birthday));  // Set the birthday
             }
             boolean isAction = false;
+            //Kiểm tra điều kiện add or edit
+            //Edit
             if (request.getParameter("userID") != null) {
                 if (nameOfAvatar == null || nameOfAvatar.equals("")) {
                     user.setAvatar(oldAvatar);
@@ -138,11 +146,14 @@ public class ManagerStaffController extends HttpServlet {
                     user.setPasswordHash(request.getParameter("oldPassword"));
                 }
                 System.out.println(user.getAvatar());
+                //Lấy UserID cần cập nhật
                 int userID = Integer.parseInt(request.getParameter("userID"));
                 user.setUserID(userID);
-
+                //Lấy thông tin từ người dùng hiện tại
                 editUser = userService.getUserById(userID);
+                //Cập nhật và validate
                 isAction = userService.updateUser(user);
+            //Add
             } else {
                 if (nameOfAvatar != null) {
                     String namePathSaveDB = filePath + nameOfAvatar;
