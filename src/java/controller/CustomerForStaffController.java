@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Claim;
 import model.InsuranceCard;
 import model.User;
 import service.customerForStaff.CustomerForStaffService;
@@ -122,18 +123,31 @@ public class CustomerForStaffController extends HttpServlet {
     }
 
     private void showFullCustomerInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int uId = Integer.parseInt(request.getParameter("CustomerId"));
-        Object customer = dao.findCustomerInforById(uId);
-        if (customer == null) {
-            System.out.println("Product not found for ID: " + uId);
-            response.sendRedirect("ProductController?action=showFullProduct");
-        } else {
-            System.out.println("Product found: " + customer);
-            request.setAttribute("listCI", customer);
-        }
-        getRequestDispatch(request, response, "/customerstaff/CustomerDetailForStaff.jsp");
+        try {
+            int uId = Integer.parseInt(request.getParameter("CustomerId"));
+            int cId = Integer.parseInt(request.getParameter("CardId"));
 
+            // Lấy danh sách yêu cầu bảo hiểm
+            List<Claim> claims = dao.findAllClaim(uId, cId);
+
+            // Kiểm tra nếu không có yêu cầu bảo hiểm
+            if (claims == null || claims.isEmpty()) {
+                // Gửi thông báo nếu không có yêu cầu bảo hiểm
+                request.setAttribute("errorMessage", "Không tìm thấy yêu cầu bảo hiểm cho khách hàng và thẻ bảo hiểm này.");
+                // Forward đến trang hiển thị lỗi hoặc thông báo
+                getRequestDispatch(request, response, "/customerstaff/CustomerDetailForStaff.jsp");
+            } else {
+                // Nếu có yêu cầu bảo hiểm, tiếp tục gán vào request
+                request.setAttribute("listCl", claims);
+                getRequestDispatch(request, response, "/customerstaff/CustomerDetailForStaff.jsp");
+            }
+        } catch (NumberFormatException e) {
+            // Xử lý lỗi nếu ID không hợp lệ
+            System.out.println("Error parsing CustomerId or CardId: " + e.getMessage());
+            response.sendRedirect("ProductController?action=showFullProduct");
+        }
     }
+
 
     private void updateCardStatusByCardId(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int rId = Integer.parseInt(request.getParameter("request_id"));
@@ -161,19 +175,10 @@ public class CustomerForStaffController extends HttpServlet {
     }
 
     private void updateInsuranceRequestStatus(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int uId = Integer.parseInt(request.getParameter("userID"));
+        int cId = Integer.parseInt(request.getParameter("claimID"));
         String claimStatus = request.getParameter("claimStatus");
-
-        dao.updateInsuranceRequestStatusByUserId(claimStatus, uId);
-        Object customer = dao.findCustomerInforById(uId);
-        if (customer == null) {
-            System.out.println("Product not found for ID: " + uId);
-            response.sendRedirect("ProductController?action=showFullProduct");
-        } else {
-            System.out.println("Product found: " + customer);
-            request.setAttribute("listCI", customer);
-        }
-        getRequestDispatch(request, response, "/customerstaff/CustomerDetailForStaff.jsp");
+        dao.updateInsuranceRequestStatusByUserId(claimStatus, cId);
+        showFullCustomerInfo(request, response);
 
     }
 

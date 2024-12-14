@@ -32,6 +32,7 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "    u.UserID, \n"
             + "    u.FullName, \n"
             + "    u.Email, \n"
+            + "    ic.CardID, \n" // Đã thêm CardID vào SELECT
             + "    ic.CardNumber, \n"
             + "    ic.Status\n"
             + "FROM Users u\n"
@@ -72,15 +73,15 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "WHERE r.RoleName = 'Customer'\n"
             + "  AND u.UserID = ?;";
 
-    private static final String UPDATE_INSURANCE_REQUEST_STATUS_BY_ID = "UPDATE Claims "
-            + "SET Status = ? "
-            + "FROM Claims c "
-            + "JOIN InsuranceCards ic ON c.CardID = ic.CardID "
-            + "JOIN Users u ON ic.UserID = u.UserID "
-            + "JOIN UserRoles ur ON u.UserID = ur.UserID "
-            + "JOIN Roles r ON ur.RoleID = r.RoleID "
-            + "WHERE r.RoleName = 'Customer' "
-            + "AND u.UserID = ? ";
+    private static final String UPDATE_INSURANCE_REQUEST_STATUS_BY_ID = "UPDATE c\n"
+            + "SET c.Status = ?\n"
+            + "FROM Claims c\n"
+            + "JOIN InsuranceCards ic ON c.CardID = ic.CardID\n"
+            + "JOIN Users u ON ic.UserID = u.UserID\n"
+            + "JOIN UserRoles ur ON u.UserID = ur.UserID\n"
+            + "JOIN Roles r ON ur.RoleID = r.RoleID\n"
+            + "WHERE r.RoleName = 'Customer'\n"
+            + "AND c.claimID = ?;";
 
     private static final String UPDATE_INSURANCE_CARD_STATUS_BY_USER_ID = "UPDATE InsuranceCards "
             + "SET Status = ? "
@@ -152,6 +153,82 @@ public class CustomerForStaffService implements ICustomerForStaffService {
             + "WHERE r.RoleName = 'Customer' \n"
             + "  AND u.IsActive = 1         \n"
             + "  AND ic.CardID = ?;          ";
+
+    private static final String GET_ALL_CLAIM = "SELECT \n"
+            + "    c.ClaimID,\n"
+            + "    c.UserID,\n"
+            + "    c.CardID,\n"
+            + "    c.ClaimType,\n"
+            + "    c.Status AS ClaimStatus,\n"
+            + "    c.Reason,\n"
+            + "    c.SubmittedAt,\n"
+            + "    c.ProcessedAt,\n"
+            + "    u.FullName,\n"
+            + "    u.Email,\n"
+            + "    ic.CardNumber,\n"
+            + "    ic.Status AS CardStatus,\n"
+            + "    ip.ProductName\n"
+            + "FROM Claims c\n"
+            + "JOIN Users u ON c.UserID = u.UserID\n"
+            + "JOIN UserRoles ur ON u.UserID = ur.UserID\n"
+            + "JOIN Roles r ON ur.RoleID = r.RoleID\n"
+            + "JOIN InsuranceCards ic ON c.CardID = ic.CardID\n"
+            + "LEFT JOIN InsuranceProducts ip ON ic.ProductID = ip.ProductID\n"
+            + "WHERE r.RoleName = 'Customer'\n"
+            + "  AND u.UserID = ?\n"
+            + "  AND ic.CardID = ?;";
+
+    @Override
+    public List<Claim> findAllClaim(int userId, int cardId) {
+        List<Claim> claimList = new ArrayList<>();
+
+        try ( PreparedStatement pre = connection.prepareStatement(GET_ALL_CLAIM)) {
+            // Gán giá trị tham số vào câu truy vấn
+            pre.setInt(1, userId);
+            pre.setInt(2, cardId);
+
+            try ( ResultSet rs = pre.executeQuery()) {
+                while (rs.next()) {
+                        // Lấy thông tin từ kết quả truy vấn
+                    int userID = rs.getInt("UserID");
+                    String fullName = rs.getString("FullName");
+                    String email = rs.getString("Email");
+
+                    // Tạo đối tượng User
+                    User customer = new User(userId, fullName, email);
+                    
+                    // Lấy thông tin product
+                    String productName = rs.getString("ProductName");
+                    InsuranceProduct product = new InsuranceProduct(productName);
+
+                    // Lấy thông tin card
+                    int cardIdResult = rs.getInt("CardID");
+                    String cardNumber = rs.getString("CardNumber");
+                    String cardStatus = rs.getString("CardStatus");
+                    InsuranceCard card = new InsuranceCard(cardIdResult, cardNumber, cardStatus, product);
+
+                    // Lấy thông tin claim
+                    int claimId = rs.getInt("ClaimID");
+                    String claimType = rs.getString("ClaimType");
+                    String claimStatus = rs.getString("ClaimStatus");
+                    String reason = rs.getString("Reason");
+                    Date submittedAt = rs.getDate("SubmittedAt");
+                    Date processedAt = rs.getDate("ProcessedAt");
+
+                    Claim claim = new Claim(claimId, claimType, claimStatus, reason, submittedAt, processedAt, card, customer);
+                    claimList.add(claim);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL Error while executing query: " + GET_ALL_CLAIM);
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Unexpected Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return claimList; // Trả về danh sách yêu cầu bảo hiểm
+    }
 
     @Override
     public void updateInsuranceCardStatusByCardId(String newStatus, int cardID) {
@@ -225,10 +302,10 @@ public class CustomerForStaffService implements ICustomerForStaffService {
     }
 
     @Override
-    public void updateInsuranceRequestStatusByUserId(String newStatus, int userID) {
+    public void updateInsuranceRequestStatusByUserId(String newStatus, int claimID) {
         try ( PreparedStatement ps = connection.prepareStatement(UPDATE_INSURANCE_REQUEST_STATUS_BY_ID)) {
             ps.setString(1, newStatus); // Cập nhật trạng thái mới (ví dụ 'Pending', 'Approved', ...)
-            ps.setInt(2, userID); // Truyền vào userID
+            ps.setInt(2, claimID); // Truyền vào userID
             int rowsUpdated = ps.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("Claims status updated successfully.");
@@ -315,11 +392,12 @@ public class CustomerForStaffService implements ICustomerForStaffService {
                     User customer = new User(userId, fullName, email);
 
                     // Kiểm tra và thêm InsuranceCard
+                    int cardId = rs.getInt("CardID");
                     String cardNumber = rs.getString("CardNumber");
                     String status = rs.getString("Status");
 
                     if (cardNumber != null && status != null) {
-                        InsuranceCard card = new InsuranceCard(cardNumber, status);
+                        InsuranceCard card = new InsuranceCard(cardId, cardNumber, status);
                         customer.setInsuranceCard(card); // Gắn thẻ bảo hiểm vào User
                     }
 
@@ -407,12 +485,12 @@ public class CustomerForStaffService implements ICustomerForStaffService {
         ICustomerForStaffService dao = new CustomerForStaffService();
 
         // Gọi phương thức delete để xóa sản phẩm với ProductID = 1
-        System.out.println(dao.findCustomerInforById(2));
+//        System.out.println(dao.findCustomerInforById(2));
         // Kiểm tra lại sản phẩm sau khi xóa
-//        List<InsuranceCard> pList = (List<InsuranceCard>) dao.findAllCardRequest();
-//        for (InsuranceCard o : pList) {
-//            System.out.println(o);
-//        }
+        List<Claim> pList = (List<Claim>) dao.findAllClaim(7, 13);
+        for (Claim o : pList) {
+            System.out.println(o);
+        }
     }
 //    public static void main(String[] args) {
 //        // Khởi tạo ProductService (DAO)

@@ -97,7 +97,7 @@
                                                 </c:choose>
                                             </td>
                                             <td class="text-center">
-                                                <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=showFullCustomerInfo&CustomerId=${customer.userID}" class="btn btn-primary btn-sm">
+                                                <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=showFullCustomerInfo&CustomerId=${customer.userID}&CardId=${customer.insuranceCard.cardID}" class="btn btn-primary btn-sm">
                                                 <i class="bi bi-eye"></i>
                                                 </a>
                                             </td>

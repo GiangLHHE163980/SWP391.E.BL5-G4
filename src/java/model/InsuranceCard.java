@@ -54,6 +54,12 @@ public class InsuranceCard {
          this.cardNumber = cardNumber;
          this.status = status;
     }
+    
+      public InsuranceCard(int cardId, String cardNumber, String status) {
+        this.cardID = cardId;
+         this.cardNumber = cardNumber;
+         this.status = status;
+    }
 
     public InsuranceCard(int CardId, User user, InsuranceProduct product, String cardStatus, boolean isHandicapped) {
        this.cardID = CardId;
@@ -61,6 +67,13 @@ public class InsuranceCard {
        this.insuranceProduct = product;
        this.status = cardStatus;
        this.isHandicapped = isHandicapped;
+    }
+
+    public InsuranceCard(int cardIdResult, String cardNumber, String cardStatus, InsuranceProduct product) {
+        this.cardID = cardIdResult;
+        this.cardNumber = cardNumber;
+        this.status = cardStatus;
+        this.insuranceProduct = product;
     }
 
     public Boolean getIsHandicapped() {

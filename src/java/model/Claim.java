@@ -49,6 +49,17 @@ public class Claim {
         this.reason = reason;
     }
 
+    public Claim(int claimId, String claimType, String claimStatus, String reason, Date submittedAt, Date processedAt, InsuranceCard card, User customer) {
+        this.claimID = claimId;
+        this.claimType = claimType;
+        this.status = claimStatus;
+        this.reason = reason;
+        this.submittedAt = submittedAt;
+        this.processedAt = processedAt;
+        this.insuranceCard = card;
+        this.user = customer;
+    }
+
     public int getClaimID() {
         return claimID;
     }

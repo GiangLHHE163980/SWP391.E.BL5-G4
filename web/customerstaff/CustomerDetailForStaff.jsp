@@ -81,24 +81,24 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="customerName" class="form-label">Tên đầy đủ:</label>
-                                        <input type="text" class="form-control" id="customerName" value="${listCI.fullName}" readonly>
+                                        <input type="text" class="form-control" id="customerName" value="${listCl[0].user.fullName}" readonly>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="customerEmail" class="form-label">Email:</label>
-                                        <input type="text" class="form-control" id="customerEmail" value="${listCI.email}" readonly>
+                                        <input type="text" class="form-control" id="customerEmail" value="${listCl[0].user.email}" readonly>
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="insuranceCard" class="form-label">Số thẻ bảo hiểm:</label>
-                                        <input type="text" class="form-control" id="insuranceCard" value="${listCI.insuranceCard.cardNumber}" readonly>
+                                        <input type="text" class="form-control" id="insuranceCard" value="${listCl[0].insuranceCard.cardID}" readonly>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="cardStatus" class="form-label">Trạng thái thẻ:</label>
                                         <select class="form-select" id="cardStatus" name="cardStatus">
-                                            <option value="Active" ${listCI.insuranceCard.status == 'Active' ? 'selected' : ''}>Active</option>
-                                            <option value="Expired" ${listCI.insuranceCard.status == 'Expired' ? 'selected' : ''}>Expired</option>
-                                            <option value="Revoked" ${listCI.insuranceCard.status == 'Revoked' ? 'selected' : ''}>Revoked</option>
+                                            <option value="Active" >Active</option>
+                                            <option value="Expired" >Expired</option>
+                                            <option value="Revoked" >Revoked</option>
                                         </select>
 
 
@@ -108,54 +108,54 @@
                                 <button type="submit" class="btn btn-primary">Cập nhật trạng thái</button>
                             </form>
                         </div>
-                    </div>
+                        <!--</div>-->
 
-                    <!-- Insurance Requests -->
-                    <div class="card mb-4">
-                        <div class="card-header">Yêu cầu bảo hiểm</div>
-                        <div class="card-body">
-                            <table class="table table-striped table-bordered table-sm text-center align-middle">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Tên Sản phẩm</th>
-                                        <th>Lý do</th>
-                                        <th>Trạng thái</th>
-                                        <th>Hành Động</th>
-                                    </tr>
-                                </thead>
-                                <c:if test="${not empty listCI.claims}">
-                                    <tbody>
-                                        <c:forEach var="claim" items="${listCI.claims}">
-                                            <tr>
-                                                <td>${claim.claimID}</td>
-                                                <td>${listCI.insuranceProduct.productName}</td>
-                                                <td>${claim.reason}</td>
-                                                <td>${claim.status}</td>
-                                                <td>
-                                                    <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=updateInsuranceRequestStatus&userID=${listCI.userID}&claimStatus=Approve" class="btn btn-success btn-sm">Approve</a>
+                        <!-- Insurance Requests -->
+                        <div class="card mb-4">
+                            <div class="card-header">Yêu cầu bảo hiểm</div>
+                            <div class="card-body">
+                                <table class="table table-striped table-bordered table-sm text-center align-middle">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Tên Sản phẩm</th>
+                                            <th>Lý do</th>
+                                            <th>Trạng thái</th>
+                                            <th>Hành Động</th>
+                                        </tr>
+                                    </thead>
+                                    <c:if test="${not empty listCl}">
+                                        <tbody>
+                                            <c:forEach var="claim" items="${listCl}">
+                                                <tr>
+                                                    <td>${claim.claimID}</td>
+                                                    <td>${claim.insuranceCard.insuranceProduct.productName}</td>
+                                                    <td>${claim.reason}</td>
+                                                    <td>${claim.status}</td>
+                                                    <td>
+                                                        <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=updateInsuranceRequestStatus&claimID=${claim.claimID}&claimStatus=Approve&CustomerId=${claim.user.userID}&CardId=${claim.insuranceCard.cardID}" class="btn btn-success btn-sm">Approve</a>
+                                                        <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=updateInsuranceRequestStatus&claimID=${claim.claimID}&claimStatus=Reject&CustomerId=${claim.user.userID}&CardId=${claim.insuranceCard.cardID}" class="btn btn-danger btn-sm">Reject</a>
+                                                    </td>
 
-                                                    <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=updateInsuranceRequestStatus&userID=${listCI.userID}&claimStatus=Reject" class="btn btn-danger btn-sm">Reject</a>
-
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </c:if>
-
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </c:if>
 
 
-                            </table>
+
+
+                                </table>
+                            </div>
                         </div>
+
+
                     </div>
-
-
                 </div>
             </div>
-        </div>
 
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+            <!-- Bootstrap JS -->
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
     </body>
 </html>
