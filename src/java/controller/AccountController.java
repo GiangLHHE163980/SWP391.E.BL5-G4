@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import service.account.AccountService;
 import service.account.IAccountService;
 import model.User;
@@ -122,14 +123,21 @@ public class AccountController extends HttpServlet {
         try {
             // Gọi AccountService để kiểm tra đăng nhập
             User user = accountService.login(username, password);
-
+            
             if (user != null) {
                 // Kiểm tra trạng thái tài khoản
                 if (user.getIsActive()) {
                     // Đăng nhập thành công, lưu thông tin vào session
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-                    response.sendRedirect(request.getContextPath()+"/homepage");  // Chuyển hướng đến trang chính
+                    // Lấy danh sách vai trò của người dùng
+                    List<String> roles = accountService.getUserRoles(user.getUserID());
+                    
+                    if (roles.contains("Staff")) {
+                        response.sendRedirect(request.getContextPath() + "/HomePageForStaffController?action=homepageForStaff");
+                    }else{
+                        response.sendRedirect(request.getContextPath()+"/homepage");
+                    }  // Chuyển hướng đến trang chính
                 } else{
                     // Tài khoản bị ban, thông báo cho người dùng
                     request.setAttribute("error", "Tài khoản của bạn đã bị ban.");

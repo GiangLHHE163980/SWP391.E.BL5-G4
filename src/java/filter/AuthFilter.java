@@ -101,7 +101,7 @@ public class AuthFilter implements Filter {
                     || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showAllCardRequest")
                     || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=showAllCustomer")
                     || uri.contains("CustomerForStaffController") && queryString != null && queryString.contains("action=updateCardStatusByCardId")) {
-                if (roles.contains("Staff") || roles.contains("Admin")) {
+                if (roles.contains("Staff")) {
                     chain.doFilter(request, response); // Cho phép quyền truy cập
                 } else {
                     res.sendRedirect("403");
@@ -117,7 +117,8 @@ public class AuthFilter implements Filter {
                     || uri.contains("RenewCardController")
                     || uri.contains("requestInsuranceController")
                     || uri.contains("insuranceCards")
-                    || uri.contains("UpdateUserInfoController")) {
+                    || uri.contains("UpdateUserInfoController")
+                    || uri.contains("CustomerDashboardController")) {
                 chain.doFilter(request, response);
             }
         } else {
