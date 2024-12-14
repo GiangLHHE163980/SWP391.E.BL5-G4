@@ -75,7 +75,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Chi tiết sản phẩm</h1>
+        <h1>Chi tiết thẻ</h1>
         <div class="row">
             <!-- Thông tin sản phẩm -->
             <div class="col-md-6">

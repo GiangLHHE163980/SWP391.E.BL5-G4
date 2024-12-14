@@ -25,7 +25,7 @@
             
             /* Form styles */
             form {
-                transform: scale(1.2);
+                transform: scale(1.6);
                 background: white;
                 padding: 20px;
                 border-radius: 10px;
