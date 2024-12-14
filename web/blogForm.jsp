@@ -87,10 +87,9 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Cập nhật Blog</button>
+                <button type="submit" class="btn btn-primary mt-2">Cập nhật Blog</button>
             </form>
-
-            <a href="BlogManageController?action=viewDetail&id=${blog.blogId}" class="btn btn-secondary mt-3">Hủy bỏ</a>
+            <a href="BlogManageController" class="btn btn-secondary mt-2">Hủy bỏ</a>
         </div>
          <%@ include file="footer.jsp" %>
         <script>

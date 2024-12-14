@@ -36,7 +36,7 @@
         <!-- Header -->
         <%@ include file="header.jsp" %>
         <div class="container content">
-            <h2>Quản lý Blog</h2>
+            <h2>Quản lý Blogs</h2>
             <a href="BlogManageController?action=add" class="btn btn-primary">Thêm mới Blog</a>
             <table id="blogTable" class="table table-striped table-bordered">
                 <thead>

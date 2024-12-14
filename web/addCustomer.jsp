@@ -127,7 +127,7 @@
 
                 <div class="row mb-3 text-center">
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-success">Thêm mới</button>
+                        <button type="submit" class="btn btn-primary">Thêm mới</button>
                         <a href="manage-customer" class="btn btn-secondary">Hủy</a>
                     </div>
                 </div>

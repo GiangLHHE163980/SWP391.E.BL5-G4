@@ -54,7 +54,7 @@
                 </div>
             </form>
 
-            <a href="manage-customer?action=add" class="btn btn-success mb-3">Thêm mới</a>
+            <a href="manage-customer?action=add" class="btn btn-primary mb-3">Thêm mới</a>
 
             <!-- Bảng danh sách khách hàng -->
             <c:if test="${empty users}">

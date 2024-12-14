@@ -82,7 +82,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Thêm mới Blog</button>
+            <button type="submit" class="btn btn-primary mt-3">Thêm mới Blog</button>
         </form>
 
         <a href="BlogManageController" class="btn btn-secondary mt-3">Hủy bỏ</a>

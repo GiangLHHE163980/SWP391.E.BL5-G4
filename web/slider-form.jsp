@@ -85,7 +85,7 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-success">Cập nhật</button>
+            <button type="submit" class="btn btn-primary mt-3">Cập nhật</button>
         </form>
     </div>
     <%@ include file="footer.jsp" %>
