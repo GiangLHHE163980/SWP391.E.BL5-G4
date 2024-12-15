@@ -198,9 +198,9 @@ public class AccountController extends HttpServlet {
         return;
     }
     // Kiểm tra mật khẩu có hợp lệ không
-//    if (!validatePassword(password, request, response, "/account/register.jsp")) {
-//        return;
-//    }
+    if (!validatePassword(password, request, response, "/account/register.jsp")) {
+        return;
+    }
     
     // Kiểm tra mật khẩu khớp
     if (!password.equals(confirmPassword)) {
@@ -256,9 +256,9 @@ public class AccountController extends HttpServlet {
         String confirmPassword = request.getParameter("confirmPassword");
         
         // Kiểm tra mật khẩu có hợp lệ không
-//        if (!validatePassword(newPassword, request, response, "/account/confirmChangePassword.jsp")) {
-//            return;
-//        }
+        if (!validatePassword(newPassword, request, response, "/account/confirmChangePassword.jsp")) {
+            return;
+        }
         //Kiểm tra mật khẩu khớp
         if (newPassword.equals(confirmPassword)) {
             try {
