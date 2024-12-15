@@ -46,6 +46,9 @@
                                     <c:when test="${claim.status == 'Approved'}">
                                         <span class="text-success fw-bold">Đã Duyệt</span>
                                     </c:when>
+                                    <c:when test="${claim.status == 'Approve'}">
+                                        <span class="text-success fw-bold">Đã Duyệt</span>
+                                    </c:when>
                                     <c:when test="${claim.status == 'Pending'}">
                                         <span class="text-warning fw-bold">Đang Xử Lý</span>
                                     </c:when>

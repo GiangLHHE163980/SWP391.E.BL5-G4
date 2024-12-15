@@ -15,7 +15,9 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
     </head>
     <body>
+        
         <div class="wrapper d-flex">
+            
             <!-- Sidebar -->
             <nav class="sidebar bg-dark">
                 <div class="sidebar-header text-center text-white py-4">

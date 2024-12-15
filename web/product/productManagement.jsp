@@ -63,7 +63,7 @@
                         </div>
 
                     </div>
-                    <div class="dropdown profile-dropdown">
+<!--                    <div class="dropdown profile-dropdown">
                         <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="https://via.placeholder.com/40" alt="Profile Picture">
                             <span class="ms-2">Hi, Hizria</span>
@@ -76,7 +76,7 @@
                             <li><a class="dropdown-item" href="#">Account Settings</a></li>
                             <li><a class="dropdown-item" href="#">Logout</a></li>
                         </ul>
-                    </div>
+                    </div>-->
                 </div>
 
                 <!-- Breadcrumb -->

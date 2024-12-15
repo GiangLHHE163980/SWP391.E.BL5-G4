@@ -15,52 +15,59 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
 </head>
 <body>
-    
-    <div class="wrapper d-flex">
-        <!-- Sidebar -->
-        <nav class="sidebar bg-dark">
-            <div class="sidebar-header text-center text-white py-4">
-                <h4><span style="color: #FF69B4;">Giang</span>Staff</h4>
-            </div>
-            <ul class="list-unstyled px-2">
-                <li><a href="#" class="text-white d-block py-2 px-3"><i class="fas fa-home me-2"></i> Bảng điều khiển</a></li>
-                <li>
-                    <a href="CustomerForStaffController?action=showAllCustomer" class="text-white d-block py-2 px-3">
-                        <i class="fas fa-users me-2"></i> Quản lý Khách hàng
-                    </a>
-                </li>
-                <li>
-                    <a href="CustomerForStaffController?action=showAllCardRequest" class="text-white d-block py-2 px-3">
-                        <i class="fas fa-tasks me-2"></i> Xử lý Yêu cầu
-                    </a>
-                </li>
-                <li>
-                    <a href="ProductController?action=showFullProduct" class="text-white d-block py-2 px-3">
-                        <i class="fas fa-box me-2"></i> Quản lý Sản phẩm
-                    </a>
-                </li>
-            </ul>
-        </nav>
+    <div>
+          <!-- Header -->
+        <%@ include file="header.jsp" %>
+    </div>
+    <div class="wrapper d-flex flex-nowrap vh-100">
+    <!-- Sidebar -->
+    <nav class="sidebar bg-dark flex-shrink-0" style="width: 250px;">
+        <div class="sidebar-header text-center text-white py-4">
+            <h4 class="m-0"><span style="color: #FF69B4;">Giang</span>Staff</h4>
+        </div>
+        <ul class="list-unstyled px-2">
+            <li>
+                <a href="#" class="text-white d-block py-2 px-3">
+                    <i class="fas fa-home me-2"></i> Bảng điều khiển
+                </a>
+            </li>
+            <li>
+                <a href="CustomerForStaffController?action=showAllCustomer" class="text-white d-block py-2 px-3">
+                    <i class="fas fa-users me-2"></i> Quản lý Khách hàng
+                </a>
+            </li>
+            <li>
+                <a href="CustomerForStaffController?action=showAllCardRequest" class="text-white d-block py-2 px-3">
+                    <i class="fas fa-tasks me-2"></i> Xử lý Yêu cầu
+                </a>
+            </li>
+            <li>
+                <a href="ProductController?action=showFullProduct" class="text-white d-block py-2 px-3">
+                    <i class="fas fa-box me-2"></i> Quản lý Sản phẩm
+                </a>
+            </li>
+        </ul>
+    </nav>
 
-        <!-- Main Content -->
-        <div class="main-content flex-grow-1 bg-light">
-            <!-- Header -->
-            <%@ include file="headerForStaff.jsp" %>
+    <!-- Main Content -->
+    <div class="main-content flex-grow-1 bg-light px-4 pt-4" style="padding-bottom: 2rem;">
+       
 
-            <!-- Breadcrumb -->
-            <div class="breadcrumb-container px-3 py-2">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="#">Bảng Điều khiển</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Trang chủ</li>
-                    </ol>
-                </nav>
-            </div>
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-container py-2 px-3 bg-white rounded shadow-sm mb-4">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="#">Bảng Điều khiển</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Trang chủ</li>
+                </ol>
+            </nav>
+        </div>
 
-            <!-- Overview Section -->
-            <div class="row px-3 my-4">
-                <div class="col-md-4">
-                    <div class="card text-white bg-primary mb-3">
+        <!-- Overview Section -->
+        <div class="container-fluid">
+            <div class="row row-cols-1 row-cols-md-3 g-3">
+                <div class="col">
+                    <div class="card text-white bg-primary h-100">
                         <div class="card-body">
                             <h5 class="card-title">Khách hàng</h5>
                             <p class="card-text">Tổng số: <strong>${customerCount}</strong></p>
@@ -68,8 +75,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card text-white bg-success mb-3">
+                <div class="col">
+                    <div class="card text-white bg-success h-100">
                         <div class="card-body">
                             <h5 class="card-title">Yêu cầu bảo hiểm</h5>
                             <p class="card-text">Chờ xử lý: <strong>${RequestCount}</strong></p>
@@ -77,8 +84,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card text-white bg-warning mb-3">
+                <div class="col">
+                    <div class="card text-white bg-warning h-100">
                         <div class="card-body">
                             <h5 class="card-title">Sản phẩm bảo hiểm</h5>
                             <p class="card-text">Tổng số: <strong>${InsuranceCardCount}</strong></p>
@@ -89,8 +96,11 @@
             </div>
         </div>
     </div>
+</div>
+
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
