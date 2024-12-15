@@ -8,10 +8,6 @@
         <nav class="sidebar-nav">
             <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center" href="dashboard">
-                        <i class="me-3 bi bi-speedometer2"></i>
-                        <span>Bảng điều khiển</span>
-                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center" href="profileAdmin">
