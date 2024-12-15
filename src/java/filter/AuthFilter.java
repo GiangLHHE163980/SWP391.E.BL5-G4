@@ -122,7 +122,11 @@ public class AuthFilter implements Filter {
                     || uri.contains("UpdateUserInfoController")
                     || uri.contains("CustomerDashboardController")
                     || uri.contains("ConfirmInsuranceController")) {
-                chain.doFilter(request, response);
+                if (roles.contains("Customer")) {
+                    chain.doFilter(request, response); // Cho phép quyền truy cập
+                }else {
+                    res.sendRedirect("403");
+                }
             }
         } else {
             res.sendRedirect("account/login"); // Chuyển hướng đến trang đăng nhập

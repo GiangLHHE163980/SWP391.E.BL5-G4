@@ -14,13 +14,13 @@
         <link rel="stylesheet" href="../css/style.css"/>
          <style>
             body {
-                margin: 0;
+                margin: 100px;
                 font-family: Arial, sans-serif;
                 background-color: #ffffff;
             }
             /* Centering form */
             .login-container {
-                transform: scale(1.9);
+                
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -29,6 +29,7 @@
 
             /* Login Form */
             .login-form {
+                transform: scale(1.4);
                 background-color: white;
                 padding: 30px 40px;
                 width: 350px;
@@ -113,40 +114,37 @@
     </head>
     <body>
         <%@ include file="../header.jsp" %>
-        <!-- Login Form -->
         <div class="login-container">
-             <form class="login-form" method="POST" action="login">
-                 <c:if test="${not empty message}">
+        <form class="login-form" method="POST" action="login">
+            <c:if test="${not empty message}">
                 <div class="message" style="color:green;">
                     ${message}
                 </div>
             </c:if>
-        <h2>Đăng nhập</h2>
-        <div class="form-group">
-            <input type="text" name="username" placeholder="Tên tài khoản" required>
-        </div>
-        <div class="form-group">
-            <input type="password" name="password" placeholder="Mật khẩu" required>
-        </div>
-        <div class="form-group">
-            <a href="forgetPassword">Quên mật khẩu</a>
-        </div>
-
-        <!-- Hiển thị thông báo lỗi nếu có -->
-        <div class="form-group">
-            <c:if test="${not empty error}">
-                <div class="error-message" style="color:red;">
-                    ${error}
-                </div>
-            </c:if>
-        </div>
-
-        <div class="form-actions">
-            <button type="submit" class="btn-login">Đăng nhập</button>
-            <button type="button" class="btn-register" onclick="window.location.href='register'">Đăng ký</button>
-        </div>
-    </form>
-        </div>
+            <h2>Đăng nhập</h2>
+            <div class="form-group">
+                <input type="text" name="username" placeholder="Tên tài khoản" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Mật khẩu" required>
+            </div>
+            <div class="form-group">
+                <a href="forgetPassword">Quên mật khẩu</a>
+            </div>
+            <!-- Hiển thị thông báo lỗi nếu có -->
+            <div class="form-group">
+                <c:if test="${not empty error}">
+                    <div class="error-message" style="color:red;">
+                        ${error}
+                    </div>
+                </c:if>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-login">Đăng nhập</button>
+                <button type="button" class="btn-register" onclick="window.location.href='register'">Đăng ký</button>
+            </div>
+        </form>
+    </div>
         <!-- Footer -->
     <%@ include file="../footer.jsp" %>
     </body>

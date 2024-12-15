@@ -9,8 +9,8 @@ import="java.util.List" %> <%@ page import="service.account.AccountService" %>
 />
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
   <div class="container-fluid">
-    <a class="navbar-brand" href="homepage"
-      ><img src="image/logo-removebg-preview1.png" alt="alt" style="width: 80px; height: auto;" />
+    <a class="navbar-brand" href="${pageContext.request.contextPath}/homepage"
+      ><img src="${pageContext.request.contextPath}/image/logo-removebg-preview1.png" alt="alt" style="width: 80px; height: auto;" />
 </a>
     <button
       class="navbar-toggler"
@@ -27,15 +27,24 @@ import="java.util.List" %> <%@ page import="service.account.AccountService" %>
       <ul class="navbar-nav ms-auto">
         <% if (session != null && session.getAttribute("user") != null) { User
         user = (User) session.getAttribute("user"); %>
+         <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/blog">Bản tin</a>
+        </li>
+         <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/ProductController?action=showAllProduct">Sản phẩm</a>
+        </li>
         <li class="nav-item">
-          <a class="nav-link" href="account/logout">Đăng xuất</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/CustomerDashboardController">Tổng quan cá nhân</a>
         </li>
         <li class="nav-item">
           <span class="nav-link">Hi, <%= user.getUsername() %></span>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="${pageContext.request.contextPath}/account/logout">Đăng xuất</a>
+        </li>
         <% } else { %>
         <li class="nav-item">
-          <a class="nav-link" href="account/login">Đăng nhập</a>
+          <a class="nav-link" href="${pageContext.request.contextPath}/account/login">Đăng nhập</a>
         </li>
         <% } %>
       </ul>
