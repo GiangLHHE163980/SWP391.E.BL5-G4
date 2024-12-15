@@ -51,6 +51,9 @@
                                     <c:when test="${card.status == 'Pending Renew'}">
                                         <span class="text-warning fw-bold">Chờ Gia Hạn</span>
                                     </c:when>
+                                    <c:when test="${card.status == 'Rejected'}">
+                                        <span class="text-warning fw-bold">Bị từ chối</span>
+                                    </c:when>
                                     <c:otherwise>
                                         <span class="text-danger fw-bold">Hết Hạn</span>
                                     </c:otherwise>

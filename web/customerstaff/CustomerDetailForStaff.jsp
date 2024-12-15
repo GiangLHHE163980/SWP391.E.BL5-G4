@@ -48,7 +48,7 @@
                     <div class="d-flex align-items-center">
                         <h4 class="mb-0">Xem thông tin Khách hàng</h4>
                     </div>
-                    <div class="dropdown profile-dropdown">
+<!--                    <div class="dropdown profile-dropdown">
                         <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="https://via.placeholder.com/40" alt="Profile Picture">
                             <span class="ms-2">Hi, Giang</span>
@@ -57,7 +57,7 @@
                             <li><a class="dropdown-item" href="#">My Profile</a></li>
                             <li><a class="dropdown-item" href="#">Logout</a></li>
                         </ul>
-                    </div>
+                    </div>-->
                 </div>
 
                 <!-- Breadcrumb -->
