@@ -11,6 +11,9 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     </head>
     <body>
+        <%-- Kiểm tra nếu có lỗi được truyền từ servlet --%>
+        <% String errorMessage = (String) request.getAttribute("error"); %>
+        <% if (errorMessage == null) { errorMessage = request.getParameter("error"); } %>
         <%@ include file="header.jsp" %>
         <div class="container mt-4">
             <!-- Header -->
@@ -81,7 +84,7 @@
                                 </div>
                             </div>
                             <div class="card p-4 mt-4">
-                                
+
                                 <p>Người tham gia bảo hiểm có thuộc một trong các trường hợp dưới đây không?</p>
                                 <ol>
                                     <li>Người có tiền sử hoặc đang bị bệnh tâm thần, thần kinh, bệnh phong.</li>
@@ -95,7 +98,7 @@
                                     <input class="form-check-input" type="radio" name="isHandicapped" id="optionNo" value="no" required>
                                     <label class="form-check-label" for="optionNo">Không</label>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>

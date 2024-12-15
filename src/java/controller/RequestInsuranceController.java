@@ -109,6 +109,19 @@ public class RequestInsuranceController extends HttpServlet {
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
 
+        // Validate phone and idCard
+    if (!validateTenDigitNumber(phone)) {
+        request.setAttribute("error", "Số điện thoại phải là 10 chữ số.");
+        
+        response.sendRedirect("/SWP391_E_BL5_G4/requestInsuranceController?&productID="+productId);
+        return;
+    }
+    if (!validateTenDigitNumberID(idCard)) {
+        request.setAttribute("error", "CMND/CCCD phải là 10 chữ số.");
+        
+        response.sendRedirect("/SWP391_E_BL5_G4/requestInsuranceController?&productID="+productId);
+         return;
+    }
         try {
             // Retrieve product details for confirmation (if needed)
             Connection conn = DBContext.getConnection();
@@ -154,4 +167,14 @@ public class RequestInsuranceController extends HttpServlet {
             response.getWriter().println("<p>Error processing request: " + e.getMessage() + "</p>");
         }
     }
+    private boolean validateTenDigitNumber(String number) {
+    // Biểu thức regex để kiểm tra chuỗi chứa đúng 10 ký tự số
+    String regex = "^\\d{10}$";
+    return number != null && number.matches(regex);
+}
+    private boolean validateTenDigitNumberID(int number) {
+    // Biểu thức regex để kiểm tra chuỗi chứa đúng 10 ký tự số
+    String regex = "^\\d{10}$";
+     return number >= 1000000000 && number <= 9999999999L;
+}
 }
