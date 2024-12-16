@@ -74,6 +74,7 @@
     </style>
 </head>
 <body>
+    
     <div class="container">
         <h1>Chi tiết thẻ</h1>
         <div class="row">

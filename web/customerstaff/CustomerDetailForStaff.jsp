@@ -13,54 +13,22 @@
         <!-- Custom CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
-        <style>
-            html, body {
-                height: 100%;
-                margin: 0;
-            }
-
-            .wrapper {
-                display: flex;
-                height: 100%;
-                overflow: hidden;
-            }
-
-            nav {
-                width: 250px;
-                height: 100vh; /* Full screen height for sidebar */
-                position: fixed;
-                top: 0;
-                left: 0;
-                bottom: 0;
-            }
-
-            .main-content {
-                margin-left: 250px; /* Offset for the sidebar */
-                flex-grow: 1;
-                height: 100vh;
-                overflow-y: auto; /* Allow scrolling if content is long */
-            }
-
-            .header {
-                height: 80px; /* Adjust header height */
-            }
-
-            .breadcrumb-container {
-                background-color: #f8f9fa;
-                padding: 15px;
-            }
-        </style>
     </head>
     <body>
-        <div class="wrapper d-flex">
+        <header>
+            <%@ include file="../header.jsp" %>
+        </header>
+
+        <!-- Main Wrapper -->
+        <div class="d-flex flex-fill">
             <!-- Sidebar -->
-            <nav class="bg-dark text-white flex-shrink-0" style="width: 250px;">
+            <nav class="bg-dark text-white flex-shrink-0 p-3" style="width: 250px; height: 100vh;">
                 <div class="text-center py-4">
                     <h4 class="m-0">
                         <span class="text-danger">Giang</span>Staff
                     </h4>
                 </div>
-                <ul class="nav flex-column px-3">
+                <ul class="nav flex-column">
                     <li class="nav-item">
                         <a href="#" class="nav-link text-white">
                             <i class="fas fa-home me-2"></i>Bảng điều khiển
@@ -85,15 +53,11 @@
             </nav>
 
             <!-- Main Content -->
-            <div class="main-content flex-grow-1 bg-light">
+            <div class="flex-grow-1">
                 <!-- Header -->
                 <div class="header bg-white d-flex justify-content-between align-items-center p-3 border-bottom">
-                    <div class="d-flex align-items-center">
-                        <h4 class="mb-0">Xem thông tin Khách hàng</h4>
-                    </div>
+                    <h4 class="mb-0">Xem thông tin Khách hàng</h4>
                 </div>
-
-              
 
                 <!-- Customer Information -->
                 <div class="container mt-4">
@@ -137,7 +101,7 @@
                         <div class="card-header">Yêu cầu bảo hiểm</div>
                         <div class="card-body">
                             <table class="table table-striped table-bordered table-sm text-center align-middle">
-                                <thead class="thead-dark">
+                                <thead>
                                     <tr>
                                         <th>ID</th>
                                         <th>Tên Sản phẩm</th>

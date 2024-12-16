@@ -15,6 +15,9 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
     </head>
     <body>
+         <header>
+            <%@ include file="../header.jsp" %>
+        </header>
         <div class="wrapper d-flex">
             <!-- Sidebar -->
            <nav class="bg-dark text-white flex-shrink-0" style="width: 250px;">

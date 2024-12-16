@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,46 +13,24 @@
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-        <!-- Custom CSS -->
+        <!-- Bootstrap Icons -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-        <style>
-            html, body {
-                height: 100%;
-                margin: 0;
-            }
-            .wrapper {
-                display: flex;
-                height: 100vh;
-                overflow: hidden;
-            }
-            .sidebar {
-                width: 250px;
-                height: 100%;
-                position: fixed;
-                top: 0;
-                left: 0;
-                bottom: 0;
-                z-index: 1000;
-            }
-            .main-content {
-                margin-left: 250px;
-                padding: 15px;
-                flex-grow: 1;
-                height: 100%;
-                overflow-y: auto;
-            }
-        </style>
     </head>
-    <body>
-        <div class="wrapper">
+    <body class="d-flex flex-column" style="height: 100vh;">
+
+        <header>
+            <%@ include file="../header.jsp" %>
+        </header>
+
+        <div class="d-flex flex-fill">
             <!-- Sidebar -->
-            <nav class="sidebar bg-dark text-white">
+            <nav class="sidebar bg-dark text-white p-3" style="width: 250px; height: 100vh;">
                 <div class="text-center py-4">
                     <h4 class="m-0">
                         <span class="text-danger">Giang</span>Staff
                     </h4>
                 </div>
-                <ul class="nav flex-column px-3">
+                <ul class="nav flex-column">
                     <li class="nav-item">
                         <a href="HomePageForStaffController?action=homepageForStaff" class="nav-link text-white">
                             <i class="fas fa-home me-2"></i>Bảng điều khiển
@@ -63,7 +41,6 @@
                             <i class="fas fa-users me-2"></i>Quản lý Khách hàng
                         </a>
                     </li>
-                 
                     <li class="nav-item">
                         <a href="ProductController?action=showFullProduct" class="nav-link text-white">
                             <i class="fas fa-box me-2"></i>Quản lý Sản phẩm
@@ -73,10 +50,10 @@
             </nav>
 
             <!-- Main Content -->
-            <div class="main-content bg-light">
+            <div class="main-content flex-fill bg-light">
                 <!-- Header -->
-                <div class="d-flex justify-content-between align-items-center p-3 border-bottom bg-white">
-                    <h4 class="mb-0">Staff</h4>
+                <div class="d-flex justify-content-between align-items-center p-3 border-bottom bg-white shadow-sm">
+                    <h4 class="mb-0 text-dark">Quản lý Yêu cầu thẻ</h4>
                     <form action="ProductController" method="get" class="d-flex">
                         <input type="hidden" name="action" value="showFullProduct">
                         <input type="text" class="form-control" name="search" placeholder="Tìm kiếm ..." value="${search}">
@@ -172,5 +149,6 @@
                 $('#datatable').DataTable();
             });
         </script>
+
     </body>
 </html>

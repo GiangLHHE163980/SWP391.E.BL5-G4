@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +19,9 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
     </head>
   <body>
+       <header>
+        <%@ include file="../header.jsp" %>
+    </header>
         <div class="container-fluid p-0">
             <div class="row g-0">
                 <!-- Sidebar -->
@@ -47,7 +50,8 @@
                       
                     </ul>
                 </nav>
-
+                <!-- Header -->
+   
                 <!-- Main Content -->
                 <main class="col bg-light">
                     <!-- Header -->
