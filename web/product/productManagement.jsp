@@ -142,10 +142,10 @@
         <script>
             $(document).ready(function () {
                 $('#datatable').DataTable({
-                    paging: false,
-                    searching: false,
-                    info: false,
-                    lengthChange: false
+                    paging: true,
+                    searching: true,
+                    info: true,
+                    lengthChange: true
                 });
             });
         </script>

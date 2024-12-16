@@ -119,13 +119,14 @@
                                         </td>
                                         <td>${request.status}</td>
                                         <td>
-                                            <a href="#" class="btn btn-primary btn-sm">
+                                          <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=showFullRequestCardInfo&request_id=${request.cardID}" 
+                                               class="btn btn-primary btn-sm" title="Xem chi tiết">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <a href="#" class="btn btn-warning btn-sm">
-                                                <i class="bi bi-check"></i>
+                                            <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=updateCardStatusByCardId&request_id=${request.cardID}&cardStatus=Active" class="btn btn-warning btn-sm" title="Đồng ý">
+                                                <i class="bi bi-check" style="color: green;"></i>
                                             </a>
-                                            <a href="#" class="btn btn-danger btn-sm">
+                                            <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=updateCardStatusByCardId&request_id=${request.cardID}&cardStatus=Rejected" class="btn btn-danger btn-sm" title="loại bỏ">
                                                 <i class="bi bi-x-circle-fill"></i>
                                             </a>
                                         </td>
@@ -146,7 +147,12 @@
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
         <script>
             $(document).ready(function () {
-                $('#datatable').DataTable();
+                $('#datatable').DataTable({
+                    paging: true,
+                    searching: true,
+                    info: true,
+                    lengthChange: true
+                });
             });
         </script>
 

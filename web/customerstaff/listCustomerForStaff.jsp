@@ -8,9 +8,11 @@
         <title>Danh sách khách hàng</title>
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Datatables CSS -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-        <!-- Custom CSS -->
+        <!-- Bootstrap Icons -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     </head>
     <body>
@@ -31,7 +33,6 @@
                             <i class="fas fa-home me-2"></i>Bảng điều khiển
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a href="CustomerForStaffController?action=showAllCardRequest" class="nav-link text-white">
                             <i class="fas fa-tasks me-2"></i>Xử lý Yêu cầu
@@ -70,7 +71,7 @@
                             Danh sách khách hàng
                         </div>
                         <div class="card-body">
-                            <table class="table table-hover table-bordered text-center">
+                            <table id="datatable" class="table table-striped table-bordered table-sm align-middle text-center">
                                 <thead class="table-dark">
                                     <tr>
                                         <th>ID</th>
@@ -108,7 +109,7 @@
                                                 </c:choose>
                                             </td>
                                             <td>
-                                                <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=showFullCustomerInfo&CustomerId=${customer.userID}&CardId=${customer.insuranceCard.cardID}" class="btn btn-primary btn-sm">
+                                                <a href="${pageContext.request.contextPath}/CustomerForStaffController?action=showFullCustomerInfo&CustomerId=${customer.userID}&CardId=${customer.insuranceCard.cardID}" class="btn btn-primary btn-sm" title="Xem chi tiết">
                                                     <i class="bi bi-eye"></i>
                                                 </a>
                                             </td>
@@ -125,5 +126,19 @@
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <!-- Datatables JS -->
+        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#datatable').DataTable({
+                    paging: true,
+                    searching: true,
+                    info: true,
+                    lengthChange: true
+                });
+            });
+        </script>
     </body>
 </html>
