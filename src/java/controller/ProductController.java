@@ -85,68 +85,18 @@ public class ProductController extends HttpServlet {
     }
 
     private void editProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    try {
+        // Lấy productId từ request và validate
+        int productId;
         try {
-            // Lấy productId từ request
-            int productId = Integer.parseInt(request.getParameter("productId"));
-            System.out.println("Editing product with ID: " + productId);
-
-            // Lấy các tham số khác từ request
-            String company_name = request.getParameter("provider");
-            String address = request.getParameter("address");
-            String contact_info = request.getParameter("contactInfo");
-            String product_name = request.getParameter("productName");
-            String insurance_type = request.getParameter("insuranceType");
-            String description = request.getParameter("benefits");
-            String conditions = request.getParameter("conditions");
-            String price = request.getParameter("cost");
-            int company_id = Integer.parseInt(request.getParameter("companyID"));
-
-            // Chuyển đổi giá thành BigDecimal
-            BigDecimal cost = null;
-            if (price != null && !price.isEmpty()) {
-                try {
-                    cost = new BigDecimal(price);
-                    System.out.println("Giá trị Cost: " + cost);
-                } catch (NumberFormatException e) {
-                    System.out.println("Lỗi: Giá trị không hợp lệ để chuyển đổi sang BigDecimal.");
-                }
-            } else {
-                System.out.println("Tham số 'price' không tồn tại hoặc bị rỗng.");
-            }
-
-            // Tạo dữ liệu công ty bảo hiểm
-            InsuranceCompany company = new InsuranceCompany();
-            company.setCompanyName(company_name);
-            company.setAddress(address);
-            company.setContactInfo(contact_info);
-
-            // Tạo dữ liệu sản phẩm bảo hiểm
-            InsuranceProduct product = new InsuranceProduct();
-            product.setCompanyID(company_id);
-            product.setProductName(product_name);
-            product.setInsuranceType(insurance_type);
-            product.setCost(cost);
-            product.setDescription(description);
-            product.setConditions(conditions);
-
-            // Cập nhật dữ liệu vào database
-            productService.editCompanyAndProduct(productId, company, product);
-
-            // Redirect sau khi cập nhật thành công
-            response.sendRedirect("ProductController?action=showFullProduct");
+            productId = Integer.parseInt(request.getParameter("productId"));
         } catch (NumberFormatException e) {
-            System.out.println("Invalid Product ID: " + request.getParameter("productId"));
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Product ID");
+            return;
         }
-    }
+        System.out.println("Editing product with ID: " + productId);
 
-    private void showAddPage(HttpServletRequest request, HttpServletResponse response) {
-        getRequestDispatch(request, response, "product/addProduct.jsp");
-    }
-
-    // add new product with company
-    private void addProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+        // Lấy các tham số khác từ request và validate
         String company_name = request.getParameter("provider");
         String address = request.getParameter("address");
         String contact_info = request.getParameter("contactInfo");
@@ -154,41 +104,176 @@ public class ProductController extends HttpServlet {
         String insurance_type = request.getParameter("insuranceType");
         String description = request.getParameter("benefits");
         String conditions = request.getParameter("conditions");
-        String price = request.getParameter("cost"); // Lấy chuỗi từ request
-        BigDecimal cost = null;
-        // convert String to BigDecimal
-        if (price != null && !price.isEmpty()) {
-            try {
-                cost = new BigDecimal(price); // Chuyển từ String sang BigDecimal
-                System.out.println("Giá trị Cost: " + cost);
-            } catch (NumberFormatException e) {
-                System.out.println("Lỗi: Giá trị không hợp lệ để chuyển đổi sang BigDecimal.");
-            }
-        } else {
-            System.out.println("Tham số 'price' không tồn tại hoặc bị rỗng.");
+        String price = request.getParameter("cost");
+        int company_id;
+
+        // Validate các tham số bắt buộc
+        if (company_name == null || company_name.isEmpty()) {
+            response.getWriter().println("Company name is required.");
+            return;
+        }
+        if (address == null || address.isEmpty()) {
+            response.getWriter().println("Address is required.");
+            return;
+        }
+        if (contact_info == null || contact_info.isEmpty()) {
+            response.getWriter().println("Contact information is required.");
+            return;
+        }
+        if (product_name == null || product_name.isEmpty()) {
+            response.getWriter().println("Product name is required.");
+            return;
+        }
+        if (insurance_type == null || insurance_type.isEmpty()) {
+            response.getWriter().println("Insurance type is required.");
+            return;
+        }
+        if (description == null || description.isEmpty()) {
+            response.getWriter().println("Description is required.");
+            return;
+        }
+        if (conditions == null || conditions.isEmpty()) {
+            response.getWriter().println("Conditions are required.");
+            return;
         }
 
-        //convert to add product
-        // Tạo dữ liệu mẫu cho công ty bảo hiểm
+        // Validate company_id
+        try {
+            company_id = Integer.parseInt(request.getParameter("companyID"));
+        } catch (NumberFormatException e) {
+            response.getWriter().println("Invalid Company ID.");
+            return;
+        }
+
+        // Validate price and convert to BigDecimal
+        BigDecimal cost = null;
+        if (price != null && !price.isEmpty()) {
+            try {
+                cost = new BigDecimal(price);
+                if (cost.compareTo(BigDecimal.ZERO) <= 0) {
+                    response.getWriter().println("Price must be greater than zero.");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                response.getWriter().println("Invalid price format.");
+                return;
+            }
+        } else {
+            response.getWriter().println("Price is required.");
+            return;
+        }
+
+        // Tạo dữ liệu công ty bảo hiểm
         InsuranceCompany company = new InsuranceCompany();
         company.setCompanyName(company_name);
         company.setAddress(address);
         company.setContactInfo(contact_info);
 
-        // Tạo dữ liệu mẫu cho sản phẩm bảo hiểm
+        // Tạo dữ liệu sản phẩm bảo hiểm
         InsuranceProduct product = new InsuranceProduct();
+        product.setCompanyID(company_id);
         product.setProductName(product_name);
         product.setInsuranceType(insurance_type);
-        product.setCost(cost); // Chi phí 5 triệu
+        product.setCost(cost);
         product.setDescription(description);
         product.setConditions(conditions);
 
-        // Thêm dữ liệu vào database
-        productService.addCompanyAndProduct(company, product);
+        // Cập nhật dữ liệu vào database
+        productService.editCompanyAndProduct(productId, company, product);
 
+        // Redirect sau khi cập nhật thành công
         response.sendRedirect("ProductController?action=showFullProduct");
 
+    } catch (Exception e) {
+        e.printStackTrace();
+        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing your request.");
     }
+}
+
+
+    private void showAddPage(HttpServletRequest request, HttpServletResponse response) {
+        getRequestDispatch(request, response, "product/addProduct.jsp");
+    }
+
+    // add new product with company
+    private void addProduct(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String company_name = request.getParameter("provider");
+    String address = request.getParameter("address");
+    String contact_info = request.getParameter("contactInfo");
+    String product_name = request.getParameter("productName");
+    String insurance_type = request.getParameter("insuranceType");
+    String description = request.getParameter("benefits");
+    String conditions = request.getParameter("conditions");
+    String price = request.getParameter("cost"); // Lấy chuỗi từ request
+    BigDecimal cost = null;
+
+    // Validate inputs
+    if (company_name == null || company_name.isEmpty()) {
+        response.getWriter().println("Company name is required.");
+        return;
+    }
+    if (address == null || address.isEmpty()) {
+        response.getWriter().println("Address is required.");
+        return;
+    }
+    if (contact_info == null || contact_info.isEmpty()) {
+        response.getWriter().println("Contact information is required.");
+        return;
+    }
+    if (product_name == null || product_name.isEmpty()) {
+        response.getWriter().println("Product name is required.");
+        return;
+    }
+    if (insurance_type == null || insurance_type.isEmpty()) {
+        response.getWriter().println("Insurance type is required.");
+        return;
+    }
+    if (description == null || description.isEmpty()) {
+        response.getWriter().println("Description is required.");
+        return;
+    }
+    if (conditions == null || conditions.isEmpty()) {
+        response.getWriter().println("Conditions are required.");
+        return;
+    }
+
+    // Convert String to BigDecimal for price validation
+    if (price != null && !price.isEmpty()) {
+        try {
+            cost = new BigDecimal(price);
+            if (cost.compareTo(BigDecimal.ZERO) <= 0) {
+                response.getWriter().println("Price must be greater than zero.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            response.getWriter().println("Invalid price format.");
+            return;
+        }
+    } else {
+        response.getWriter().println("Price is required.");
+        return;
+    }
+
+    // Create InsuranceCompany object
+    InsuranceCompany company = new InsuranceCompany();
+    company.setCompanyName(company_name);
+    company.setAddress(address);
+    company.setContactInfo(contact_info);
+
+    // Create InsuranceProduct object
+    InsuranceProduct product = new InsuranceProduct();
+    product.setProductName(product_name);
+    product.setInsuranceType(insurance_type);
+    product.setCost(cost);
+    product.setDescription(description);
+    product.setConditions(conditions);
+
+    // Add the product and company to the database
+    productService.addCompanyAndProduct(company, product);
+
+    response.sendRedirect("ProductController?action=showFullProduct");
+}
+
 
     private void showAllProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String searchQuery = request.getParameter("searchQuery");

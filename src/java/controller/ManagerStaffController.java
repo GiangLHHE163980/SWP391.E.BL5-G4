@@ -81,7 +81,7 @@ public class ManagerStaffController extends HttpServlet {
                     String pageParam = request.getParameter("page");
                     //Để mặc định page 1
                     int page = (pageParam != null && !pageParam.isEmpty()) ? Integer.parseInt(pageParam) : 1;
-                    int pageSize = 1;
+                    int pageSize = 2;
                     List<User> users = userService.getUsersByNameAndStatusRole(name, status, page, pageSize, roleName);
                     int totalUsers = userService.countUsersByNameAndStatusAndRole(name, status, roleName);
                     //Tổng số người dùng / số lượng người dùng mỗi trang

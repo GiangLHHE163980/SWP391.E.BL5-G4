@@ -18,7 +18,7 @@ public class DBContext {
 
     public static Connection conn;
 
-    private static String jdbcURL = "jdbc:sqlserver://localhost:1433;databaseName=SWP391_G5_V5";
+    private static String jdbcURL = "jdbc:sqlserver://localhost:1433;databaseName=SWP391_G5_V6";
     private static String jdbcUsername = "sa";
     private static String jdbcPassword = "sa";
 

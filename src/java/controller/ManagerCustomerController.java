@@ -78,7 +78,7 @@ public class ManagerCustomerController extends HttpServlet {
                     String roleName = "Customer";
                     String pageParam = request.getParameter("page");
                     int page = (pageParam != null && !pageParam.isEmpty()) ? Integer.parseInt(pageParam) : 1;
-                    int pageSize = 10;
+                    int pageSize = 2;
                     List<User> users = userService.getUsersByNameAndStatusRole(name, status, page, pageSize, roleName);
                     int totalUsers = userService.countUsersByNameAndStatusAndRole(name, status, roleName);
                     int totalPages = (int) Math.ceil((double) totalUsers / pageSize);

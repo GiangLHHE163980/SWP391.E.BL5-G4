@@ -19,30 +19,35 @@
     <body>
         <div class="wrapper d-flex">
             <!-- Sidebar -->
-            <!-- Sidebar -->
-            <nav class="sidebar bg-dark">
-                <div class="sidebar-header text-center text-white py-4">
-                    <h4><span style="color: #FF69B4;">Giang</span>Staff</h4>
-                </div>
-                <ul class="list-unstyled px-2">
-                    <li><a href="${pageContext.request.contextPath}/HomePageForStaffController?action=homepageForStaff" class="text-white d-block py-2 px-3"><i class="fas fa-home me-2"></i> Bảng điều khiển</a></li>
-                    <li>
-                        <a href="CustomerForStaffController?action=showAllCustomer" class="text-white d-block py-2 px-3">
-                            <i class="fas fa-users me-2"></i> Quản lý Khách hàng
-                        </a>
-                    </li>
-                    <li>
-                        <a href="CustomerForStaffController?action=showAllCardRequest" class="text-white d-block py-2 px-3">
-                            <i class="fas fa-tasks me-2"></i> Xử lý Yêu cầu
-                        </a>
-                    </li>
-                    <li>
-                        <a href="ProductController?action=showFullProduct" class="text-white d-block py-2 px-3">
-                            <i class="fas fa-box me-2"></i> Quản lý Sản phẩm
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+             <nav class="bg-dark text-white flex-shrink-0" style="width: 250px;">
+            <div class="text-center py-4">
+                <h4 class="m-0">
+                    <span class="text-danger">Giang</span>Staff
+                </h4>
+            </div>
+            <ul class="nav flex-column px-3">
+                <li class="nav-item">
+                    <a href="HomePageForStaffController?action=homepageForStaff" class="nav-link text-white">
+                        <i class="fas fa-home me-2"></i>Bảng điều khiển
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="CustomerForStaffController?action=showAllCustomer" class="nav-link text-white">
+                        <i class="fas fa-users me-2"></i>Quản lý Khách hàng
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="CustomerForStaffController?action=showAllCardRequest" class="nav-link text-white">
+                        <i class="fas fa-tasks me-2"></i>Xử lý Yêu cầu
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="ProductController?action=showFullProduct" class="nav-link text-white">
+                        <i class="fas fa-box me-2"></i>Quản lý Sản phẩm
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
             <!-- Main Content -->
             <div class="main-content flex-grow-1 bg-light">
